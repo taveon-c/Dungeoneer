@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://1032qlj1rdpy"]
+[gd_scene load_steps=4 format=3 uid="uid://1032qlj1rdpy"]
 
 [ext_resource type="Texture2D" uid="uid://ci6t6h2af6w08" path="res://tilemap_packed.png" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://bqplmif4mtqlk" path="res://movement_menu.gd" id="2_0xm2m"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0xm2m"]
 atlas = ExtResource("1_ig7tw")
@@ -8,11 +9,77 @@ region = Rect2(48, 112, 16, 16)
 
 [node name="Node2D" type="Node2D"]
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Player" type="Sprite2D" parent="."]
 texture_filter = 1
-position = Vector2(257, 152)
 texture = SubResource("AtlasTexture_0xm2m")
+centered = false
 
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0
 zoom = Vector2(2, 2)
+
+[node name="Path" type="Control" parent="Camera2D"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Action" type="Control" parent="Camera2D"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Move" type="Button" parent="Camera2D/Action"]
+layout_mode = 0
+offset_top = 293.0
+offset_right = 51.0
+offset_bottom = 324.0
+text = "Move"
+
+[node name="Submit" type="Button" parent="Camera2D/Action"]
+layout_mode = 0
+offset_left = 513.0
+offset_top = 293.0
+offset_right = 576.0
+offset_bottom = 324.0
+text = "Submit"
+
+[node name="Movement" type="Control" parent="Camera2D"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_0xm2m")
+
+[node name="Exit" type="Button" parent="Camera2D/Movement"]
+layout_mode = 0
+offset_top = 293.0
+offset_right = 37.0
+offset_bottom = 324.0
+text = "Exit"
+
+[node name="Undo" type="Button" parent="Camera2D/Movement"]
+layout_mode = 0
+offset_left = 526.0
+offset_right = 576.0
+offset_bottom = 31.0
+text = "Undo"
+
+[node name="Step" type="Label" parent="Camera2D/Movement"]
+layout_mode = 0
+offset_left = 427.0
+offset_top = 4.0
+offset_right = 478.0
+offset_bottom = 27.0
+text = "step: 0"
+
+[node name="Origin" type="Control" parent="Camera2D/Movement"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[connection signal="pressed" from="Camera2D/Action/Move" to="Camera2D/Movement" method="_on_move_pressed"]
+[connection signal="pressed" from="Camera2D/Movement/Exit" to="Camera2D/Movement" method="_on_exit_pressed"]
+[connection signal="pressed" from="Camera2D/Movement/Undo" to="Camera2D/Movement" method="_on_undo_pressed"]
