@@ -1,9 +1,9 @@
-extends Control
+extends CanvasLayer
 
-@onready var Player = $"../../Player"
+@onready var Player = $"../Player"
 @onready var Menu_Action = $"../Action"
-@onready var Origin : Control = $Origin
-@onready var Path : Control = $"../Path"
+@onready var Origin : Node2D = $"../Origin"
+@onready var Path : Node = $"../Path"
 @onready var Step_Label : Label = $Step
 var path : Array[Vector2]
 var is_moving : bool = false
@@ -24,7 +24,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if is_moving:
-		var mouse_position =  (get_global_mouse_position() - Vector2(8,8)).snappedf(16.0)
+		var mouse_position =  (Origin.get_global_mouse_position() - Vector2(8,8)).snappedf(16.0)
 		if Input.is_action_just_pressed("select"):
 			for marker in Origin.get_children():
 				if marker.global_position == mouse_position:
@@ -46,11 +46,13 @@ func _process(delta: float) -> void:
 func _on_move_pressed() -> void:
 	self.visible = true
 	Menu_Action.visible = false
+	Origin.visible = true
 	is_moving = true
 
 func _on_exit_pressed() -> void:
 	self.visible = false
 	Menu_Action.visible = true
+	Origin.visible = false
 	is_moving = false
 
 func _on_undo_pressed() -> void:
