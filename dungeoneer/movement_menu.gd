@@ -4,6 +4,7 @@ extends CanvasLayer
 @onready var Menu_Action = $"../Action"
 @onready var Origin : Node2D = $"../Origin"
 @onready var Path : Node = $"../Path"
+@onready var Attack : Node2D = $"../Attack"
 @onready var Step_Label : Label = $"../Action/Step"
 var path : Array[Vector2]
 var is_moving : bool = false
@@ -16,6 +17,7 @@ func _process(delta: float) -> void:
 			for marker in Origin.get_children():
 				if marker.global_position == mouse_position:
 					Origin.global_position = mouse_position
+					Attack.global_position = mouse_position
 					var rect : ColorRect = ColorRect.new()
 					rect.size = Vector2(16, 16)
 					rect.color = Color.DEEP_SKY_BLUE
@@ -50,5 +52,7 @@ func _on_undo_pressed() -> void:
 		Step_Label.text = "Step: " + str(Path.get_child_count())
 		if Path.get_child_count() == 0:
 			Origin.global_position = Player.global_position
+			Attack.global_position = Player.global_position
 		else:
 			Origin.global_position = Path.get_child(Path.get_child_count() - 1).global_position
+			Attack.global_position = Origin.global_position

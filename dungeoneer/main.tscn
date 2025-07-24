@@ -32,6 +32,8 @@ centered = false
 visible = false
 script = ExtResource("3_7mycd")
 
+[node name="Attack" type="Node2D" parent="."]
+
 [node name="Action" type="CanvasLayer" parent="."]
 
 [node name="Move" type="Button" parent="Action"]
@@ -143,6 +145,18 @@ grow_vertical = 0
 theme = ExtResource("3_1bvp3")
 text = "Exit"
 
+[node name="Undo" type="Button" parent="Thrust"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -101.0
+offset_top = 9.0
+offset_right = -9.0
+offset_bottom = 62.0
+grow_horizontal = 0
+theme = ExtResource("3_1bvp3")
+text = "Undo"
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="pressed" from="Action/Move" to="Movement" method="_on_move_pressed"]
 [connection signal="pressed" from="Action/Submit" to="." method="_on_submit_pressed"]
@@ -150,3 +164,4 @@ text = "Exit"
 [connection signal="pressed" from="Movement/Undo" to="Movement" method="_on_undo_pressed"]
 [connection signal="pressed" from="Movement/Exit" to="Movement" method="_on_exit_pressed"]
 [connection signal="pressed" from="Thrust/Exit" to="Thrust" method="_on_exit_pressed"]
+[connection signal="pressed" from="Thrust/Undo" to="Thrust" method="_on_undo_pressed"]
