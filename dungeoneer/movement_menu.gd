@@ -41,3 +41,14 @@ func _on_exit_pressed() -> void:
 	Menu_Action.visible = true
 	Origin.visible = false
 	is_moving = false
+
+func _on_undo_pressed() -> void:
+	if Path.get_child_count() > 0:
+		var last = Path.get_child(Path.get_child_count()-1)
+		Path.remove_child(last)
+		last.queue_free()
+		Step_Label.text = "Step: " + str(Path.get_child_count())
+		if Path.get_child_count() == 0:
+			Origin.global_position = Player.global_position
+		else:
+			Origin.global_position = Path.get_child(Path.get_child_count() - 1).global_position

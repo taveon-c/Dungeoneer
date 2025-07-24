@@ -1,11 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://1032qlj1rdpy"]
+[gd_scene load_steps=8 format=3 uid="uid://1032qlj1rdpy"]
 
 [ext_resource type="Script" uid="uid://cfdw8yhlfbiuu" path="res://Level.gd" id="1_h2yge"]
 [ext_resource type="Texture2D" uid="uid://ci6t6h2af6w08" path="res://tilemap_packed.png" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://bqplmif4mtqlk" path="res://movement_menu.gd" id="2_0xm2m"]
 [ext_resource type="Theme" uid="uid://cnabk1ati27qo" path="res://theme.tres" id="3_1bvp3"]
 [ext_resource type="Script" uid="uid://efsivct08471" path="res://origin.gd" id="3_7mycd"]
-[ext_resource type="Script" uid="uid://cd50tjci14w7l" path="res://path.gd" id="3_272bh"]
 [ext_resource type="Script" uid="uid://dxc20ufaleff5" path="res://thrust.gd" id="5_lquwl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0xm2m"]
@@ -28,7 +27,6 @@ texture = SubResource("AtlasTexture_0xm2m")
 centered = false
 
 [node name="Path" type="Node" parent="."]
-script = ExtResource("3_272bh")
 
 [node name="Origin" type="Node2D" parent="."]
 visible = false
@@ -78,18 +76,6 @@ theme = ExtResource("3_1bvp3")
 text = "Thrust"
 metadata/_edit_use_anchors_ = true
 
-[node name="Undo" type="Button" parent="Action"]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -102.0
-offset_top = 11.0
-offset_right = -10.0
-offset_bottom = 64.0
-grow_horizontal = 0
-theme = ExtResource("3_1bvp3")
-text = "Undo"
-
 [node name="Step" type="Label" parent="Action"]
 anchors_preset = 1
 anchor_left = 1.0
@@ -102,9 +88,32 @@ grow_horizontal = 0
 theme = ExtResource("3_1bvp3")
 text = "Step: 0"
 
+[node name="Attack" type="Label" parent="Action"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -265.0
+offset_top = 15.0
+offset_right = -197.0
+offset_bottom = 38.0
+grow_horizontal = 0
+text = "Attack: 0"
+
 [node name="Movement" type="CanvasLayer" parent="."]
 visible = false
 script = ExtResource("2_0xm2m")
+
+[node name="Undo" type="Button" parent="Movement"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -102.0
+offset_top = 11.0
+offset_right = -10.0
+offset_bottom = 64.0
+grow_horizontal = 0
+theme = ExtResource("3_1bvp3")
+text = "Undo"
 
 [node name="Exit" type="Button" parent="Movement"]
 anchors_preset = 2
@@ -138,6 +147,6 @@ text = "Exit"
 [connection signal="pressed" from="Action/Move" to="Movement" method="_on_move_pressed"]
 [connection signal="pressed" from="Action/Submit" to="." method="_on_submit_pressed"]
 [connection signal="pressed" from="Action/Thrust" to="Thrust" method="_on_thrust_pressed"]
-[connection signal="pressed" from="Action/Undo" to="Path" method="_on_undo_pressed"]
+[connection signal="pressed" from="Movement/Undo" to="Movement" method="_on_undo_pressed"]
 [connection signal="pressed" from="Movement/Exit" to="Movement" method="_on_exit_pressed"]
 [connection signal="pressed" from="Thrust/Exit" to="Thrust" method="_on_exit_pressed"]
