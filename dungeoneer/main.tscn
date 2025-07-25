@@ -1,11 +1,16 @@
-[gd_scene load_steps=8 format=3 uid="uid://1032qlj1rdpy"]
+[gd_scene load_steps=10 format=3 uid="uid://1032qlj1rdpy"]
 
-[ext_resource type="Script" uid="uid://cfdw8yhlfbiuu" path="res://Level.gd" id="1_h2yge"]
+[ext_resource type="Script" uid="uid://cfdw8yhlfbiuu" path="res://Scripts/Level.gd" id="1_h2yge"]
 [ext_resource type="Texture2D" uid="uid://ci6t6h2af6w08" path="res://tilemap_packed.png" id="1_ig7tw"]
-[ext_resource type="Script" uid="uid://bqplmif4mtqlk" path="res://movement_menu.gd" id="2_0xm2m"]
+[ext_resource type="Script" uid="uid://bqplmif4mtqlk" path="res://Scripts/movement_menu.gd" id="2_0xm2m"]
 [ext_resource type="Theme" uid="uid://cnabk1ati27qo" path="res://theme.tres" id="3_1bvp3"]
-[ext_resource type="Script" uid="uid://efsivct08471" path="res://origin.gd" id="3_7mycd"]
-[ext_resource type="Script" uid="uid://dxc20ufaleff5" path="res://thrust.gd" id="5_lquwl"]
+[ext_resource type="Script" uid="uid://efsivct08471" path="res://Scripts/origin.gd" id="3_7mycd"]
+[ext_resource type="Script" uid="uid://n4d2875c1xn1" path="res://Scripts/Enemy.gd" id="3_272bh"]
+[ext_resource type="Script" uid="uid://dxc20ufaleff5" path="res://Scripts/thrust.gd" id="5_lquwl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7mycd"]
+atlas = ExtResource("1_ig7tw")
+region = Rect2(48, 144, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0xm2m"]
 atlas = ExtResource("1_ig7tw")
@@ -17,9 +22,17 @@ script = ExtResource("1_h2yge")
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.5
 
+[node name="Enemies" type="Node" parent="."]
+
+[node name="Enemy" type="Sprite2D" parent="Enemies"]
+texture_filter = 1
+position = Vector2(128, 128)
+texture = SubResource("AtlasTexture_7mycd")
+centered = false
+script = ExtResource("3_272bh")
+
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0
-zoom = Vector2(2, 2)
 
 [node name="Player" type="Sprite2D" parent="."]
 texture_filter = 1
@@ -78,29 +91,6 @@ theme = ExtResource("3_1bvp3")
 text = "Thrust"
 metadata/_edit_use_anchors_ = true
 
-[node name="Step" type="Label" parent="Action"]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -184.0
-offset_top = 14.0
-offset_right = -127.0
-offset_bottom = 37.0
-grow_horizontal = 0
-theme = ExtResource("3_1bvp3")
-text = "Step: 0"
-
-[node name="Attack" type="Label" parent="Action"]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -265.0
-offset_top = 15.0
-offset_right = -197.0
-offset_bottom = 38.0
-grow_horizontal = 0
-text = "Attack: 0"
-
 [node name="Movement" type="CanvasLayer" parent="."]
 visible = false
 script = ExtResource("2_0xm2m")
@@ -156,6 +146,50 @@ offset_bottom = 62.0
 grow_horizontal = 0
 theme = ExtResource("3_1bvp3")
 text = "Undo"
+
+[node name="Info" type="CanvasLayer" parent="."]
+
+[node name="Turn Info" type="Label" parent="Info"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -158.0
+offset_top = 98.0
+offset_right = -86.0
+offset_bottom = 147.0
+grow_horizontal = 0
+theme = ExtResource("3_1bvp3")
+text = "Steps: 0
+Attack : 0"
+
+[node name="Stats Info" type="Label" parent="Info"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -105.0
+offset_top = -198.0
+offset_right = -20.0
+offset_bottom = -97.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Health: 0
+Strength: 0
+Speed: 0
+Stamina: 0"
+
+[node name="Points Info" type="Label" parent="Info"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -160.0
+offset_top = 160.0
+offset_right = -40.0
+offset_bottom = 209.0
+grow_horizontal = 0
+text = "Action Points: 0
+Move Points: 0"
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="pressed" from="Action/Move" to="Movement" method="_on_move_pressed"]
