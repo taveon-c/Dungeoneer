@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://1032qlj1rdpy"]
+[gd_scene load_steps=15 format=3 uid="uid://1032qlj1rdpy"]
 
 [ext_resource type="Script" uid="uid://cfdw8yhlfbiuu" path="res://Scripts/Level.gd" id="1_h2yge"]
 [ext_resource type="Texture2D" uid="uid://ci6t6h2af6w08" path="res://tilemap_packed.png" id="1_ig7tw"]
@@ -6,21 +6,39 @@
 [ext_resource type="Theme" uid="uid://cnabk1ati27qo" path="res://theme.tres" id="3_1bvp3"]
 [ext_resource type="Script" uid="uid://efsivct08471" path="res://Scripts/origin.gd" id="3_7mycd"]
 [ext_resource type="Script" uid="uid://n4d2875c1xn1" path="res://Scripts/Enemy.gd" id="3_272bh"]
+[ext_resource type="Script" uid="uid://dnxxjj5repxf0" path="res://Scripts/Stats.gd" id="4_4c57u"]
+[ext_resource type="Script" uid="uid://5ujaqgyflkv4" path="res://Player.gd" id="4_5vw27"]
+[ext_resource type="Script" uid="uid://x67jaxm6n2ds" path="res://hints.gd" id="5_kek77"]
 [ext_resource type="Script" uid="uid://dxc20ufaleff5" path="res://Scripts/thrust.gd" id="5_lquwl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7mycd"]
 atlas = ExtResource("1_ig7tw")
 region = Rect2(48, 144, 16, 16)
 
+[sub_resource type="Resource" id="Resource_efxa6"]
+script = ExtResource("4_4c57u")
+health = 3
+strength = 3
+speed = 3
+stamina = 3
+metadata/_custom_type_script = "uid://dnxxjj5repxf0"
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_0xm2m"]
 atlas = ExtResource("1_ig7tw")
 region = Rect2(48, 112, 16, 16)
+
+[sub_resource type="Resource" id="Resource_dg77c"]
+script = ExtResource("4_4c57u")
+health = 3
+strength = 3
+speed = 3
+stamina = 3
+metadata/_custom_type_script = "uid://dnxxjj5repxf0"
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_h2yge")
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 0.5
 
 [node name="Enemies" type="Node" parent="."]
 
@@ -30,6 +48,7 @@ position = Vector2(128, 128)
 texture = SubResource("AtlasTexture_7mycd")
 centered = false
 script = ExtResource("3_272bh")
+stats = SubResource("Resource_efxa6")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0
@@ -38,14 +57,15 @@ anchor_mode = 0
 texture_filter = 1
 texture = SubResource("AtlasTexture_0xm2m")
 centered = false
+script = ExtResource("4_5vw27")
+stats = SubResource("Resource_dg77c")
 
-[node name="Path" type="Node" parent="."]
+[node name="Hints" type="Node" parent="."]
+script = ExtResource("5_kek77")
 
 [node name="Origin" type="Node2D" parent="."]
 visible = false
 script = ExtResource("3_7mycd")
-
-[node name="Attack" type="Node2D" parent="."]
 
 [node name="Action" type="CanvasLayer" parent="."]
 

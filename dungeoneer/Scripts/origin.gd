@@ -12,3 +12,12 @@ func _ready() -> void:
 				rect.color.a = 0.5
 				rect.position = offset * 16
 				self.add_child(rect)
+
+func _process(delta: float) -> void:
+	if visible:
+		var mouse_position = get_global_mouse_position()
+		for marker in self.get_children():
+			if marker.global_position == mouse_position:
+				marker.color.a = 1
+			else:
+				marker.color.a = 0.5
