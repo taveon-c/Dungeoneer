@@ -1,11 +1,18 @@
 extends Sprite2D
 @onready var Hints = $"../Hints"
+@onready var Info = $"../Info"
 @export var stats : Stats
 var health : int
 var action_points : int
 var move_points : int
 var path : Array[Vector2]
 var attack : Array[Vector2]
+var attack_cost : int
+
+func _ready() -> void:
+	health = stats.vigor
+	action_points = stats.strength
+	move_points = stats.speed
 
 func update_player_hints():
 	Hints.clear_hints()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://1032qlj1rdpy"]
+[gd_scene load_steps=16 format=3 uid="uid://1032qlj1rdpy"]
 
 [ext_resource type="Script" uid="uid://cfdw8yhlfbiuu" path="res://Scripts/Level.gd" id="1_h2yge"]
 [ext_resource type="Texture2D" uid="uid://ci6t6h2af6w08" path="res://tilemap_packed.png" id="1_ig7tw"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://5ujaqgyflkv4" path="res://Player.gd" id="4_5vw27"]
 [ext_resource type="Script" uid="uid://x67jaxm6n2ds" path="res://hints.gd" id="5_kek77"]
 [ext_resource type="Script" uid="uid://dxc20ufaleff5" path="res://Scripts/thrust.gd" id="5_lquwl"]
+[ext_resource type="Script" uid="uid://3vlh1dilr632" path="res://Info.gd" id="11_efxa6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7mycd"]
 atlas = ExtResource("1_ig7tw")
@@ -17,7 +18,7 @@ region = Rect2(48, 144, 16, 16)
 
 [sub_resource type="Resource" id="Resource_efxa6"]
 script = ExtResource("4_4c57u")
-health = 3
+vigor = 3
 strength = 3
 speed = 3
 stamina = 3
@@ -29,7 +30,7 @@ region = Rect2(48, 112, 16, 16)
 
 [sub_resource type="Resource" id="Resource_dg77c"]
 script = ExtResource("4_4c57u")
-health = 3
+vigor = 3
 strength = 3
 speed = 3
 stamina = 3
@@ -168,19 +169,21 @@ theme = ExtResource("3_1bvp3")
 text = "Undo"
 
 [node name="Info" type="CanvasLayer" parent="."]
+script = ExtResource("11_efxa6")
 
 [node name="Turn Info" type="Label" parent="Info"]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -158.0
-offset_top = 98.0
-offset_right = -86.0
-offset_bottom = 147.0
+offset_left = -89.0
+offset_top = 106.0
+offset_right = -17.0
+offset_bottom = 155.0
 grow_horizontal = 0
 theme = ExtResource("3_1bvp3")
 text = "Steps: 0
 Attack : 0"
+horizontal_alignment = 2
 
 [node name="Stats Info" type="Label" parent="Info"]
 anchors_preset = 3
@@ -203,13 +206,14 @@ Stamina: 0"
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -160.0
-offset_top = 160.0
-offset_right = -40.0
-offset_bottom = 209.0
+offset_left = -134.0
+offset_top = 161.0
+offset_right = -14.0
+offset_bottom = 210.0
 grow_horizontal = 0
 text = "Action Points: 0
 Move Points: 0"
+horizontal_alignment = 2
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="pressed" from="Action/Move" to="Movement" method="_on_move_pressed"]

@@ -15,7 +15,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if visible:
-		var mouse_position = get_global_mouse_position()
+		var mouse_position = (get_global_mouse_position() - Vector2(8,8)).snappedf(16.0)
 		for marker in self.get_children():
 			if marker.global_position == mouse_position:
 				marker.color.a = 1

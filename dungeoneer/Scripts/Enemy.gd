@@ -8,7 +8,7 @@ var path : Array[Vector2]
 var attack : Array[Vector2]
 
 func _ready() -> void:
-	health = stats.health
+	health = stats.vigor
 	action_points = stats.strength
 	move_points = stats.speed
 

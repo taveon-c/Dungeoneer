@@ -50,7 +50,13 @@ func _on_timer_timeout() -> void:
 		generate_hints()
 		is_attack = true
 	elif not is_moving and is_attack:
-		print("attack")
+		for enemy in Enemies.get_children():
+			for space in enemy.attack:
+				if space == Player.global_position:
+					Player.health -= 1
+			for space in Player.attack:
+				if space + Player.global_position == enemy.global_position:
+					enemy.health -= 1
 		is_attack = false
 		Hints.clear_hints()
 		Player.attack.clear()
