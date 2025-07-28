@@ -18,10 +18,10 @@ region = Rect2(48, 144, 16, 16)
 
 [sub_resource type="Resource" id="Resource_efxa6"]
 script = ExtResource("4_4c57u")
-vigor = 3
-strength = 3
-speed = 3
-stamina = 3
+vigor = 2
+strength = 5
+speed = 1
+stamina = 2
 metadata/_custom_type_script = "uid://dnxxjj5repxf0"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0xm2m"]
@@ -30,7 +30,7 @@ region = Rect2(48, 112, 16, 16)
 
 [sub_resource type="Resource" id="Resource_dg77c"]
 script = ExtResource("4_4c57u")
-vigor = 3
+vigor = 5
 strength = 3
 speed = 3
 stamina = 3

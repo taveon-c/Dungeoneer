@@ -23,3 +23,15 @@ func update_player_hints():
 			Hints.generate_hint(Color.RED, space + path.back())
 		else:
 			Hints.generate_hint(Color.RED, space + self.global_position)
+
+func turn():
+	if health < 1:
+		print("DEAD")
+	
+	action_points += stats.stamina / 2 + 1 - attack_cost
+	action_points = mini(action_points, stats.strength)
+	attack_cost = 0
+	attack.clear()
+	
+	move_points += stats.stamina / 2 + 1
+	move_points = mini(move_points, stats.speed)
