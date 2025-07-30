@@ -6,8 +6,32 @@ var turn : int = 0
 @onready var Action  =$Action
 @onready var Hints = $Hints
 @onready var Info = $Info
+@onready var Map : TileMapLayer = $TileMapLayer
+var MAP_HEIGHT : int = 30
+var MAP_WIDTH : int = 60
+var ROOM_MAX : int = 12
+var ROOM_MIN : int = 6
+var MAX_ROOMS : int = 7
+var MIN_ROOMS : int = 4
 var is_moving = false
 var is_attack = false
+
+func _ready() -> void:
+	generate_level()
+
+func generate_level():
+	for x in range(MAP_WIDTH):
+		for y in range(MAP_HEIGHT):
+			Map.set_cell(Vector2i(x, y), 0, Vector2i(4, 3))
+	var num_rooms = randi_range(MIN_ROOMS, MAX_ROOMS)
+	for room in num_rooms:
+		var room_size : Vector2i = Vector2i(randi_range(ROOM_MIN, ROOM_MAX), randi_range(ROOM_MIN, ROOM_MAX))
+		var room_origin = Vector2i(randi_range(0, MAP_WIDTH), randi_range(0, MAP_HEIGHT))
+		for x in range(room_origin.x, room_origin.x + room_size.x):
+			for y in range(room_origin.y, room_origin.y + room_size.y):
+				if x > 0 and y > 0 and x < MAP_WIDTH - 1 and y < MAP_HEIGHT - 1:
+					Map.erase_cell(Vector2i(x, y))
+		
 
 func _on_submit_pressed() -> void:
 	for enemy in Enemies.get_children():
