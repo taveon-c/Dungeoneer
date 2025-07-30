@@ -49,7 +49,6 @@ tile_set = ExtResource("2_dg77c")
 
 [node name="Enemy" type="Sprite2D" parent="Enemies"]
 texture_filter = 1
-position = Vector2(128, 128)
 texture = SubResource("AtlasTexture_7mycd")
 centered = false
 script = ExtResource("3_272bh")
@@ -60,6 +59,7 @@ anchor_mode = 0
 
 [node name="Player" type="Sprite2D" parent="."]
 texture_filter = 1
+position = Vector2(128, 128)
 texture = SubResource("AtlasTexture_0xm2m")
 centered = false
 script = ExtResource("4_5vw27")
