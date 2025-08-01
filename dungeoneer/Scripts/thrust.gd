@@ -13,7 +13,12 @@ func _process(delta: float) -> void:
 			for marker in Origin.get_children():
 				if marker.global_position == mouse_position:
 					Player.attack.clear()
-					Player.attack.append(marker.position)
+					var direction = Origin.global_position.direction_to(mouse_position)
+					var position = Origin.global_position
+					
+					var attack_info = Player.weapon.thrust(direction, position)
+					for space in attack_info["spaces"]:
+						Player.attack.append(space)
 					Player.attack_cost = 1
 					Player.update_player_hints()
 					Info.update_turn()

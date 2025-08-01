@@ -2,6 +2,7 @@ extends Sprite2D
 @onready var Hints = $"../Hints"
 @onready var Info = $"../Info"
 @export var stats : Stats
+@export var weapon : Weapon
 var health : int
 var action_points : int
 var move_points : int

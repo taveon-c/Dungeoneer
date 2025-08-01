@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://1032qlj1rdpy"]
+[gd_scene load_steps=19 format=3 uid="uid://1032qlj1rdpy"]
 
 [ext_resource type="Script" uid="uid://cfdw8yhlfbiuu" path="res://Scripts/Level.gd" id="1_h2yge"]
 [ext_resource type="Texture2D" uid="uid://ci6t6h2af6w08" path="res://tilemap_packed.png" id="1_ig7tw"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://5ujaqgyflkv4" path="res://Scripts/Player.gd" id="4_5vw27"]
 [ext_resource type="Script" uid="uid://x67jaxm6n2ds" path="res://Scripts/hints.gd" id="5_kek77"]
 [ext_resource type="Script" uid="uid://dxc20ufaleff5" path="res://Scripts/thrust.gd" id="5_lquwl"]
+[ext_resource type="Script" uid="uid://cvkgjmf2t5rgo" path="res://Scripts/Weapon.gd" id="7_ycdy4"]
 [ext_resource type="Script" uid="uid://3vlh1dilr632" path="res://Scripts/Info.gd" id="11_efxa6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7mycd"]
@@ -36,6 +37,10 @@ strength = 3
 speed = 3
 stamina = 3
 metadata/_custom_type_script = "uid://dnxxjj5repxf0"
+
+[sub_resource type="Resource" id="Resource_w48qg"]
+script = ExtResource("7_ycdy4")
+metadata/_custom_type_script = "uid://cvkgjmf2t5rgo"
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_h2yge")
@@ -64,6 +69,7 @@ texture = SubResource("AtlasTexture_0xm2m")
 centered = false
 script = ExtResource("4_5vw27")
 stats = SubResource("Resource_dg77c")
+weapon = SubResource("Resource_w48qg")
 
 [node name="Hints" type="Node" parent="."]
 script = ExtResource("5_kek77")
