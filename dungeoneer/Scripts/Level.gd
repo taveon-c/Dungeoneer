@@ -3,7 +3,7 @@ var turn : int = 0
 @onready var timer : Timer = $Timer
 @onready var Player = $Player
 @onready var Enemies = $Enemies
-@onready var Action  =$Action
+@onready var Main = $Main
 @onready var Hints = $Hints
 @onready var Info = $Info
 @onready var Map : TileMapLayer = $TileMapLayer
@@ -48,7 +48,7 @@ func _on_submit_pressed() -> void:
 		enemy.generate_path()
 		enemy.generate_attack()
 	
-	Action.visible = false
+	Main.visible = false
 	Info.update_points()
 	
 	generate_hints()
@@ -60,11 +60,12 @@ func generate_hints():
 	
 	for step in Player.path:
 		Hints.generate_hint(Color.DEEP_SKY_BLUE, step)
-	for space in Player.attack:
-		if Player.path.size() > 0:
-			Hints.generate_hint(Color.RED, space + Player.path.back())
-		else:
-			Hints.generate_hint(Color.RED, space + Player.global_position)
+	if Player.action.has("spaces"):
+		for space in Player.action["spaces"]:
+			if Player.path.size() > 0:
+				Hints.generate_hint(Color.RED, space + Player.path.back())
+			else:
+				Hints.generate_hint(Color.RED, space + Player.global_position)
 	
 	for enemy in Enemies.get_children():
 		for step in enemy.path:
@@ -100,9 +101,9 @@ func _on_timer_timeout() -> void:
 				if space == Player.global_position:
 					Player.health -= enemy.attack_cost
 			
-			for space in Player.attack:
+			for space in Player.action["spaces"]:
 				if space + Player.global_position == enemy.global_position:
-					enemy.health -= Player.attack_cost
+					enemy.health -= Player.action["damage"]
 			enemy.turn()
 		
 		Player.turn()
@@ -110,5 +111,5 @@ func _on_timer_timeout() -> void:
 		Hints.clear_hints()
 		Info.update_points()
 		Info.update_turn()
-		Action.visible = true
+		Main.visible = true
 	

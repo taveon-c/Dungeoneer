@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 @onready var Player = $"../Player"
-@onready var Menu_Action = $"../Action"
+@onready var Menu = $"../Main"
 @onready var Origin : Node2D = $"../Origin"
 @onready var Info : CanvasLayer = $"../Info"
 var is_moving : bool = false
@@ -26,13 +26,13 @@ func _process(delta: float) -> void:
 
 func _on_move_pressed() -> void:
 	self.visible = true
-	Menu_Action.visible = false
+	Menu.visible = false
 	Origin.visible = true
 	is_moving = true
 
 func _on_exit_pressed() -> void:
 	self.visible = false
-	Menu_Action.visible = true
+	Menu.visible = true
 	Origin.visible = false
 	is_moving = false
 

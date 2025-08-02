@@ -11,7 +11,10 @@ func _ready() -> void:
 
 func update_turn():
 	Turn.text = "Steps: " + str(Player.path.size()) + "\n"
-	Turn.text += "Attack: " + str(Player.attack_cost)
+	if Player.action.has("cost"):
+		Turn.text += "Action: " + str(Player.action["cost"])
+	else:
+		Turn.text += "Action: " + str(0)
 
 func update_points():
 	Points.text = "Action Points: " + str(Player.action_points) + "\n"
