@@ -4,6 +4,9 @@ var turn : int = 0
 @onready var Player = $Player
 @onready var Enemies = $Enemies
 @onready var Main = $Main
+@onready var Movement = $Movement
+@onready var Action = $Action
+@onready var Origin = $Origin
 @onready var Hints = $Hints
 @onready var Info = $Info
 @onready var Map : TileMapLayer = $TileMapLayer
@@ -12,7 +15,7 @@ var MAP_WIDTH : int = 75
 var ROOM_RADII : Array[int] = [1, 10]
 var STEPS : int = 4
 var is_moving = false
-var is_attack = false
+var is_action = false
 
 func _ready() -> void:
 	generate_level()
@@ -43,12 +46,16 @@ func generate_level():
 						Map.erase_cell(Vector2i(x, y))
 		room_points.append_array(new_points)
 
-func _on_submit_pressed() -> void:
+func _on_turn_pressed() -> void:
 	for enemy in Enemies.get_children():
-		enemy.generate_path()
-		enemy.generate_attack()
+		enemy.generate_action()
 	
 	Main.visible = false
+	Movement.visible = false
+	Action.visible = false
+	Movement.is_moving = false
+	Action.action = ""
+	Origin.visible = false
 	Info.update_points()
 	
 	generate_hints()
@@ -60,7 +67,7 @@ func generate_hints():
 	
 	for step in Player.path:
 		Hints.generate_hint(Color.DEEP_SKY_BLUE, step)
-	if Player.action.has("spaces"):
+	if Player.action.has("spaces") and is_action:
 		for space in Player.action["spaces"]:
 			if Player.path.size() > 0:
 				Hints.generate_hint(Color.RED, space + Player.path.back())
@@ -76,7 +83,7 @@ func generate_hints():
 func _on_timer_timeout() -> void:
 	is_moving = false
 	if Player.path.size() > 0:
-		Player.move_points -= 1
+		Player.energy -= 1
 		Player.global_position = Player.path.pop_front()
 		if Player.path.size() > 0:
 			is_moving = true
@@ -88,13 +95,13 @@ func _on_timer_timeout() -> void:
 				is_moving = true
 	if is_moving:
 		generate_hints()
-	if not is_moving and not is_attack:
+	if not is_moving and not is_action:
+		is_action = true
 		generate_hints()
-		is_attack = true
-	elif not is_moving and is_attack:
+	elif not is_moving and is_action:
 		timer.stop()
 		turn += 1
-		is_attack = false
+		is_action = false
 		
 		for enemy in Enemies.get_children():
 			for space in enemy.attack:

@@ -1,7 +1,7 @@
 extends Resource
 class_name Stats
 
-@export var vigor : int
-@export var strength : int
-@export var speed : int
-@export var stamina : int
+@export var max_health : int
+@export var max_energy : int
+@export var energy_regen : int
+@export var inventory_slots : int

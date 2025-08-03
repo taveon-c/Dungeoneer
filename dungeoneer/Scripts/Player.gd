@@ -4,34 +4,28 @@ extends Sprite2D
 @export var stats : Stats
 @export var weapon : Weapon
 var health : int
-var action_points : int
-var move_points : int
-var path : Array[Vector2]
+var energy : int
+var weight : int
 var action : Dictionary
+var path : Array[Vector2]
 
 func _ready() -> void:
-	health = stats.vigor
-	action_points = stats.strength
-	move_points = stats.speed
+	health = stats.max_health
+	energy = stats.max_energy
+	weight = 1
 
 func update_player_hints():
 	Hints.clear_hints()
-	for step in path:
-		Hints.generate_hint(Color.DEEP_SKY_BLUE, step)
-	if action.has("spaces"):
+	if path.size() > 0:
+		for step in path:
+			Hints.generate_hint(Color.DEEP_SKY_BLUE, step)
+	elif action.has("spaces"):
 		for space in action["spaces"]:
-			if path.size() > 0:
-				Hints.generate_hint(Color.RED, space + path.back())
-			else:
-				Hints.generate_hint(Color.RED, space + self.global_position)
+			Hints.generate_hint(Color.RED, space + self.global_position)
 
 func turn():
 	if health < 1:
 		print("DEAD")
 	
-	action_points += stats.stamina / 2 + 1 - action["cost"]
-	action_points = mini(action_points, stats.strength)
 	action.clear()
-	
-	move_points += stats.stamina / 2 + 1
-	move_points = mini(move_points, stats.speed)
+	energy = mini(energy + stats.energy_regen, stats.max_energy)

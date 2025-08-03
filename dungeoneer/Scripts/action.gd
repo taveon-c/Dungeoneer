@@ -25,13 +25,12 @@ func _on_action_pressed(action : String) -> void:
 	Origin.visible = true
 	self.action = action
 
-func _on_exit_pressed() -> void:
-	Menu.visible = true
+func _on_cancel_pressed() -> void:
 	self.visible = false
 	Origin.visible = false
 	self.action = ""
-
-func _on_undo_pressed() -> void:
+	
+	Menu.visible = true
 	Player.action.clear()
 	Player.update_player_hints()
 	Info.update_turn()

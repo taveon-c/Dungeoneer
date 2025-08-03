@@ -10,19 +10,18 @@ func _ready() -> void:
 	update_stats()
 
 func update_turn():
-	Turn.text = "Steps: " + str(Player.path.size()) + "\n"
-	if Player.action.has("cost"):
-		Turn.text += "Action: " + str(Player.action["cost"])
+	if Player.path.size() > 0:
+		Turn.text = "Cost: " + str(Player.path.size())
+	elif Player.action.has("cost"):
+		Turn.text = "Cost: " + str(Player.action["cost"])
 	else:
-		Turn.text += "Action: " + str(0)
+		Turn.text = "Cost: " + str(0)
 
 func update_points():
-	Points.text = "Action Points: " + str(Player.action_points) + "\n"
-	Points.text += "Move Points: " + str(Player.move_points) + "\n"
-	Points.text += "Health Points: " + str(Player.health)
+	Points.text = "Energy: " + str(Player.energy) + "\n"
+	Points.text += "Health: " + str(Player.health)
 
 func update_stats():
-	stats.text = "Vigor: " + str(Player.stats.vigor) + "\n"
-	stats.text += "Strength: " + str(Player.stats.strength) + "\n"
-	stats.text += "Speed: " + str(Player.stats.speed) + "\n"
-	stats.text += "Stamina: " + str(Player.stats.stamina)
+	stats.text = "Max Health: " + str(Player.stats.max_health) + "\n"
+	stats.text += "Max Energy: " + str(Player.stats.max_energy) + "\n"
+	stats.text += "Energy Regen: " + str(Player.stats.energy_regen)

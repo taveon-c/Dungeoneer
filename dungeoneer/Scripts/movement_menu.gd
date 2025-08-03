@@ -11,7 +11,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if is_moving:
-		Origin.visible = Player.path.size() < Player.move_points
+		Origin.visible = Player.path.size() < Player.energy
 		
 		if Input.is_action_just_pressed("select") and Origin.visible:
 			var mouse_position =  (Origin.get_global_mouse_position() - Vector2(8,8)).snappedf(16.0)
@@ -22,19 +22,13 @@ func _process(delta: float) -> void:
 					Player.update_player_hints()
 					Info.update_turn()
 		
-		Origin.visible = Player.path.size() < Player.move_points
+		Origin.visible = Player.path.size() < Player.energy
 
 func _on_move_pressed() -> void:
 	self.visible = true
 	Menu.visible = false
 	Origin.visible = true
 	is_moving = true
-
-func _on_exit_pressed() -> void:
-	self.visible = false
-	Menu.visible = true
-	Origin.visible = false
-	is_moving = false
 
 func _on_undo_pressed() -> void:
 	if Player.path.size() > 0:
@@ -45,3 +39,14 @@ func _on_undo_pressed() -> void:
 			Origin.global_position = Player.global_position
 		else:
 			Origin.global_position = Player.path.back()
+
+func _on_cancel_pressed() -> void:
+	self.visible = false
+	Origin.visible = false
+	is_moving = false
+	Player.path.clear()
+	Player.update_player_hints()
+	Info.update_turn()
+	Origin.global_position = Player.global_position
+	
+	Menu.visible = true
