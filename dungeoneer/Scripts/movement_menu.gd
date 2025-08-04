@@ -2,51 +2,42 @@ extends CanvasLayer
 
 @onready var Player = $"../Player"
 @onready var Menu = $"../Main"
-@onready var Origin : Node2D = $"../Origin"
+@onready var Hints : Node = $"../Hints"
 @onready var Info : CanvasLayer = $"../Info"
+@onready var Map : TileMapLayer = $"../TileMapLayer"
 var is_moving : bool = false
-
-func _ready() -> void:
-	Origin.global_position = Player.global_position
 
 func _process(delta: float) -> void:
 	if is_moving:
-		Origin.visible = Player.path.size() < Player.energy
-		
-		if Input.is_action_just_pressed("select") and Origin.visible:
-			var mouse_position =  (Origin.get_global_mouse_position() - Vector2(8,8)).snappedf(16.0)
-			for marker in Origin.get_children():
-				if marker.global_position == mouse_position and marker.visible:
-					Origin.global_position = mouse_position
-					Player.path.append(mouse_position)
-					Player.update_player_hints()
-					Info.update_turn()
-		
-		Origin.visible = Player.path.size() < Player.energy
+		Hints.clear_hints()
+		var mouse_position = Player.get_global_mouse_position()
+		var direction = Player.global_position.direction_to(mouse_position).round()
+		var new_position = Player.global_position + direction * 16
+		if Map.get_cell_source_id(Map.local_to_map(new_position)) == -1 and mouse_position.distance_to(Player.global_position) < 32:
+			Hints.generate_hint(Color.DEEP_SKY_BLUE, new_position)
+			if Input.is_action_just_pressed("select"):
+				Player.global_position = new_position
 
 func _on_move_pressed() -> void:
 	self.visible = true
 	Menu.visible = false
-	Origin.visible = true
 	is_moving = true
 
 func _on_undo_pressed() -> void:
-	if Player.path.size() > 0:
-		Player.path.pop_back()
-		Player.update_player_hints()
-		Info.update_turn()
-		if Player.path.size() == 0:
-			Origin.global_position = Player.global_position
-		else:
-			Origin.global_position = Player.path.back()
+	print("undo")
+	#if Player.path.size() > 0:
+		#Player.path.pop_back()
+		#Player.update_player_hints()
+		#Info.update_turn()
+		#if Player.path.size() == 0:
+			#Origin.global_position = Player.global_position
+		#else:
+			#Origin.global_position = Player.path.back()
 
 func _on_cancel_pressed() -> void:
 	self.visible = false
-	Origin.visible = false
 	is_moving = false
-	Player.path.clear()
-	Player.update_player_hints()
+	Hints.clear_hints()
 	Info.update_turn()
-	Origin.global_position = Player.global_position
 	
 	Menu.visible = true

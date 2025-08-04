@@ -76,7 +76,7 @@ theme = ExtResource("3_1bvp3")
 text = "Move"
 metadata/_edit_use_anchors_ = true
 
-[node name="Action Container" type="HBoxContainer" parent="Main"]
+[node name="Action" type="Button" parent="Main"]
 offset_left = 111.0
 offset_top = 590.0
 offset_right = 220.0

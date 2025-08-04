@@ -2,35 +2,35 @@ extends CanvasLayer
 
 @onready var Menu : CanvasLayer = $"../Main"
 @onready var Info : CanvasLayer = $"../Info"
-@onready var Origin : Node2D = $"../Origin"
 @onready var Player : Node2D = $"../Player"
-var action : String
+@onready var Hints : Node = $"../Hints"
+var is_action : bool
 
 func _process(delta: float) -> void:
-	if not action.is_empty():
-		var mouse_position =  (Origin.get_global_mouse_position() - Vector2(8,8)).snappedf(16.0)
-		if Input.is_action_just_pressed("select"):
-			for marker in Origin.get_children():
-				if marker.global_position == mouse_position:
-					Player.action.clear()
-					var direction = marker.position
-					Player.action = Player.weapon.actions[action].call(direction)
-					Player.update_player_hints()
-					Info.update_turn()
+	if is_action:
+		Hints.clear_hints()
+		var mouse_position = Player.get_global_mouse_position()
+		var action_info = Player.weapon.action.call(mouse_position, Player)
+		for hint in action_info["hints"]:
+			Hints.generate_hint(Color.RED, hint)
+		if action_info["cost"] <= Player.energy and mouse_position.distance_to(Player.global_position) < 50:
+			for space in action_info["spaces"]:
+				Hints.generate_hint(Color.RED, space)
+			if Input.is_action_just_pressed("select"):
+				for space in action_info["spaces"]:
+					pass #deal damage
+				Player.energy -= action_info["cost"]
+				Info.update_turn()
 					
 
-func _on_action_pressed(action : String) -> void:
+func _on_action_pressed() -> void:
 	Menu.visible = false
 	self.visible = true
-	Origin.visible = true
-	self.action = action
+	self.is_action = true
 
 func _on_cancel_pressed() -> void:
+	Hints.clear_hints()
 	self.visible = false
-	Origin.visible = false
-	self.action = ""
+	self.is_action = false
 	
 	Menu.visible = true
-	Player.action.clear()
-	Player.update_player_hints()
-	Info.update_turn()

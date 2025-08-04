@@ -47,38 +47,10 @@ func generate_level():
 		room_points.append_array(new_points)
 
 func _on_turn_pressed() -> void:
-	for enemy in Enemies.get_children():
-		enemy.generate_action()
-	
-	Main.visible = false
-	Movement.visible = false
-	Action.visible = false
-	Movement.is_moving = false
-	Action.action = ""
-	Origin.visible = false
-	Info.update_points()
-	
-	generate_hints()
-	
-	timer.start()
+	pass
 
 func generate_hints():
-	Hints.clear_hints()
-	
-	for step in Player.path:
-		Hints.generate_hint(Color.DEEP_SKY_BLUE, step)
-	if Player.action.has("spaces") and is_action:
-		for space in Player.action["spaces"]:
-			if Player.path.size() > 0:
-				Hints.generate_hint(Color.RED, space + Player.path.back())
-			else:
-				Hints.generate_hint(Color.RED, space + Player.global_position)
-	
-	for enemy in Enemies.get_children():
-		for step in enemy.path:
-			Hints.generate_hint(Color.CORAL, step)
-		for space in enemy.attack:
-			Hints.generate_hint(Color.PURPLE, space)
+	pass
 
 func _on_timer_timeout() -> void:
 	is_moving = false
