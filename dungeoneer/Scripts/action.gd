@@ -28,7 +28,7 @@ func _on_action_pressed() -> void:
 	self.visible = true
 	self.is_action = true
 
-func _on_cancel_pressed() -> void:
+func _on_exit_pressed() -> void:
 	Hints.clear_hints()
 	self.visible = false
 	self.is_action = false

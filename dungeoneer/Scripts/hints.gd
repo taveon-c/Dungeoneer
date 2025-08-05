@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 
 func generate_hint(color : Color, position : Vector2):
 	var rect : ColorRect = ColorRect.new()

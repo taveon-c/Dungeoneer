@@ -14,8 +14,6 @@ var MAP_HEIGHT : int = 40
 var MAP_WIDTH : int = 75
 var ROOM_RADII : Array[int] = [1, 10]
 var STEPS : int = 4
-var is_moving = false
-var is_action = false
 
 func _ready() -> void:
 	generate_level()
@@ -46,49 +44,15 @@ func generate_level():
 						Map.erase_cell(Vector2i(x, y))
 		room_points.append_array(new_points)
 
-func _on_turn_pressed() -> void:
-	pass
-
-func generate_hints():
-	pass
+func _on_turn_end() -> void:
+	turn += 1
+	if turn == Enemies.get_child_count() + 1:
+		turn = 0
+	timer.start()
 
 func _on_timer_timeout() -> void:
-	is_moving = false
-	if Player.path.size() > 0:
-		Player.energy -= 1
-		Player.global_position = Player.path.pop_front()
-		if Player.path.size() > 0:
-			is_moving = true
-	for enemy in Enemies.get_children():
-		if enemy.path.size() > 0:
-			enemy.move_points -= 1
-			enemy.global_position = enemy.path.pop_front()
-			if enemy.path.size() > 0:
-				is_moving = true
-	if is_moving:
-		generate_hints()
-	if not is_moving and not is_action:
-		is_action = true
-		generate_hints()
-	elif not is_moving and is_action:
+	if turn == 0:
 		timer.stop()
-		turn += 1
-		is_action = false
-		
-		for enemy in Enemies.get_children():
-			for space in enemy.attack:
-				if space == Player.global_position:
-					Player.health -= enemy.attack_cost
-			
-			for space in Player.action["spaces"]:
-				if space + Player.global_position == enemy.global_position:
-					enemy.health -= Player.action["damage"]
-			enemy.turn()
-		
-		Player.turn()
-		
-		Hints.clear_hints()
-		Info.update_points()
-		Info.update_turn()
 		Main.visible = true
-	
+	else:
+		Enemies.get_child(turn - 1).take_turn()
