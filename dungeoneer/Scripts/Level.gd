@@ -12,12 +12,12 @@ var turn : int = 0
 @onready var Map : TileMapLayer = $TileMapLayer
 var MAP_HEIGHT : int = 40
 var MAP_WIDTH : int = 75
-var HALL_LENGTH_MIN : int = 15
-var HALL_LENGTH_MAX : int = 20
-var ROOM_RADII_MAX : int = 6
+var HALL_LENGTH : int = 11
+var ROOM_RADII_MAX : int = 5
 var ROOM_RADII_MIN : int = 3
-var NUM_HALLS : int = 12
-var NUM_ROOMS : int = 5
+var NUM_HALLS_MAX : int = 9
+var NUM_ROOMS_MIN : int = 3
+var NUM_ROOMS_MAX : int = 6
 
 func _ready() -> void:
 	generate_level()
@@ -30,16 +30,17 @@ func generate_level():
 			Map.set_cell(Vector2i(x, y), 0, Vector2i(4, 3))
 	
 	var room_points : Array[Vector2i] = [Map.local_to_map(Player.global_position)]
-	for i in NUM_HALLS:
+	var num_halls = randi_range(NUM_ROOMS_MAX, NUM_HALLS_MAX)
+	var num_rooms = randi_range(NUM_ROOMS_MIN, NUM_ROOMS_MAX)
+	
+	for i in num_halls:
 		var point = room_points.pick_random()
 		var dir = [Vector2i(0, -1), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(1, 0)].pick_random()
-		var hall_length = randi_range(HALL_LENGTH_MIN, HALL_LENGTH_MAX)
-		var new_point = point + dir * hall_length
+		var new_point = point + dir * HALL_LENGTH
 		while not in_bounds(new_point) or Map.get_cell_source_id(new_point) == -1:
 			point = room_points.pick_random()
 			dir = [Vector2i(0, -1), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(1, 0)].pick_random()
-			hall_length = randi_range(HALL_LENGTH_MIN, HALL_LENGTH_MAX)
-			new_point = point + dir * hall_length
+			new_point = point + dir * HALL_LENGTH
 		room_points.append(new_point)
 		var x_sign = signi(new_point.x - point.x)
 		var y_sign = signi(new_point.y - point.y)
@@ -48,13 +49,15 @@ func generate_level():
 				if in_bounds(Vector2i(x, y)):
 					Map.erase_cell(Vector2i(x, y))
 	
-	for i in NUM_ROOMS:
-		var room_index = randi_range(0, room_points.size()-1)
-		var room = room_points.pop_at(room_index)
-		var room_x = randi_range(ROOM_RADII_MIN, ROOM_RADII_MAX)
-		var room_y = randi_range(ROOM_RADII_MIN, ROOM_RADII_MAX)
-		for x in range(room.x - room_x, room.x + room_x):
-			for y in range(room.y - room_y, room.y + room_y):
+	for i in num_rooms:
+		var room = room_points.pick_random()
+		room_points.erase(room)
+		var left = randi_range(ROOM_RADII_MIN, ROOM_RADII_MAX)
+		var right = randi_range(ROOM_RADII_MIN, ROOM_RADII_MAX)
+		var up = randi_range(ROOM_RADII_MIN, ROOM_RADII_MAX)
+		var down = randi_range(ROOM_RADII_MIN, ROOM_RADII_MAX)
+		for x in range(room.x - left, room.x + right):
+			for y in range(room.y - up, room.y + down):
 				if x > 0 and y > 0 and x < MAP_WIDTH and y < MAP_HEIGHT:
 					Map.erase_cell(Vector2i(x, y))
 
