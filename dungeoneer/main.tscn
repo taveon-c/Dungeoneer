@@ -1,9 +1,10 @@
-[gd_scene load_steps=17 format=3 uid="uid://1032qlj1rdpy"]
+[gd_scene load_steps=18 format=3 uid="uid://1032qlj1rdpy"]
 
 [ext_resource type="Script" uid="uid://cfdw8yhlfbiuu" path="res://Scripts/Level.gd" id="1_h2yge"]
 [ext_resource type="Texture2D" uid="uid://ci6t6h2af6w08" path="res://tilemap_packed.png" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://bqplmif4mtqlk" path="res://Scripts/movement_menu.gd" id="2_0xm2m"]
 [ext_resource type="TileSet" uid="uid://bcqvhhga41wyn" path="res://Resources/map_tileset.tres" id="2_dg77c"]
+[ext_resource type="PackedScene" uid="uid://b14r0335a1bkp" path="res://enemy.tscn" id="2_w48qg"]
 [ext_resource type="Theme" uid="uid://cnabk1ati27qo" path="res://theme.tres" id="3_1bvp3"]
 [ext_resource type="Script" uid="uid://efsivct08471" path="res://Scripts/origin.gd" id="3_7mycd"]
 [ext_resource type="Script" uid="uid://dnxxjj5repxf0" path="res://Scripts/Stats.gd" id="4_4c57u"]
@@ -32,6 +33,7 @@ metadata/_custom_type_script = "uid://cvkgjmf2t5rgo"
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_h2yge")
+enemy_scenes = Array[PackedScene]([ExtResource("2_w48qg")])
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 tile_set = ExtResource("2_dg77c")

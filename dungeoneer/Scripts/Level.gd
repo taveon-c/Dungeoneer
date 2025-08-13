@@ -1,5 +1,6 @@
 extends Node2D
 var turn : int = 0
+
 @onready var timer : Timer = $Timer
 @onready var Player = $Player
 @onready var Enemies = $Enemies
@@ -10,6 +11,9 @@ var turn : int = 0
 @onready var Hints = $Hints
 @onready var Info = $Info
 @onready var Map : TileMapLayer = $TileMapLayer
+
+@export var enemy_scenes : Array[PackedScene]
+
 var MAP_HEIGHT : int = 40
 var MAP_WIDTH : int = 75
 var HALL_LENGTH : int = 11
@@ -49,6 +53,13 @@ func generate_level():
 				if in_bounds(Vector2i(x, y)):
 					Map.erase_cell(Vector2i(x, y))
 	
+	room_points.pop_front()
+	var stair_room = randi_range(0, num_rooms - 1)
+	var chest_room = randi_range(0, num_rooms - 1)
+	while chest_room == stair_room:
+		chest_room = randi_range(0, num_rooms)
+	
+	
 	for i in num_rooms:
 		var room = room_points.pick_random()
 		room_points.erase(room)
@@ -56,10 +67,23 @@ func generate_level():
 		var right = randi_range(ROOM_RADII_MIN, ROOM_RADII_MAX)
 		var up = randi_range(ROOM_RADII_MIN, ROOM_RADII_MAX)
 		var down = randi_range(ROOM_RADII_MIN, ROOM_RADII_MAX)
+		
 		for x in range(room.x - left, room.x + right):
 			for y in range(room.y - up, room.y + down):
 				if x > 0 and y > 0 and x < MAP_WIDTH and y < MAP_HEIGHT:
 					Map.erase_cell(Vector2i(x, y))
+		
+		if i == stair_room:
+			Map.set_cell(room, 0, Vector2i(9, 0))
+		elif i == chest_room:
+			Map.set_cell(room, 0, Vector2i(5, 7))
+	
+	var enemy_spawn = Vector2i(randi_range(0, MAP_WIDTH - 1), randi_range(0, MAP_HEIGHT - 1))
+	while Map.get_cell_source_id(enemy_spawn) != -1:
+		enemy_spawn = Vector2i(randi_range(0, MAP_WIDTH - 1), randi_range(0, MAP_HEIGHT - 1))
+	var enemy = enemy_scenes.pick_random().instantiate()
+	Enemies.add_child(enemy)
+	enemy.global_position = enemy_spawn * 16
 
 func in_bounds(point : Vector2i) -> bool:
 	if point.x > 0 and point.y > 0 and point.x < MAP_WIDTH and point.y < MAP_HEIGHT:
@@ -68,9 +92,14 @@ func in_bounds(point : Vector2i) -> bool:
 		return false
 
 func _on_turn_end() -> void:
+	if turn > 0:
+		Enemies.get_child(turn - 1).end_turn.disconnect(_on_turn_end)
+	
 	turn += 1
 	if turn == Enemies.get_child_count() + 1:
 		turn = 0
+	else:
+		Enemies.get_child(turn - 1).end_turn.connect(_on_turn_end)
 	timer.start()
 
 func _on_timer_timeout() -> void:

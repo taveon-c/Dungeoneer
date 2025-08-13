@@ -24,8 +24,5 @@ func update_player_hints():
 			Hints.generate_hint(Color.RED, space + self.global_position)
 
 func turn():
-	if health < 1:
-		print("DEAD")
-	
 	action.clear()
 	energy = mini(energy + stats.energy_regen, stats.max_energy)

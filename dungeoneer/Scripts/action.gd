@@ -3,6 +3,7 @@ extends CanvasLayer
 @onready var Menu : CanvasLayer = $"../Main"
 @onready var Info : CanvasLayer = $"../Info"
 @onready var Player : Node2D = $"../Player"
+@onready var Enemies : Node = $"../Enemies"
 @onready var Hints : Node = $"../Hints"
 var is_action : bool
 
@@ -18,7 +19,13 @@ func _process(delta: float) -> void:
 				Hints.generate_hint(Color.RED, space)
 			if Input.is_action_just_pressed("select"):
 				for space in action_info["spaces"]:
-					pass #deal damage
+					for enemy in Enemies.get_children():
+						if enemy.global_position == space:
+							enemy.health -= action_info["damage"]
+							print("Enemy health: " + str(enemy.health))
+							if enemy.health < 1:
+								print("Enemy DEAD")
+								enemy.queue_free()
 				Player.energy -= action_info["cost"]
 				Info.update_turn()
 					

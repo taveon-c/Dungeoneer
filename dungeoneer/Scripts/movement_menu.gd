@@ -24,6 +24,7 @@ func _process(delta: float) -> void:
 				Hints.generate_hint(Color.DEEP_SKY_BLUE, new_position)
 				if Input.is_action_just_pressed("select"):
 					Player.global_position = new_position
+					Player.energy -= 1
 
 func _on_move_pressed() -> void:
 	self.visible = true
