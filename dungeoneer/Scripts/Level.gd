@@ -41,7 +41,7 @@ func generate_level():
 		var point = room_points.pick_random()
 		var dir = [Vector2i(0, -1), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(1, 0)].pick_random()
 		var new_point = point + dir * HALL_LENGTH
-		while not in_bounds(new_point) or Map.get_cell_source_id(new_point) == -1:
+		while not in_bounds(new_point) or Map.get_cell_atlas_coords(new_point) != Vector2i(4, 3):
 			point = room_points.pick_random()
 			dir = [Vector2i(0, -1), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(1, 0)].pick_random()
 			new_point = point + dir * HALL_LENGTH
@@ -51,7 +51,7 @@ func generate_level():
 		for x in range(mini(point.x, new_point.x) - 1, maxi(point.x, new_point.x) + 2):
 			for y in range(mini(point.y, new_point.y) - 1, maxi(point.y, new_point.y) + 2):
 				if in_bounds(Vector2i(x, y)):
-					Map.erase_cell(Vector2i(x, y))
+					Map.set_cell(Vector2i(x, y), 0, Vector2i(0, 0))
 	
 	room_points.pop_front()
 	var stair_room = randi_range(0, num_rooms - 1)
@@ -71,19 +71,17 @@ func generate_level():
 		for x in range(room.x - left, room.x + right):
 			for y in range(room.y - up, room.y + down):
 				if x > 0 and y > 0 and x < MAP_WIDTH and y < MAP_HEIGHT:
-					Map.erase_cell(Vector2i(x, y))
+					Map.set_cell(Vector2i(x, y), 0, Vector2i(0, 0))
 		
 		if i == stair_room:
 			Map.set_cell(room, 0, Vector2i(9, 0))
 		elif i == chest_room:
 			Map.set_cell(room, 0, Vector2i(5, 7))
 	
-	var enemy_spawn = Vector2i(randi_range(0, MAP_WIDTH - 1), randi_range(0, MAP_HEIGHT - 1))
-	while Map.get_cell_source_id(enemy_spawn) != -1:
-		enemy_spawn = Vector2i(randi_range(0, MAP_WIDTH - 1), randi_range(0, MAP_HEIGHT - 1))
+	var enemy_spawn = Map.map_to_local(Map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
 	var enemy = enemy_scenes.pick_random().instantiate()
 	Enemies.add_child(enemy)
-	enemy.global_position = enemy_spawn * 16
+	enemy.global_position = enemy_spawn
 
 func in_bounds(point : Vector2i) -> bool:
 	if point.x > 0 and point.y > 0 and point.x < MAP_WIDTH and point.y < MAP_HEIGHT:

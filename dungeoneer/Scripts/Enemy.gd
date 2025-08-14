@@ -1,6 +1,5 @@
 extends Node2D
 @export var stats : Stats
-@onready var Player : Node2D = $"../../Player"
 @onready var Hints : Node = $"../../Hints"
 var health : int
 var energy : int
@@ -17,11 +16,14 @@ func take_turn():
 	action.call()
 
 func attack():
-	if energy >= 3 and Player.global_position.distance_to(self.global_position) < 50:
+	var players = get_tree().get_nodes_in_group("player")
+	var player = players[0]
+	
+	if energy >= 3 and player.global_position.distance_to(self.global_position) < 50:
 		energy -= 3
-		Hints.generate_hint(Color.RED, Player.global_position)
-		Player.health -= 2
-		if Player.health < 1:
+		Hints.generate_hint(Color.RED, player.global_position)
+		player.health -= 2
+		if player.health < 1:
 			print("dead")
 	else:
 		self.emit_signal("end_turn")

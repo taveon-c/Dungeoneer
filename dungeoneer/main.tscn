@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://bqplmif4mtqlk" path="res://Scripts/movement_menu.gd" id="2_0xm2m"]
 [ext_resource type="TileSet" uid="uid://bcqvhhga41wyn" path="res://Resources/map_tileset.tres" id="2_dg77c"]
 [ext_resource type="PackedScene" uid="uid://b14r0335a1bkp" path="res://enemy.tscn" id="2_w48qg"]
-[ext_resource type="Theme" uid="uid://cnabk1ati27qo" path="res://theme.tres" id="3_1bvp3"]
+[ext_resource type="Theme" uid="uid://cnabk1ati27qo" path="res://Resources/theme.tres" id="3_1bvp3"]
 [ext_resource type="Script" uid="uid://efsivct08471" path="res://Scripts/origin.gd" id="3_7mycd"]
 [ext_resource type="Script" uid="uid://dnxxjj5repxf0" path="res://Scripts/Stats.gd" id="4_4c57u"]
 [ext_resource type="Script" uid="uid://5ujaqgyflkv4" path="res://Scripts/Player.gd" id="4_5vw27"]
@@ -37,8 +37,6 @@ enemy_scenes = Array[PackedScene]([ExtResource("2_w48qg")])
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 tile_set = ExtResource("2_dg77c")
-collision_enabled = false
-navigation_enabled = false
 
 [node name="Timer" type="Timer" parent="."]
 

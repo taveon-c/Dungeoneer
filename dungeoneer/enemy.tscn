@@ -1,25 +1,31 @@
-[gd_scene load_steps=6 format=3 uid="uid://b14r0335a1bkp"]
+[gd_scene load_steps=7 format=3 uid="uid://b14r0335a1bkp"]
 
 [ext_resource type="Script" uid="uid://n4d2875c1xn1" path="res://Scripts/Enemy.gd" id="1_4gyqm"]
 [ext_resource type="Texture2D" uid="uid://ci6t6h2af6w08" path="res://tilemap_packed.png" id="1_7k104"]
 [ext_resource type="Script" uid="uid://dnxxjj5repxf0" path="res://Scripts/Stats.gd" id="2_qi2p4"]
 
-[sub_resource type="Resource" id="Resource_iifgy"]
+[sub_resource type="Resource" id="Resource_qi2p4"]
 script = ExtResource("2_qi2p4")
 max_health = 3
-max_energy = 30
-energy_regen = 1
-inventory_slots = 5
+max_energy = 3
+energy_regen = 3
+inventory_slots = 3
 metadata/_custom_type_script = "uid://dnxxjj5repxf0"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4gyqm"]
 atlas = ExtResource("1_7k104")
 region = Rect2(48, 144, 16, 16)
 
-[node name="Enemy" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qi2p4"]
+size = Vector2(16, 16)
+
+[node name="Enemy" type="StaticBody2D" groups=["enemy"]]
 script = ExtResource("1_4gyqm")
-stats = SubResource("Resource_iifgy")
+stats = SubResource("Resource_qi2p4")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
 texture = SubResource("AtlasTexture_4gyqm")
-centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_qi2p4")
