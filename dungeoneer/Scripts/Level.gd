@@ -2,20 +2,21 @@ extends Node2D
 var turn : int = 0
 
 @onready var timer : Timer = $Timer
-@onready var Player = $Player
 @onready var Enemies = $Enemies
 @onready var Main = $Main
 @onready var Movement = $Movement
 @onready var Action = $Action
-@onready var Origin = $Origin
 @onready var Hints = $Hints
-@onready var Info = $Info
 @onready var Map : TileMapLayer = $TileMapLayer
+@onready var astar_grid : AStarGrid2D = AStarGrid2D.new()
 
 @export var enemy_scenes : Array[PackedScene]
+@export var player_scene : PackedScene
 
-var MAP_HEIGHT : int = 40
-var MAP_WIDTH : int = 75
+var player : Node2D
+
+var MAP_HEIGHT : int = 39
+var MAP_WIDTH : int = 70
 var HALL_LENGTH : int = 11
 var ROOM_RADII_MAX : int = 5
 var ROOM_RADII_MIN : int = 3
@@ -32,8 +33,13 @@ func generate_level():
 	for x in MAP_WIDTH + 1:
 		for y in MAP_HEIGHT + 1:
 			Map.set_cell(Vector2i(x, y), 0, Vector2i(4, 3))
+
+	var player_spawn = Map.map_to_local(Vector2i(10, 10))
+	player = player_scene.instantiate()
+	self.add_child(player)
+	player.global_position = player_spawn
 	
-	var room_points : Array[Vector2i] = [Map.local_to_map(Player.global_position)]
+	var room_points : Array[Vector2i] = [Map.local_to_map(player.global_position)]
 	var num_halls = randi_range(NUM_ROOMS_MAX, NUM_HALLS_MAX)
 	var num_rooms = randi_range(NUM_ROOMS_MIN, NUM_ROOMS_MAX)
 	
@@ -78,8 +84,17 @@ func generate_level():
 		elif i == chest_room:
 			Map.set_cell(room, 0, Vector2i(5, 7))
 	
+	astar_grid.region = Map.get_used_rect()
+	astar_grid.cell_size = Vector2(16, 16)
+	astar_grid.offset = Vector2(8, 8)
+	astar_grid.update()
+	var walls = Map.get_used_cells_by_id(0, Vector2i(4, 3))
+	for cell in walls:
+		astar_grid.set_point_solid(cell)
+	
 	var enemy_spawn = Map.map_to_local(Map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
 	var enemy = enemy_scenes.pick_random().instantiate()
+	enemy.astar_grid = astar_grid
 	Enemies.add_child(enemy)
 	enemy.global_position = enemy_spawn
 

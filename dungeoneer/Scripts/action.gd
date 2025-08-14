@@ -1,14 +1,14 @@
 extends CanvasLayer
 
 @onready var Menu : CanvasLayer = $"../Main"
-@onready var Info : CanvasLayer = $"../Info"
-@onready var Player : Node2D = $"../Player"
+
 @onready var Enemies : Node = $"../Enemies"
 @onready var Hints : Node = $"../Hints"
 var is_action : bool
 
 func _process(delta: float) -> void:
 	if is_action:
+		var Player = get_tree().get_first_node_in_group("player")
 		Hints.clear_hints()
 		var mouse_position = Player.get_global_mouse_position()
 		var action_info = Player.weapon.action.call(mouse_position, Player)
@@ -27,7 +27,6 @@ func _process(delta: float) -> void:
 								print("Enemy DEAD")
 								enemy.queue_free()
 				Player.energy -= action_info["cost"]
-				Info.update_turn()
 					
 
 func _on_action_pressed() -> void:

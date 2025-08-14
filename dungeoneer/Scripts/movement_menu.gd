@@ -1,14 +1,13 @@
 extends CanvasLayer
 
-@onready var Player = $"../Player"
 @onready var Menu = $"../Main"
 @onready var Hints : Node = $"../Hints"
-@onready var Info : CanvasLayer = $"../Info"
 @onready var Map : TileMapLayer = $"../TileMapLayer"
 var is_moving : bool = false
 
 func _process(delta: float) -> void:
 	if is_moving:
+		var Player = get_tree().get_first_node_in_group("player")
 		Hints.clear_hints()
 		for x in [-1, 0, 1]:
 			for y in [-1, 0, 1]:
@@ -35,6 +34,5 @@ func _on_exit_pressed() -> void:
 	self.visible = false
 	is_moving = false
 	Hints.clear_hints()
-	Info.update_turn()
 	
 	Menu.visible = true

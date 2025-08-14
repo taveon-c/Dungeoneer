@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-@onready var Player : Sprite2D = $"../Player"
+@onready var Player : Node2D = get_tree().get_first_node_in_group("player")
 @onready var Turn : Label = $"Turn Info"
 @onready var Points : Label = $"Points Info"
 @onready var stats : Label = $"Stats Info"
