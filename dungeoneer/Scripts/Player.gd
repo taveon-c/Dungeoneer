@@ -10,3 +10,6 @@ func _ready() -> void:
 	health = stats.max_health
 	energy = stats.max_energy
 	weight = 1
+
+func _process(delta: float) -> void:
+	pass
