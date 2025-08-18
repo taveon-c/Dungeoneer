@@ -16,17 +16,10 @@ func _process(delta: float) -> void:
 			Hints.generate_hint(Color.RED, hint)
 		if action_info["cost"] <= Player.energy and mouse_position.distance_to(Player.global_position) < 50:
 			for space in action_info["spaces"]:
-				Hints.generate_hint(Color.RED, space)
+				Hints.generate_hint(Color.RED, space - Vector2(8, 8))
 			if Input.is_action_just_pressed("select"):
 				for space in action_info["spaces"]:
-					for enemy in Enemies.get_children():
-						if enemy.global_position == space:
-							enemy.health -= action_info["damage"]
-							print("Enemy health: " + str(enemy.health))
-							if enemy.health < 1:
-								print("Enemy DEAD")
-								enemy.queue_free()
-				Player.energy -= action_info["cost"]
+					Player.attack(action_info)
 					
 
 func _on_action_pressed() -> void:

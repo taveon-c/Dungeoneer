@@ -12,7 +12,7 @@ func thrust(mouse_position: Vector2, Player : Node2D) -> Dictionary:
 			var direction = Vector2(x, y)
 			if direction != Vector2.ZERO:
 				for step in range(1, range + 1):
-					hints.append(Player.global_position + direction * 16 * step)
+					hints.append(Player.global_position + direction * 16 * step - Vector2(8, 8))
 	
 	var spaces : Array[Vector2] = []
 	var direction = Player.global_position.direction_to(mouse_position).round()

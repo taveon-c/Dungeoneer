@@ -8,7 +8,7 @@
 [sub_resource type="Resource" id="Resource_2hs0m"]
 script = ExtResource("2_hqtel")
 max_health = 3
-max_energy = 3
+max_energy = 5000
 energy_regen = 3
 inventory_slots = 3
 metadata/_custom_type_script = "uid://dnxxjj5repxf0"

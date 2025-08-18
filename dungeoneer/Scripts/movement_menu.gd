@@ -13,17 +13,16 @@ func _process(delta: float) -> void:
 			for y in [-1, 0, 1]:
 				var direction = Vector2(x, y)
 				if direction != Vector2.ZERO:
-					Hints.generate_hint(Color.DEEP_SKY_BLUE, Player.global_position + direction * 16)
+					Hints.generate_hint(Color.DEEP_SKY_BLUE, Player.global_position + direction * 16 - Vector2(8, 8))
 		
-		var mouse_position = (Player.get_global_mouse_position() - Vector2(8, 8)).snappedf(16)
+		var mouse_position = Player.get_global_mouse_position()
 		var direction = Player.global_position.direction_to(mouse_position).round()
 		if direction != Vector2.ZERO:
 			var new_position = Player.global_position + direction * 16
-			if Map.get_cell_source_id(Map.local_to_map(new_position)) == -1 and mouse_position.distance_to(Player.global_position) < 32:
-				Hints.generate_hint(Color.DEEP_SKY_BLUE, new_position)
+			if Map.get_cell_atlas_coords(Map.local_to_map(new_position)) == Vector2i(0, 0) and mouse_position.distance_to(Player.global_position) < 32:
+				Hints.generate_hint(Color.DEEP_SKY_BLUE, new_position - Vector2(8, 8))
 				if Input.is_action_just_pressed("select"):
-					Player.global_position = new_position
-					Player.energy -= 1
+					Player.move(direction)
 
 func _on_move_pressed() -> void:
 	self.visible = true

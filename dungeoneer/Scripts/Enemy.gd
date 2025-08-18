@@ -24,7 +24,7 @@ func attack():
 	if energy >= 3 and player.global_position.distance_to(self.global_position) < 50:
 		energy -= 3
 		hints.generate_hint(Color.RED, player.global_position)
-		player.health -= 2
+		player.health -= 1
 		if player.health < 1:
 			print("dead")
 	else:
@@ -38,7 +38,10 @@ func move():
 		var self_id = tilemap.local_to_map(self.global_position)
 		var player_id = tilemap.local_to_map(player.global_position)
 		var path = astar_grid.get_point_path(self_id, player_id)
-		self.global_position = path[1]
-		energy -= 1
+		if path.size() > 1:
+			self.global_position = path[1]
+			energy -= 1
+		else:
+			self.emit_signal("end_turn")
 	else:
 		self.emit_signal("end_turn")
