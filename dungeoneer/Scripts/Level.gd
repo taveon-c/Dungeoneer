@@ -113,11 +113,13 @@ func _on_turn_end() -> void:
 		turn = 0
 	else:
 		Enemies.get_child(turn - 1).end_turn.connect(_on_turn_end)
+		Enemies.get_child(turn - 1).regen()
 	timer.start()
 
 func _on_timer_timeout() -> void:
 	if turn == 0:
 		timer.stop()
+		player.regen()
 		Main.visible = true
 	else:
 		Enemies.get_child(turn - 1).take_turn()

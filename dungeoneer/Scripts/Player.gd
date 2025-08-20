@@ -28,3 +28,7 @@ func attack(attack_info : Dictionary) -> void:
 				result.front()["collider"].health -= attack_info["damage"]
 				print("Enemy Health: " + str(result.front()["collider"].health))
 	energy -= attack_info["cost"]
+
+func regen() -> void:
+	energy += stats.energy_regen
+	energy = mini(energy, stats.max_energy)

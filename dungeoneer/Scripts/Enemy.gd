@@ -45,3 +45,7 @@ func move():
 			self.emit_signal("end_turn")
 	else:
 		self.emit_signal("end_turn")
+
+func regen():
+	energy += stats.energy_regen
+	energy = mini(energy, stats.max_energy)

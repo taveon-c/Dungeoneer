@@ -10,6 +10,7 @@ max_health = 3
 max_energy = 10
 energy_regen = 3
 inventory_slots = 3
+weight = 0
 metadata/_custom_type_script = "uid://dnxxjj5repxf0"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4gyqm"]
