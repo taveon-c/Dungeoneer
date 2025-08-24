@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Stats" load_steps=2 format=3 uid="uid://iiy5egw34nbr"]
+
+[ext_resource type="Script" uid="uid://dnxxjj5repxf0" path="res://Scripts/Stats.gd" id="1_vqdih"]
+
+[resource]
+script = ExtResource("1_vqdih")
+max_health = 5
+max_energy = 3
+energy_regen = 2
+inventory_slots = 0
+weight = 0
+metadata/_custom_type_script = "uid://dnxxjj5repxf0"
