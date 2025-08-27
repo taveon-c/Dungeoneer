@@ -7,6 +7,8 @@ class_name Stats
 @export var inventory_slots : int = 0
 @export var weight : int = 0
 var health = max_health
+var hardness : int = 0
+var stiffness : int = 0
 var energy = max_energy
 
 func print() -> String:

@@ -1,11 +1,12 @@
 extends Resource
 class_name Weapon
 
-var action : Callable = thrust
-var action_name : String = "thrust"
-var range : int = 3
+@export var range : int = 1
+@export var cut : int = 0
+@export var blunt : int = 1
+@export var cost : int = 0
 
-func thrust(mouse_position: Vector2, Player : Node2D) -> Dictionary:
+func action(mouse_position: Vector2, Player : Node2D) -> Dictionary:
 	var hints : Array[Vector2] = []
 	for x in [-1, 0, 1]:
 		for y in [-1, 0, 1]:
@@ -23,6 +24,7 @@ func thrust(mouse_position: Vector2, Player : Node2D) -> Dictionary:
 	return {
 		"spaces" : spaces,
 		"hints" : hints,
-		"cost" : 1,
-		"damage" : 3
+		"cost" : cost,
+		"cut" : cut,
+		"blunt" : blunt
 	}

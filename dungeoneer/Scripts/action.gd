@@ -12,7 +12,7 @@ func _process(delta: float) -> void:
 		Hints.clear_hints()
 	if is_action and Player.stats.energy >= 1:
 		var mouse_position = Player.get_global_mouse_position()
-		var action_info = Player.weapon.action.call(mouse_position, Player)
+		var action_info = Player.weapon.action(mouse_position, Player)
 		for hint in action_info["hints"]:
 			Hints.generate_hint(Color.RED, hint)
 		if action_info["cost"] <= Player.stats.energy and mouse_position.distance_to(Player.global_position) < 50:

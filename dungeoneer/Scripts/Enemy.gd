@@ -22,6 +22,7 @@ func damage(attack_info : Dictionary):
 	if stats.health <= 0:
 		print("ENEMY DEAD")
 		queue_free()
+	return 
 
 func attack():
 	var players = get_tree().get_nodes_in_group("player")
