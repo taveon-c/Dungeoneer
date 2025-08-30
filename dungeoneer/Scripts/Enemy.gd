@@ -17,12 +17,14 @@ func take_turn():
 	action.call()
 
 func damage(attack_info : Dictionary):
-	stats.health -= attack_info["damage"]
+	attack_info["cut"] -= stats.armor
+	var damage = maxi(attack_info["blunt"] + attack_info["cut"], 0)
+	stats.health -= damage
 	print("Enemy health: " + str(stats.health))
 	if stats.health <= 0:
 		print("ENEMY DEAD")
 		queue_free()
-	return 
+	return attack_info
 
 func attack():
 	var players = get_tree().get_nodes_in_group("player")

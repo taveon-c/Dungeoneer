@@ -23,6 +23,8 @@ var ROOM_RADII_MIN : int = 3
 var NUM_HALLS_MAX : int = 9
 var NUM_ROOMS_MIN : int = 3
 var NUM_ROOMS_MAX : int = 6
+var MIN_ENEMY : int = 3
+var MAX_ENEMY : int = 6
 
 func _ready() -> void:
 	generate_level()
@@ -92,11 +94,16 @@ func generate_level():
 	for cell in walls:
 		astar_grid.set_point_solid(cell)
 	
-	var enemy_spawn = Map.map_to_local(Map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
-	var enemy = enemy_scenes.pick_random().instantiate()
-	enemy.astar_grid = astar_grid
-	Enemies.add_child(enemy)
-	enemy.global_position = enemy_spawn
+	var taken_spawns : Array[Vector2] = []
+	var num_enemy = randi_range(MIN_ENEMY, MAX_ENEMY)
+	for i in num_enemy:
+		var enemy_spawn = Map.map_to_local(Map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
+		while enemy_spawn in taken_spawns:
+			enemy_spawn = Map.map_to_local(Map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
+		var enemy = enemy_scenes.pick_random().instantiate()
+		enemy.astar_grid = astar_grid
+		Enemies.add_child(enemy)
+		enemy.global_position = enemy_spawn
 
 func in_bounds(point : Vector2i) -> bool:
 	if point.x > 0 and point.y > 0 and point.x < MAP_WIDTH and point.y < MAP_HEIGHT:

@@ -13,9 +13,13 @@ func _ready() -> void:
 	Info.update_info()
 
 func damage(attack_info : Dictionary):
-	stats.health -= attack_info["damage"]
+	attack_info["cut"] -= stats.armor
+	var damage = maxi(attack_info["blunt"] + attack_info["cut"], 0)
+	stats.health -= damage
 	if stats.health <= 0:
 		print("DEAD")
+	Info.update_info()
+	return attack_info
 
 func move(dir : Vector2) -> void:
 	self.global_position = self.global_position + dir * 16
@@ -29,7 +33,11 @@ func attack(attack_info : Dictionary) -> void:
 		query.position = space
 		var result = state.intersect_point(query)
 		if result and result.front()["collider"].is_in_group("enemy"):
-			result.front()["collider"].damage(attack_info)
+			attack_info = result.front()["collider"].damage(attack_info)
+			if attack_info["cut"] <= 0:
+				stats.energy -= attack_info["cost"]
+				Info.update_info()
+				return 
 	stats.energy -= attack_info["cost"]
 	Info.update_info()
 

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=2 format=3 uid="uid://cmx65npaomycj"]
+
+[ext_resource type="Script" uid="uid://cvkgjmf2t5rgo" path="res://Scripts/Weapon.gd" id="1_ngbdt"]
+
+[resource]
+script = ExtResource("1_ngbdt")
+range = 2
+cut = 15
+blunt = 15
+cost = 2
+metadata/_custom_type_script = "uid://cvkgjmf2t5rgo"

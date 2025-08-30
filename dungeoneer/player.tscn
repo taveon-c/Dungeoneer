@@ -1,17 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://dicrps48cfjk8"]
+[gd_scene load_steps=7 format=3 uid="uid://dicrps48cfjk8"]
 
 [ext_resource type="Texture2D" uid="uid://ci6t6h2af6w08" path="res://tilemap_packed.png" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://5ujaqgyflkv4" path="res://Scripts/Player.gd" id="1_onrkg"]
 [ext_resource type="Resource" uid="uid://dnhbyycvgj0f2" path="res://Resources/player_stats.tres" id="2_hqtel"]
-[ext_resource type="Script" uid="uid://cvkgjmf2t5rgo" path="res://Scripts/Weapon.gd" id="3_sweqy"]
-
-[sub_resource type="Resource" id="Resource_1jxqw"]
-script = ExtResource("3_sweqy")
-range = 2
-cut = 50
-blunt = 10
-cost = 2
-metadata/_custom_type_script = "uid://cvkgjmf2t5rgo"
+[ext_resource type="Resource" uid="uid://cmx65npaomycj" path="res://Resources/sword.tres" id="3_hqtel"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_onrkg"]
 size = Vector2(16, 16)
@@ -23,7 +15,7 @@ region = Rect2(48, 112, 16, 16)
 [node name="Player" type="StaticBody2D" groups=["player"]]
 script = ExtResource("1_onrkg")
 stats = ExtResource("2_hqtel")
-weapon = SubResource("Resource_1jxqw")
+weapon = ExtResource("3_hqtel")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_onrkg")
