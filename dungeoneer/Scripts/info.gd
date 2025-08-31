@@ -3,13 +3,11 @@ extends Label
 @export var stats : Stats = null
 
 func _ready() -> void:
+	if stats == null:
+		parent.stats = parent.base_stats.duplicate()
+		stats = parent.stats
+	stats.connect("stats_changed", update_info)
 	update_info()
 
 func update_info():
-	if stats == null:
-		if parent.stats == null:
-			self.text = parent.base_stats.print()
-		else:
-			self.text = parent.stats.print()
-	elif parent == null:
-		self.text = stats.print()
+	self.text = stats.print()

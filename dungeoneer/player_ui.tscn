@@ -1,0 +1,100 @@
+[gd_scene load_steps=7 format=3 uid="uid://c2yiqdldxyvog"]
+
+[ext_resource type="Theme" uid="uid://cnabk1ati27qo" path="res://Resources/theme.tres" id="1_654h1"]
+[ext_resource type="Script" uid="uid://dsrda6yo6elgu" path="res://player_ui_manager.gd" id="1_tybkg"]
+[ext_resource type="Script" uid="uid://bpqnyeyynkkwb" path="res://Scripts/info.gd" id="2_pc08v"]
+[ext_resource type="Resource" uid="uid://dnhbyycvgj0f2" path="res://Resources/player_stats.tres" id="3_tybkg"]
+[ext_resource type="Script" uid="uid://x67jaxm6n2ds" path="res://Scripts/hints.gd" id="5_a4em4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a4em4"]
+bg_color = Color(0.162066, 0.162066, 0.162065, 0.784314)
+border_width_left = 4
+border_width_right = 4
+border_color = Color(0.160784, 0.160784, 0.160784, 0.784314)
+
+[node name="PlayerUI" type="CanvasLayer" node_paths=PackedStringArray("hints", "info")]
+follow_viewport_enabled = true
+script = ExtResource("1_tybkg")
+hints = NodePath("Hints")
+info = NodePath("Info Container/Info")
+
+[node name="Action Container" type="HBoxContainer" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+theme = ExtResource("1_654h1")
+
+[node name="Move" type="Button" parent="Action Container"]
+layout_mode = 2
+theme = ExtResource("1_654h1")
+text = "Move"
+
+[node name="Attack" type="Button" parent="Action Container"]
+layout_mode = 2
+theme = ExtResource("1_654h1")
+text = "Attack"
+
+[node name="Info Container" type="PanelContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_right = -1.0
+offset_bottom = 23.0
+grow_horizontal = 0
+theme = ExtResource("1_654h1")
+theme_override_styles/panel = SubResource("StyleBoxFlat_a4em4")
+
+[node name="Info" type="Label" parent="Info Container"]
+layout_mode = 2
+theme = ExtResource("1_654h1")
+text = "Info"
+horizontal_alignment = 2
+script = ExtResource("2_pc08v")
+stats = ExtResource("3_tybkg")
+
+[node name="End Turn" type="Button" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -78.0
+offset_top = -31.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("1_654h1")
+text = "End Turn"
+
+[node name="Exit" type="Button" parent="."]
+visible = false
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -37.0
+offset_top = -31.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("1_654h1")
+text = "Exit"
+
+[node name="Hints" type="Node2D" parent="."]
+script = ExtResource("5_a4em4")
+
+[connection signal="pressed" from="Action Container/Move" to="." method="set_state" binds= [1]]
+[connection signal="pressed" from="Action Container/Move" to="Action Container" method="set_visible" binds= [false]]
+[connection signal="pressed" from="Action Container/Move" to="End Turn" method="set_visible" binds= [false]]
+[connection signal="pressed" from="Action Container/Move" to="Exit" method="set_visible" binds= [true]]
+[connection signal="pressed" from="Action Container/Attack" to="." method="set_state" binds= [2]]
+[connection signal="pressed" from="Action Container/Attack" to="Action Container" method="set_visible" binds= [false]]
+[connection signal="pressed" from="Action Container/Attack" to="End Turn" method="set_visible" binds= [false]]
+[connection signal="pressed" from="Action Container/Attack" to="Exit" method="set_visible" binds= [true]]
+[connection signal="pressed" from="Exit" to="." method="set_state" binds= [0]]
+[connection signal="pressed" from="Exit" to="Action Container" method="set_visible" binds= [true]]
+[connection signal="pressed" from="Exit" to="End Turn" method="set_visible" binds= [true]]
+[connection signal="pressed" from="Exit" to="Exit" method="set_visible" binds= [false]]

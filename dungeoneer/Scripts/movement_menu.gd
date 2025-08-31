@@ -7,8 +7,7 @@ var is_moving : bool = false
 
 func _process(delta: float) -> void:
 	var Player = get_tree().get_first_node_in_group("player")
-	if is_moving:
-		Hints.clear_hints()
+	Hints.clear_hints()
 	if is_moving and Player.stats.energy >= 1:
 		for x in [-1, 0, 1]:
 			for y in [-1, 0, 1]:

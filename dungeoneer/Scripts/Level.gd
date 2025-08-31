@@ -3,10 +3,6 @@ var turn : int = 0
 
 @onready var timer : Timer = $Timer
 @onready var Enemies = $Enemies
-@onready var Main = $Main
-@onready var Movement = $Movement
-@onready var Action = $Action
-@onready var Hints = $Hints
 @onready var Map : TileMapLayer = $TileMapLayer
 @onready var astar_grid : AStarGrid2D = AStarGrid2D.new()
 
@@ -127,6 +123,5 @@ func _on_timer_timeout() -> void:
 	if turn == 0:
 		timer.stop()
 		player.regen()
-		Main.visible = true
 	else:
 		Enemies.get_child(turn - 1).take_turn()

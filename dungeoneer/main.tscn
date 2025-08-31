@@ -1,16 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://1032qlj1rdpy"]
+[gd_scene load_steps=7 format=3 uid="uid://1032qlj1rdpy"]
 
 [ext_resource type="Script" uid="uid://cfdw8yhlfbiuu" path="res://Scripts/Level.gd" id="1_h2yge"]
-[ext_resource type="Script" uid="uid://bqplmif4mtqlk" path="res://Scripts/movement_menu.gd" id="2_0xm2m"]
 [ext_resource type="TileSet" uid="uid://bcqvhhga41wyn" path="res://Resources/map_tileset.tres" id="2_dg77c"]
 [ext_resource type="PackedScene" uid="uid://b14r0335a1bkp" path="res://enemy.tscn" id="2_w48qg"]
-[ext_resource type="Theme" uid="uid://cnabk1ati27qo" path="res://Resources/theme.tres" id="3_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://dicrps48cfjk8" path="res://player.tscn" id="4_efxa6"]
 [ext_resource type="Script" uid="uid://x67jaxm6n2ds" path="res://Scripts/hints.gd" id="5_kek77"]
-[ext_resource type="Script" uid="uid://dxc20ufaleff5" path="res://Scripts/action.gd" id="5_lquwl"]
-[ext_resource type="Script" uid="uid://bpqnyeyynkkwb" path="res://Scripts/info.gd" id="10_4c57u"]
-[ext_resource type="Script" uid="uid://02utr3hmpg6u" path="res://main.gd" id="10_w48qg"]
-[ext_resource type="Resource" uid="uid://dnhbyycvgj0f2" path="res://Resources/player_stats.tres" id="11_efxa6"]
+[ext_resource type="PackedScene" uid="uid://c2yiqdldxyvog" path="res://player_ui.tscn" id="6_7mycd"]
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_h2yge")
@@ -31,90 +26,7 @@ anchor_mode = 0
 [node name="Hints" type="Node2D" parent="."]
 script = ExtResource("5_kek77")
 
-[node name="Main" type="CanvasLayer" parent="."]
-script = ExtResource("10_w48qg")
-
-[node name="Move" type="Button" parent="Main"]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = -58.0
-offset_right = 103.0
-offset_bottom = -5.0
-grow_vertical = 0
-theme = ExtResource("3_1bvp3")
-text = "Move"
-metadata/_edit_use_anchors_ = true
-
-[node name="Action" type="Button" parent="Main"]
-offset_left = 111.0
-offset_top = 590.0
-offset_right = 220.0
-offset_bottom = 643.0
-theme = ExtResource("3_1bvp3")
-
-[node name="End Turn" type="Button" parent="Main"]
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -147.0
-offset_top = -53.0
-grow_horizontal = 0
-grow_vertical = 0
-theme = ExtResource("3_1bvp3")
-text = "End Turn"
-
-[node name="Movement" type="CanvasLayer" parent="."]
-visible = false
-script = ExtResource("2_0xm2m")
-
-[node name="Exit" type="Button" parent="Movement"]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 13.0
-offset_top = -65.0
-offset_right = 78.0
-offset_bottom = -12.0
-grow_vertical = 0
-theme = ExtResource("3_1bvp3")
-text = "Exit"
-
-[node name="Action" type="CanvasLayer" parent="."]
-visible = false
-script = ExtResource("5_lquwl")
-
-[node name="Exit" type="Button" parent="Action"]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 13.0
-offset_top = -66.0
-offset_right = 78.0
-offset_bottom = -13.0
-grow_vertical = 0
-theme = ExtResource("3_1bvp3")
-text = "Exit"
-
-[node name="Info" type="CanvasLayer" parent="."]
-
-[node name="Info" type="Label" parent="Info"]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -40.0
-offset_bottom = 23.0
-grow_horizontal = 0
-horizontal_alignment = 2
-script = ExtResource("10_4c57u")
-stats = ExtResource("11_efxa6")
+[node name="PlayerUI" parent="." node_paths=PackedStringArray("map") instance=ExtResource("6_7mycd")]
+map = NodePath("../TileMapLayer")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
-[connection signal="pressed" from="Main/Move" to="Movement" method="_on_move_pressed"]
-[connection signal="pressed" from="Main/End Turn" to="." method="_on_turn_end"]
-[connection signal="pressed" from="Main/End Turn" to="Main" method="_on_end_turn"]
-[connection signal="pressed" from="Movement/Exit" to="Movement" method="_on_exit_pressed"]
-[connection signal="pressed" from="Action/Exit" to="Action" method="_on_exit_pressed"]
