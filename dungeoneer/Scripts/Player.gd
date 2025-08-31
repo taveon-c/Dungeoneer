@@ -1,6 +1,6 @@
 extends Node2D
 @onready var Hints = $"../Hints"
-@onready var Info = $"../Info"
+@onready var Info = $"../Info/Info"
 @export var stats : Stats
 @export var weapon : Weapon
 var is_moving : bool
@@ -23,7 +23,7 @@ func damage(attack_info : Dictionary):
 
 func move(dir : Vector2) -> void:
 	self.global_position = self.global_position + dir * 16
-	stats.energy -= 1
+	stats.energy -= stats.weight
 	Info.update_info()
 
 func attack(attack_info : Dictionary) -> void:

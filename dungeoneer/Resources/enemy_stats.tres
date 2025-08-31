@@ -4,9 +4,10 @@
 
 [resource]
 script = ExtResource("1_vqdih")
-max_health = 5
-max_energy = 3
-energy_regen = 2
+max_health = 30
+armor = 0
+max_energy = 30
+energy_regen = 8
 inventory_slots = 0
-weight = 0
+weight = 5
 metadata/_custom_type_script = "uid://dnxxjj5repxf0"

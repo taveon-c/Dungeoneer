@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://dicrps48cfjk8" path="res://player.tscn" id="4_efxa6"]
 [ext_resource type="Script" uid="uid://x67jaxm6n2ds" path="res://Scripts/hints.gd" id="5_kek77"]
 [ext_resource type="Script" uid="uid://dxc20ufaleff5" path="res://Scripts/action.gd" id="5_lquwl"]
-[ext_resource type="Script" uid="uid://bpqnyeyynkkwb" path="res://info.gd" id="10_4c57u"]
+[ext_resource type="Script" uid="uid://bpqnyeyynkkwb" path="res://Scripts/info.gd" id="10_4c57u"]
 [ext_resource type="Script" uid="uid://02utr3hmpg6u" path="res://main.gd" id="10_w48qg"]
 [ext_resource type="Resource" uid="uid://dnhbyycvgj0f2" path="res://Resources/player_stats.tres" id="11_efxa6"]
 
@@ -100,8 +100,6 @@ theme = ExtResource("3_1bvp3")
 text = "Exit"
 
 [node name="Info" type="CanvasLayer" parent="."]
-script = ExtResource("10_4c57u")
-stats = ExtResource("11_efxa6")
 
 [node name="Info" type="Label" parent="Info"]
 anchors_preset = 1
@@ -111,6 +109,8 @@ offset_left = -40.0
 offset_bottom = 23.0
 grow_horizontal = 0
 horizontal_alignment = 2
+script = ExtResource("10_4c57u")
+stats = ExtResource("11_efxa6")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="pressed" from="Main/Move" to="Movement" method="_on_move_pressed"]

@@ -1,5 +1,6 @@
 extends Node2D
 @export var base_stats : Stats
+@export var weapon : Weapon
 @onready var stats = base_stats.duplicate()
 @onready var hints : Node = $"../../Hints"
 @onready var tilemap : TileMapLayer = $"../../TileMapLayer"
@@ -30,12 +31,14 @@ func attack():
 	var players = get_tree().get_nodes_in_group("player")
 	var player = players[0]
 	
-	if stats.energy >= 3 and player.global_position.distance_to(self.global_position) < 50:
-		stats.energy -= 3
-		hints.generate_hint(Color.RED, player.global_position)
-		player.health -= 1
-		if player.health < 1:
-			print("dead")
+	if stats.energy >= weapon.cost and player.global_position.distance_to(self.global_position) < weapon.range * 16:
+		player.damage(
+			{
+				"cut" : weapon.cut,
+				"blunt" : weapon.blunt
+			}
+		)
+		self.stats.energy -= weapon.cost
 	else:
 		self.emit_signal("end_turn")
 
@@ -43,13 +46,13 @@ func move():
 	var players = get_tree().get_nodes_in_group("player")
 	var player = players[0]
 	
-	if stats.energy >= 1:
+	if stats.energy >= stats.weight:
 		var self_id = tilemap.local_to_map(self.global_position)
 		var player_id = tilemap.local_to_map(player.global_position)
 		var path = astar_grid.get_point_path(self_id, player_id)
 		if path.size() > 1:
 			self.global_position = path[1]
-			stats.energy -= 1
+			stats.energy -= stats.weight
 		else:
 			self.emit_signal("end_turn")
 	else:

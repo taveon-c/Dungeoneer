@@ -1,8 +1,19 @@
-[gd_scene load_steps=6 format=3 uid="uid://b14r0335a1bkp"]
+[gd_scene load_steps=11 format=3 uid="uid://b14r0335a1bkp"]
 
 [ext_resource type="Script" uid="uid://n4d2875c1xn1" path="res://Scripts/Enemy.gd" id="1_4gyqm"]
 [ext_resource type="Texture2D" uid="uid://ci6t6h2af6w08" path="res://tilemap_packed.png" id="1_7k104"]
 [ext_resource type="Resource" uid="uid://iiy5egw34nbr" path="res://Resources/enemy_stats.tres" id="2_qi2p4"]
+[ext_resource type="Script" uid="uid://cvkgjmf2t5rgo" path="res://Scripts/Weapon.gd" id="3_iifgy"]
+[ext_resource type="Theme" uid="uid://cnabk1ati27qo" path="res://Resources/theme.tres" id="6_3yqyl"]
+[ext_resource type="Script" uid="uid://bpqnyeyynkkwb" path="res://Scripts/info.gd" id="6_wujgv"]
+
+[sub_resource type="Resource" id="Resource_epg4t"]
+script = ExtResource("3_iifgy")
+range = 3
+cut = 10
+blunt = 10
+cost = 15
+metadata/_custom_type_script = "uid://cvkgjmf2t5rgo"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4gyqm"]
 atlas = ExtResource("1_7k104")
@@ -11,9 +22,17 @@ region = Rect2(48, 144, 16, 16)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qi2p4"]
 size = Vector2(16, 16)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3yqyl"]
+bg_color = Color(0.203922, 0.203922, 0.203922, 0.784314)
+border_width_left = 4
+border_width_right = 4
+border_color = Color(0.239216, 0.239216, 0.239216, 0.784314)
+
 [node name="Enemy" type="StaticBody2D" groups=["enemy"]]
+input_pickable = true
 script = ExtResource("1_4gyqm")
 base_stats = ExtResource("2_qi2p4")
+weapon = SubResource("Resource_epg4t")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
@@ -21,3 +40,22 @@ texture = SubResource("AtlasTexture_4gyqm")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_qi2p4")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="Panel" type="PanelContainer" parent="CanvasLayer"]
+visible = false
+offset_right = 39.0
+offset_bottom = 23.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_3yqyl")
+
+[node name="Info" type="Label" parent="CanvasLayer/Panel" node_paths=PackedStringArray("parent")]
+layout_mode = 2
+theme = ExtResource("6_3yqyl")
+text = "Info"
+script = ExtResource("6_wujgv")
+parent = NodePath("../../..")
+
+[connection signal="mouse_entered" from="." to="CanvasLayer/Panel" method="set_visible" binds= [true]]
+[connection signal="mouse_exited" from="." to="CanvasLayer/Panel" method="set_visible" binds= [false]]
