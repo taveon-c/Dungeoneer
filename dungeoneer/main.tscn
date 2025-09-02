@@ -7,10 +7,11 @@
 [ext_resource type="Script" uid="uid://x67jaxm6n2ds" path="res://Scripts/hints.gd" id="5_kek77"]
 [ext_resource type="PackedScene" uid="uid://c2yiqdldxyvog" path="res://player_ui.tscn" id="6_7mycd"]
 
-[node name="Level" type="Node2D"]
+[node name="Level" type="Node2D" node_paths=PackedStringArray("player_ui")]
 script = ExtResource("1_h2yge")
 enemy_scenes = Array[PackedScene]([ExtResource("2_w48qg")])
 player_scene = ExtResource("4_efxa6")
+player_ui = NodePath("PlayerUI")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 tile_set = ExtResource("2_dg77c")

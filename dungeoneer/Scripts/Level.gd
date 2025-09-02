@@ -8,6 +8,7 @@ var turn : int = 0
 
 @export var enemy_scenes : Array[PackedScene]
 @export var player_scene : PackedScene
+@export var player_ui : CanvasLayer
 
 var player : Node2D
 
@@ -100,6 +101,7 @@ func generate_level():
 		enemy.astar_grid = astar_grid
 		Enemies.add_child(enemy)
 		enemy.global_position = enemy_spawn
+		enemy.connect("end_turn", _on_turn_end)
 
 func in_bounds(point : Vector2i) -> bool:
 	if point.x > 0 and point.y > 0 and point.x < MAP_WIDTH and point.y < MAP_HEIGHT:
@@ -108,20 +110,17 @@ func in_bounds(point : Vector2i) -> bool:
 		return false
 
 func _on_turn_end() -> void:
-	if turn > 0:
-		Enemies.get_child(turn - 1).end_turn.disconnect(_on_turn_end)
-	
 	turn += 1
 	if turn == Enemies.get_child_count() + 1:
 		turn = 0
 	else:
-		Enemies.get_child(turn - 1).end_turn.connect(_on_turn_end)
-		Enemies.get_child(turn - 1).regen()
+		Enemies.get_child(turn - 1).stats.regen_energy()
 	timer.start()
 
 func _on_timer_timeout() -> void:
 	if turn == 0:
 		timer.stop()
-		player.regen()
+		player.stats.regen_energy()
+		player_ui.visible = true
 	else:
 		Enemies.get_child(turn - 1).take_turn()

@@ -11,6 +11,7 @@ func _ready() -> void:
 	stats.health = stats.max_health
 	stats.energy = stats.max_energy
 	stats.emit_signal("stats_changed")
+	stats.connect("stats_changed", on_stats_changed)
 
 func take_turn():
 	var action = actions.pick_random()
@@ -29,7 +30,14 @@ func attack():
 		)
 		stats.spend_energy(weapon.cost)
 	else:
-		self.emit_signal("end_turn")
+		emit_end_turn()
+
+func emit_end_turn():
+	self.emit_signal("end_turn")
+
+func on_stats_changed():
+	if stats.health <= 0:
+		queue_free()
 
 func move():
 	var players = get_tree().get_nodes_in_group("player")
@@ -43,6 +51,6 @@ func move():
 			self.global_position = path[1]
 			stats.spend_energy(stats.weight)
 		else:
-			self.emit_signal("end_turn")
+			emit_end_turn()
 	else:
-		self.emit_signal("end_turn")
+		emit_end_turn()

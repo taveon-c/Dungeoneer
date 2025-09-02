@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://c2yiqdldxyvog"]
+[gd_scene load_steps=8 format=3 uid="uid://c2yiqdldxyvog"]
 
 [ext_resource type="Theme" uid="uid://cnabk1ati27qo" path="res://Resources/theme.tres" id="1_654h1"]
 [ext_resource type="Script" uid="uid://dsrda6yo6elgu" path="res://player_ui_manager.gd" id="1_tybkg"]
 [ext_resource type="Script" uid="uid://bpqnyeyynkkwb" path="res://Scripts/info.gd" id="2_pc08v"]
 [ext_resource type="Resource" uid="uid://dnhbyycvgj0f2" path="res://Resources/player_stats.tres" id="3_tybkg"]
 [ext_resource type="Script" uid="uid://x67jaxm6n2ds" path="res://Scripts/hints.gd" id="5_a4em4"]
+[ext_resource type="Script" uid="uid://r477qkqo6tu5" path="res://end_turn.gd" id="5_gxl1c"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a4em4"]
 bg_color = Color(0.162066, 0.162066, 0.162065, 0.784314)
@@ -68,6 +69,7 @@ grow_horizontal = 0
 grow_vertical = 0
 theme = ExtResource("1_654h1")
 text = "End Turn"
+script = ExtResource("5_gxl1c")
 
 [node name="Exit" type="Button" parent="."]
 visible = false
