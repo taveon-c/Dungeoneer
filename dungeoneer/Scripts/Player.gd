@@ -4,6 +4,8 @@ extends Node2D
 var is_moving : bool
 var is_action : bool
 
+signal moved
+
 func _ready() -> void:
 	stats.health = stats.max_health
 	stats.energy = stats.max_energy
@@ -12,6 +14,7 @@ func _ready() -> void:
 func move(dir : Vector2) -> void:
 	self.global_position = self.global_position + dir * 16
 	stats.spend_energy(stats.weight)
+	emit_signal("moved")
 
 func attack(attack_info : Dictionary) -> void:
 	var state = get_world_2d().get_direct_space_state()

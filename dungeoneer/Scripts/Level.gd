@@ -7,10 +7,9 @@ var turn : int = 0
 @onready var astar_grid : AStarGrid2D = AStarGrid2D.new()
 
 @export var enemy_scenes : Array[PackedScene]
-@export var player_scene : PackedScene
+@export var player : StaticBody2D
+@export var stair : Sprite2D
 @export var player_ui : CanvasLayer
-
-var player : Node2D
 
 var MAP_HEIGHT : int = 39
 var MAP_WIDTH : int = 70
@@ -27,6 +26,7 @@ func _ready() -> void:
 	generate_level()
 
 func generate_level():
+	
 	var hall_dirs : Array[Vector2i] = [Vector2i(-1, 0), Vector2i(1, 0), Vector2i(0, -1), Vector2i(0, 1)]
 	
 	for x in MAP_WIDTH + 1:
@@ -34,8 +34,6 @@ func generate_level():
 			Map.set_cell(Vector2i(x, y), 0, Vector2i(4, 3))
 
 	var player_spawn = Map.map_to_local(Vector2i(10, 10))
-	player = player_scene.instantiate()
-	self.add_child(player)
 	player.global_position = player_spawn
 	
 	var room_points : Array[Vector2i] = [Map.local_to_map(player.global_position)]
@@ -79,7 +77,7 @@ func generate_level():
 					Map.set_cell(Vector2i(x, y), 0, Vector2i(0, 0))
 		
 		if i == stair_room:
-			Map.set_cell(room, 0, Vector2i(9, 0))
+			stair.global_position = Map.map_to_local(room)
 		elif i == chest_room:
 			Map.set_cell(room, 0, Vector2i(5, 7))
 	
@@ -124,3 +122,7 @@ func _on_timer_timeout() -> void:
 		player_ui.visible = true
 	else:
 		Enemies.get_child(turn - 1).take_turn()
+	
+func _on_player_moved():
+	if player.global_position == stair.global_position:
+		generate_level()
