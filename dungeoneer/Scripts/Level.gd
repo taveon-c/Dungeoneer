@@ -19,22 +19,23 @@ var ROOM_RADII_MIN : int = 3
 var NUM_HALLS_MAX : int = 9
 var NUM_ROOMS_MIN : int = 3
 var NUM_ROOMS_MAX : int = 6
-var MIN_ENEMY : int = 3
-var MAX_ENEMY : int = 6
+var MIN_ENEMY : int = 999
+var MAX_ENEMY : int = 1000
 
 func _ready() -> void:
+	player.global_position = Map.map_to_local(Vector2i(10, 10))
 	generate_level()
 
 func generate_level():
-	
+	Map.clear()
+	for child in Enemies.get_children():
+		child.queue_free()
+	print(Enemies.get_child_count())
 	var hall_dirs : Array[Vector2i] = [Vector2i(-1, 0), Vector2i(1, 0), Vector2i(0, -1), Vector2i(0, 1)]
 	
 	for x in MAP_WIDTH + 1:
 		for y in MAP_HEIGHT + 1:
 			Map.set_cell(Vector2i(x, y), 0, Vector2i(4, 3))
-
-	var player_spawn = Map.map_to_local(Vector2i(10, 10))
-	player.global_position = player_spawn
 	
 	var room_points : Array[Vector2i] = [Map.local_to_map(player.global_position)]
 	var num_halls = randi_range(NUM_ROOMS_MAX, NUM_HALLS_MAX)
@@ -125,4 +126,5 @@ func _on_timer_timeout() -> void:
 	
 func _on_player_moved():
 	if player.global_position == stair.global_position:
+		print("new level")
 		generate_level()
