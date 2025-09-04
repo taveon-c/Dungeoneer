@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://bh46bxqxhf0yw"]
+
+[ext_resource type="Script" uid="uid://jw5i3vojfpoa" path="res://weapon_pickup.gd" id="1_61tva"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pxna8"]
+size = Vector2(16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bp4yj"]
+
+[node name="Weapon" type="Area2D"]
+script = ExtResource("1_61tva")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_pxna8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_bp4yj")

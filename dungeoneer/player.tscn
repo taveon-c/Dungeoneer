@@ -1,9 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://dicrps48cfjk8"]
+[gd_scene load_steps=8 format=3 uid="uid://dicrps48cfjk8"]
 
 [ext_resource type="Texture2D" uid="uid://ci6t6h2af6w08" path="res://tilemap_packed.png" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://5ujaqgyflkv4" path="res://Scripts/Player.gd" id="1_onrkg"]
 [ext_resource type="Resource" uid="uid://dnhbyycvgj0f2" path="res://Resources/player_stats.tres" id="2_hqtel"]
-[ext_resource type="Resource" uid="uid://cmx65npaomycj" path="res://Resources/sword.tres" id="3_hqtel"]
+[ext_resource type="Resource" uid="uid://dnc670ye82s1o" path="res://Resources/dagger.tres" id="3_hqtel"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_onrkg"]
 size = Vector2(16, 16)
@@ -12,11 +12,16 @@ size = Vector2(16, 16)
 atlas = ExtResource("1_4flbx")
 region = Rect2(48, 112, 16, 16)
 
-[node name="Player" type="StaticBody2D" groups=["player"]]
+[sub_resource type="AtlasTexture" id="AtlasTexture_hqtel"]
+atlas = ExtResource("1_4flbx")
+region = Rect2(112, 128, 16, 16)
+
+[node name="Player" type="StaticBody2D" node_paths=PackedStringArray("weapon_sprite") groups=["player"]]
 collision_layer = 2
 script = ExtResource("1_onrkg")
 stats = ExtResource("2_hqtel")
 weapon = ExtResource("3_hqtel")
+weapon_sprite = NodePath("WeaponSprite")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_onrkg")
@@ -24,3 +29,8 @@ shape = SubResource("RectangleShape2D_onrkg")
 [node name="Sprite2D" type="Sprite2D" parent="." groups=["player"]]
 texture_filter = 1
 texture = SubResource("AtlasTexture_i3pqv")
+
+[node name="WeaponSprite" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(6, -3)
+texture = SubResource("AtlasTexture_hqtel")

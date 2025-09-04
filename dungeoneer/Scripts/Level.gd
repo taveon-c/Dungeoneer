@@ -7,6 +7,7 @@ var turn : int = 0
 @onready var astar_grid : AStarGrid2D = AStarGrid2D.new()
 
 @export var enemy_scenes : Array[PackedScene]
+@export var weapon_scenes : Array[PackedScene]
 @export var player : StaticBody2D
 @export var stair : Sprite2D
 @export var player_ui : CanvasLayer
@@ -19,8 +20,8 @@ var ROOM_RADII_MIN : int = 3
 var NUM_HALLS_MAX : int = 9
 var NUM_ROOMS_MIN : int = 3
 var NUM_ROOMS_MAX : int = 6
-var MIN_ENEMY : int = 999
-var MAX_ENEMY : int = 1000
+var MIN_ENEMY : int = 3
+var MAX_ENEMY : int = 8
 
 func _ready() -> void:
 	player.global_position = Map.map_to_local(Vector2i(10, 10))
@@ -30,7 +31,6 @@ func generate_level():
 	Map.clear()
 	for child in Enemies.get_children():
 		child.queue_free()
-	print(Enemies.get_child_count())
 	var hall_dirs : Array[Vector2i] = [Vector2i(-1, 0), Vector2i(1, 0), Vector2i(0, -1), Vector2i(0, 1)]
 	
 	for x in MAP_WIDTH + 1:
@@ -59,9 +59,9 @@ func generate_level():
 	
 	room_points.pop_front()
 	var stair_room = randi_range(0, num_rooms - 1)
-	var chest_room = randi_range(0, num_rooms - 1)
-	while chest_room == stair_room:
-		chest_room = randi_range(0, num_rooms)
+	var weapon_room = randi_range(0, num_rooms - 1)
+	while weapon_room == stair_room:
+		weapon_room = randi_range(0, num_rooms)
 	
 	
 	for i in num_rooms:
@@ -79,8 +79,10 @@ func generate_level():
 		
 		if i == stair_room:
 			stair.global_position = Map.map_to_local(room)
-		elif i == chest_room:
-			Map.set_cell(room, 0, Vector2i(5, 7))
+		elif i == weapon_room:
+			var weapon = weapon_scenes.pick_random().instantiate()
+			add_child(weapon)
+			weapon.global_position = Map.map_to_local(room)
 	
 	astar_grid.region = Map.get_used_rect()
 	astar_grid.cell_size = Vector2(16, 16)
@@ -126,5 +128,4 @@ func _on_timer_timeout() -> void:
 	
 func _on_player_moved():
 	if player.global_position == stair.global_position:
-		print("new level")
 		generate_level()

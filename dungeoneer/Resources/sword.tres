@@ -1,11 +1,17 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=2 format=3 uid="uid://cmx65npaomycj"]
+[gd_resource type="Resource" script_class="Weapon" load_steps=4 format=3 uid="uid://cmx65npaomycj"]
 
 [ext_resource type="Script" uid="uid://cvkgjmf2t5rgo" path="res://Scripts/Weapon.gd" id="1_ngbdt"]
+[ext_resource type="Texture2D" uid="uid://ci6t6h2af6w08" path="res://tilemap_packed.png" id="2_pk6ra"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0bu56"]
+atlas = ExtResource("2_pk6ra")
+region = Rect2(128, 128, 16, 16)
 
 [resource]
 script = ExtResource("1_ngbdt")
 range = 2
-cut = 15
+cut = 20
 blunt = 15
 cost = 12
+sprite = SubResource("AtlasTexture_0bu56")
 metadata/_custom_type_script = "uid://cvkgjmf2t5rgo"
