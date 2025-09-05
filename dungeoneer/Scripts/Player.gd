@@ -28,26 +28,26 @@ func attack(attack_info : Dictionary) -> void:
 		if result and result.front()["collider"].is_in_group("enemy"):
 			attack_info = result.front()["collider"].stats.damage(attack_info)
 			if attack_info["cut"] <= 0:
-				stats.spend_energy(attack_info["cut"])
+				stats.spend_energy(attack_info["cost"])
 				return 
-	stats.spend_energy(attack_info["cut"])
+	stats.spend_energy(attack_info["cost"])
 
 func pickup(dir : Vector2):
 	var pickup_position = self.global_position + dir * 16
 	var state = get_world_2d().get_direct_space_state()
 	var query = PhysicsPointQueryParameters2D.new()
 	query.position = pickup_position
+	query.collide_with_areas = true
+	query.collide_with_bodies = false
 	var result = state.intersect_point(query)
-	if result and result.front()["collider"].is_in_group("pickup"):
-		var groups =  result.front()["collider"].get_groups()
-		for group in groups:
-			match group:
-				"weapon":
-					var weapon_drop : WeaponPickup = WeaponPickup.new(weapon)
-					owner.add_child(weapon_drop)
-					weapon_drop.global_position = result.front()["collider"].global_position
-					weapon = result.front()["collider"].weapon
-					update_weapon_sprite()
+	if result and result.front()["collider"].is_in_group("weapon"):
+		var weapon_drop = weapon_pickup_scene.instantiate()
+		weapon_drop.weapon = weapon
+		owner.add_child(weapon_drop)
+		weapon_drop.global_position = result.front()["collider"].global_position
+		weapon = result.front()["collider"].weapon
+		result.front()["collider"].queue_free()
+		update_weapon_sprite()
 
 func update_weapon_sprite():
 	weapon_sprite.texture = weapon.texture

@@ -7,7 +7,8 @@ var turn : int = 0
 @onready var astar_grid : AStarGrid2D = AStarGrid2D.new()
 
 @export var enemy_scenes : Array[PackedScene]
-@export var weapon_scenes : Array[PackedScene]
+@export var weapon_pickup_scene : PackedScene
+@export var weapons : Array[Weapon]
 @export var player : StaticBody2D
 @export var stair : Sprite2D
 @export var player_ui : CanvasLayer
@@ -80,9 +81,10 @@ func generate_level():
 		if i == stair_room:
 			stair.global_position = Map.map_to_local(room)
 		elif i == weapon_room:
-			var weapon = weapon_scenes.pick_random().instantiate()
-			add_child(weapon)
-			weapon.global_position = Map.map_to_local(room)
+			var weapon_pickup = weapon_pickup_scene.instantiate()
+			weapon_pickup.weapon = weapons.pick_random()
+			add_child(weapon_pickup)
+			weapon_pickup.global_position = Map.map_to_local(room)
 	
 	astar_grid.region = Map.get_used_rect()
 	astar_grid.cell_size = Vector2(16, 16)

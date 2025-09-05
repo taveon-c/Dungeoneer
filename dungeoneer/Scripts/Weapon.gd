@@ -5,7 +5,7 @@ class_name Weapon
 @export var cut : int = 0
 @export var blunt : int = 1
 @export var cost : int = 0
-@export var texture : Texture
+@export var texture : Texture2D
 
 func action(mouse_position: Vector2, Player : Node2D) -> Dictionary:
 	var hints : Array[Vector2] = []
