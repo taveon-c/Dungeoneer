@@ -3,6 +3,7 @@ extends Node2D
 @export var weapon : Weapon
 @export var weapon_sprite : Sprite2D
 @export var weapon_pickup_scene : PackedScene
+@export var level_info : LevelInfo
 var is_moving : bool
 var is_action : bool
 
@@ -15,7 +16,7 @@ func _ready() -> void:
 	update_weapon_sprite()
 
 func move(dir : Vector2) -> void:
-	self.global_position = self.global_position + dir * 16
+	self.global_position = self.global_position + dir * level_info.TILE_SIZE
 	stats.spend_energy(stats.weight)
 	emit_signal("moved")
 
@@ -33,7 +34,7 @@ func attack(attack_info : Dictionary) -> void:
 	stats.spend_energy(attack_info["cost"])
 
 func pickup(dir : Vector2):
-	var pickup_position = self.global_position + dir * 16
+	var pickup_position = self.global_position + dir * level_info.TILE_SIZE
 	var state = get_world_2d().get_direct_space_state()
 	var query = PhysicsPointQueryParameters2D.new()
 	query.position = pickup_position

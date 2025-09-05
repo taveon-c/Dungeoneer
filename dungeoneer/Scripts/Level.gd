@@ -12,17 +12,7 @@ var turn : int = 0
 @export var player : StaticBody2D
 @export var stair : Sprite2D
 @export var player_ui : CanvasLayer
-
-var MAP_HEIGHT : int = 39
-var MAP_WIDTH : int = 70
-var HALL_LENGTH : int = 11
-var ROOM_RADII_MAX : int = 5
-var ROOM_RADII_MIN : int = 3
-var NUM_HALLS_MAX : int = 9
-var NUM_ROOMS_MIN : int = 3
-var NUM_ROOMS_MAX : int = 6
-var MIN_ENEMY : int = 3
-var MAX_ENEMY : int = 8
+@export var level_info : LevelInfo
 
 func _ready() -> void:
 	player.global_position = Map.map_to_local(Vector2i(10, 10))
@@ -34,22 +24,22 @@ func generate_level():
 		child.queue_free()
 	var hall_dirs : Array[Vector2i] = [Vector2i(-1, 0), Vector2i(1, 0), Vector2i(0, -1), Vector2i(0, 1)]
 	
-	for x in MAP_WIDTH + 1:
-		for y in MAP_HEIGHT + 1:
+	for x in level_info.MAP_WIDTH + 1:
+		for y in level_info.MAP_HEIGHT + 1:
 			Map.set_cell(Vector2i(x, y), 0, Vector2i(4, 3))
 	
 	var room_points : Array[Vector2i] = [Map.local_to_map(player.global_position)]
-	var num_halls = randi_range(NUM_ROOMS_MAX, NUM_HALLS_MAX)
-	var num_rooms = randi_range(NUM_ROOMS_MIN, NUM_ROOMS_MAX)
+	var num_halls = randi_range(level_info.NUM_ROOMS_MAX, level_info.NUM_HALLS_MAX)
+	var num_rooms = randi_range(level_info.NUM_ROOMS_MIN, level_info.NUM_ROOMS_MAX)
 	
 	for i in num_halls:
 		var point = room_points.pick_random()
 		var dir = [Vector2i(0, -1), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(1, 0)].pick_random()
-		var new_point = point + dir * HALL_LENGTH
+		var new_point = point + dir * level_info.HALL_LENGTH
 		while not in_bounds(new_point) or Map.get_cell_atlas_coords(new_point) != Vector2i(4, 3):
 			point = room_points.pick_random()
 			dir = [Vector2i(0, -1), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(1, 0)].pick_random()
-			new_point = point + dir * HALL_LENGTH
+			new_point = point + dir * level_info.HALL_LENGTH
 		room_points.append(new_point)
 		var x_sign = signi(new_point.x - point.x)
 		var y_sign = signi(new_point.y - point.y)
@@ -68,14 +58,14 @@ func generate_level():
 	for i in num_rooms:
 		var room = room_points.pick_random()
 		room_points.erase(room)
-		var left = randi_range(ROOM_RADII_MIN, ROOM_RADII_MAX)
-		var right = randi_range(ROOM_RADII_MIN, ROOM_RADII_MAX)
-		var up = randi_range(ROOM_RADII_MIN, ROOM_RADII_MAX)
-		var down = randi_range(ROOM_RADII_MIN, ROOM_RADII_MAX)
+		var left = randi_range(level_info.ROOM_RADII_MIN, level_info.ROOM_RADII_MAX)
+		var right = randi_range(level_info.ROOM_RADII_MIN, level_info.ROOM_RADII_MAX)
+		var up = randi_range(level_info.ROOM_RADII_MIN, level_info.ROOM_RADII_MAX)
+		var down = randi_range(level_info.ROOM_RADII_MIN, level_info.ROOM_RADII_MAX)
 		
 		for x in range(room.x - left, room.x + right):
 			for y in range(room.y - up, room.y + down):
-				if x > 0 and y > 0 and x < MAP_WIDTH and y < MAP_HEIGHT:
+				if x > 0 and y > 0 and x < level_info.MAP_WIDTH and y < level_info.MAP_HEIGHT:
 					Map.set_cell(Vector2i(x, y), 0, Vector2i(0, 0))
 		
 		if i == stair_room:
@@ -87,15 +77,15 @@ func generate_level():
 			weapon_pickup.global_position = Map.map_to_local(room)
 	
 	astar_grid.region = Map.get_used_rect()
-	astar_grid.cell_size = Vector2(16, 16)
-	astar_grid.offset = Vector2(8, 8)
+	astar_grid.cell_size = Vector2(level_info.TILE_SIZE, level_info.TILE_SIZE)
+	astar_grid.offset = Vector2(level_info.TILE_SIZE / 2, level_info.TILE_SIZE / 2)
 	astar_grid.update()
 	var walls = Map.get_used_cells_by_id(0, Vector2i(4, 3))
 	for cell in walls:
 		astar_grid.set_point_solid(cell)
 	
 	var taken_spawns : Array[Vector2] = []
-	var num_enemy = randi_range(MIN_ENEMY, MAX_ENEMY)
+	var num_enemy = randi_range(level_info.MIN_ENEMY, level_info.MAX_ENEMY)
 	for i in num_enemy:
 		var enemy_spawn = Map.map_to_local(Map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
 		while enemy_spawn in taken_spawns:
@@ -107,7 +97,7 @@ func generate_level():
 		enemy.connect("end_turn", _on_turn_end)
 
 func in_bounds(point : Vector2i) -> bool:
-	if point.x > 0 and point.y > 0 and point.x < MAP_WIDTH and point.y < MAP_HEIGHT:
+	if point.x > 0 and point.y > 0 and point.x < level_info.MAP_WIDTH and point.y < level_info.MAP_HEIGHT:
 		return true
 	else:
 		return false

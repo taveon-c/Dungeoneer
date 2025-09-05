@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="LevelInfo" load_steps=2 format=3 uid="uid://csojy7m77jhjy"]
+
+[ext_resource type="Script" uid="uid://cblkvnppp1gof" path="res://Scripts/level_info.gd" id="1_vwihg"]
+
+[resource]
+script = ExtResource("1_vwihg")
+MAP_HEIGHT = 40
+MAP_WIDTH = 71
+HALL_LENGTH = 12
+ROOM_RADII_MAX = 5
+ROOM_RADII_MIN = 3
+NUM_HALLS_MAX = 12
+NUM_ROOMS_MIN = 5
+NUM_ROOMS_MAX = 8
+MIN_ENEMY = 3
+MAX_ENEMY = 6
+TILE_SIZE = 16
+metadata/_custom_type_script = "uid://cblkvnppp1gof"

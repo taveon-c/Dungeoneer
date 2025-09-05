@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://c2yiqdldxyvog"]
+[gd_scene load_steps=9 format=3 uid="uid://c2yiqdldxyvog"]
 
 [ext_resource type="Theme" uid="uid://cnabk1ati27qo" path="res://Resources/theme.tres" id="1_654h1"]
 [ext_resource type="Script" uid="uid://dsrda6yo6elgu" path="res://Scripts/player_ui_manager.gd" id="1_tybkg"]
+[ext_resource type="Resource" uid="uid://csojy7m77jhjy" path="res://Resources/level_info.tres" id="2_gxl1c"]
 [ext_resource type="Script" uid="uid://bpqnyeyynkkwb" path="res://Scripts/info.gd" id="2_pc08v"]
 [ext_resource type="Resource" uid="uid://dnhbyycvgj0f2" path="res://Resources/player_stats.tres" id="3_tybkg"]
 [ext_resource type="Script" uid="uid://x67jaxm6n2ds" path="res://Scripts/hints.gd" id="5_a4em4"]
@@ -18,6 +19,7 @@ follow_viewport_enabled = true
 script = ExtResource("1_tybkg")
 hints = NodePath("Hints")
 info = NodePath("Info Container/Info")
+level_info = ExtResource("2_gxl1c")
 
 [node name="Action Container" type="HBoxContainer" parent="."]
 anchors_preset = 2
@@ -91,6 +93,7 @@ text = "Exit"
 
 [node name="Hints" type="Node2D" parent="."]
 script = ExtResource("5_a4em4")
+level_info = ExtResource("2_gxl1c")
 
 [connection signal="pressed" from="Action Container/Move" to="." method="set_state" binds= [1]]
 [connection signal="pressed" from="Action Container/Move" to="Action Container" method="set_visible" binds= [false]]
