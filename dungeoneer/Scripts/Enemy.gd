@@ -1,8 +1,7 @@
 extends Node2D
 @export var base_stats : Stats
 @export var weapon : Weapon
-@onready var tilemap : TileMapLayer = $"../../TileMapLayer"
-var astar_grid : AStarGrid2D
+@onready var tilemap : TileMapLayer = $"../TileMapLayer"
 var actions : Array[Callable] = [move, attack]
 var stats : Stats
 signal end_turn
@@ -14,6 +13,7 @@ func _ready() -> void:
 	stats.connect("stats_changed", on_stats_changed)
 
 func take_turn():
+	print("turn")
 	var action = actions.pick_random()
 	action.call()
 
@@ -46,7 +46,7 @@ func move():
 	if stats.energy >= stats.weight:
 		var self_id = tilemap.local_to_map(self.global_position)
 		var player_id = tilemap.local_to_map(player.global_position)
-		var path = astar_grid.get_point_path(self_id, player_id)
+		var path = tilemap.astar_grid.get_point_path(self_id, player_id)
 		if path.size() > 1:
 			self.global_position = path[1]
 			stats.spend_energy(stats.weight)

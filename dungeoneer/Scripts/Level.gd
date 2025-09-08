@@ -19,9 +19,8 @@ func _ready() -> void:
 	generate_level()
 
 func generate_level():
-	Map.clear()
-	for child in Enemies.get_children():
-		child.queue_free()
+	clear_level()
+	
 	var hall_dirs : Array[Vector2i] = [Vector2i(-1, 0), Vector2i(1, 0), Vector2i(0, -1), Vector2i(0, 1)]
 	
 	for x in level_info.MAP_WIDTH + 1:
@@ -94,16 +93,19 @@ func generate_level():
 		while enemy_spawn in taken_spawns:
 			enemy_spawn = Map.map_to_local(Map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
 		var enemy = enemy_scenes.pick_random().instantiate()
-		enemy.astar_grid = astar_grid
-		Enemies.add_child(enemy)
+		add_child(enemy)
 		enemy.global_position = enemy_spawn
 		enemy.connect("end_turn", _on_turn_end)
 
 func clear_level():
 	Map.clear()
 	var weapons = get_tree().get_nodes_in_group("weapon")
+	var enemies = get_tree().get_nodes_in_group("enemy")
+	
 	for weapon in weapons:
 		weapon.queue_free()
+	for enemy in enemies:
+		enemy.queue_free()
 	
 
 func in_bounds(point : Vector2i) -> bool:
@@ -113,20 +115,24 @@ func in_bounds(point : Vector2i) -> bool:
 		return false
 
 func _on_turn_end() -> void:
+	var enemies = get_tree().get_nodes_in_group("enemy")
+	
 	turn += 1
-	if turn == Enemies.get_child_count() + 1:
+	if turn == enemies.size() + 1:
 		turn = 0
 	else:
-		Enemies.get_child(turn - 1).stats.regen_energy()
+		enemies[turn - 1].stats.regen_energy()
 	timer.start()
 
 func _on_timer_timeout() -> void:
+	var enemies = get_tree().get_nodes_in_group("enemy")
+	
 	if turn == 0:
 		timer.stop()
 		player.stats.regen_energy()
 		player_ui.visible = true
 	else:
-		Enemies.get_child(turn - 1).take_turn()
+		enemies[turn - 1].take_turn()
 	
 func _on_player_moved():
 	if player.global_position == stair.global_position:
