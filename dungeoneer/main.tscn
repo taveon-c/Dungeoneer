@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://1032qlj1rdpy"]
+[gd_scene load_steps=16 format=3 uid="uid://1032qlj1rdpy"]
 
 [ext_resource type="Script" uid="uid://cfdw8yhlfbiuu" path="res://Scripts/Level.gd" id="1_h2yge"]
 [ext_resource type="TileSet" uid="uid://bcqvhhga41wyn" path="res://Resources/map_tileset.tres" id="2_dg77c"]
@@ -10,7 +10,10 @@
 [ext_resource type="Resource" uid="uid://cmx65npaomycj" path="res://Resources/sword.tres" id="5_ycdy4"]
 [ext_resource type="PackedScene" uid="uid://c2yiqdldxyvog" path="res://player_ui.tscn" id="6_7mycd"]
 [ext_resource type="Resource" uid="uid://csojy7m77jhjy" path="res://Resources/level_info.tres" id="6_efxa6"]
+[ext_resource type="Resource" uid="uid://dnc670ye82s1o" path="res://Resources/dagger.tres" id="6_w48qg"]
 [ext_resource type="Texture2D" uid="uid://ci6t6h2af6w08" path="res://tilemap_packed.png" id="7_272bh"]
+[ext_resource type="Resource" uid="uid://u0wjcdyj4bt5" path="res://Resources/hammer.tres" id="7_vivmo"]
+[ext_resource type="Resource" uid="uid://dgwurg5anidn5" path="res://Resources/spear.tres" id="8_2cqfq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5vw27"]
 atlas = ExtResource("7_272bh")
@@ -20,7 +23,7 @@ region = Rect2(144, 0, 16, 16)
 script = ExtResource("1_h2yge")
 enemy_scenes = Array[PackedScene]([ExtResource("2_w48qg")])
 weapon_pickup_scene = ExtResource("3_efxa6")
-weapons = Array[ExtResource("3_4c57u")]([ExtResource("5_ycdy4")])
+weapons = Array[ExtResource("3_4c57u")]([ExtResource("5_ycdy4"), ExtResource("6_w48qg"), ExtResource("7_vivmo"), ExtResource("8_2cqfq")])
 player = NodePath("Player")
 stair = NodePath("Stair")
 player_ui = NodePath("PlayerUI")

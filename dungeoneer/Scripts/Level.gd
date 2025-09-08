@@ -50,10 +50,13 @@ func generate_level():
 	
 	room_points.pop_front()
 	var stair_room = randi_range(0, num_rooms - 1)
-	var weapon_room = randi_range(0, num_rooms - 1)
-	while weapon_room == stair_room:
-		weapon_room = randi_range(0, num_rooms)
-	
+	var num_weapons = randi_range(level_info.MIN_NUM_WEAPONS, level_info.MAX_NUM_WEAPONS)
+	var weapon_rooms = []
+	for weapon in num_weapons:
+		var weapon_room = randi_range(0, num_rooms - 1)
+		while weapon_room == stair_room or weapon_room in weapon_rooms:
+			weapon_room = randi_range(0, num_rooms - 1)
+		weapon_rooms.append(weapon_room)
 	
 	for i in num_rooms:
 		var room = room_points.pick_random()
@@ -70,11 +73,11 @@ func generate_level():
 		
 		if i == stair_room:
 			stair.global_position = Map.map_to_local(room)
-		elif i == weapon_room:
-			var weapon_pickup = weapon_pickup_scene.instantiate()
-			weapon_pickup.weapon = weapons.pick_random()
-			add_child(weapon_pickup)
-			weapon_pickup.global_position = Map.map_to_local(room)
+		elif i in weapon_rooms:
+			var pickup = weapon_pickup_scene.instantiate()
+			pickup.weapon = weapons.pick_random()
+			add_child(pickup)
+			pickup.global_position = Map.map_to_local(room)
 	
 	astar_grid.region = Map.get_used_rect()
 	astar_grid.cell_size = Vector2(level_info.TILE_SIZE, level_info.TILE_SIZE)
@@ -95,6 +98,13 @@ func generate_level():
 		Enemies.add_child(enemy)
 		enemy.global_position = enemy_spawn
 		enemy.connect("end_turn", _on_turn_end)
+
+func clear_level():
+	Map.clear()
+	var weapons = get_tree().get_nodes_in_group("weapon")
+	for weapon in weapons:
+		weapon.queue_free()
+	
 
 func in_bounds(point : Vector2i) -> bool:
 	if point.x > 0 and point.y > 0 and point.x < level_info.MAP_WIDTH and point.y < level_info.MAP_HEIGHT:

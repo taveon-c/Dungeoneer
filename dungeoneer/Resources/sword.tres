@@ -12,6 +12,6 @@ script = ExtResource("1_ngbdt")
 range = 2
 cut = 20
 blunt = 15
-cost = 12
+cost = 9
 texture = SubResource("AtlasTexture_pk6ra")
 metadata/_custom_type_script = "uid://cvkgjmf2t5rgo"

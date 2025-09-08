@@ -12,3 +12,9 @@ class_name LevelInfo
 @export var MIN_ENEMY : int
 @export var MAX_ENEMY : int
 @export var TILE_SIZE : int
+@export var MIN_NUM_WEAPONS : int
+@export var MAX_NUM_WEAPONS : int
+@export var ENEMY_SCENES : PackedScene
+@export var WEAPON_PICKUP_SCENE : PackedScene
+@export var WEAPONS : Array[Weapon]
+var astar_grid : AStarGrid2D = AStarGrid2D.new()
