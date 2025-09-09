@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://5ujaqgyflkv4" path="res://Scripts/Player.gd" id="1_onrkg"]
 [ext_resource type="Resource" uid="uid://dnhbyycvgj0f2" path="res://Resources/player_stats.tres" id="2_hqtel"]
 [ext_resource type="Resource" uid="uid://dnc670ye82s1o" path="res://Resources/dagger.tres" id="3_hqtel"]
-[ext_resource type="PackedScene" uid="uid://bh46bxqxhf0yw" path="res://weapon_pickup.tscn" id="4_sweqy"]
+[ext_resource type="PackedScene" uid="uid://bh46bxqxhf0yw" path="res://Scenes/weapon_pickup.tscn" id="4_sweqy"]
 [ext_resource type="Resource" uid="uid://csojy7m77jhjy" path="res://Resources/level_info.tres" id="5_2hs0m"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_onrkg"]
@@ -12,7 +12,7 @@ size = Vector2(16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i3pqv"]
 atlas = ExtResource("1_4flbx")
-region = Rect2(48, 112, 16, 16)
+region = Rect2(16, 112, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hqtel"]
 atlas = ExtResource("1_4flbx")
@@ -30,7 +30,7 @@ level_info = ExtResource("5_2hs0m")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_onrkg")
 
-[node name="Sprite2D" type="Sprite2D" parent="." groups=["player"]]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
 texture = SubResource("AtlasTexture_i3pqv")
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://b14r0335a1bkp"]
 
-[ext_resource type="Theme" uid="uid://cnabk1ati27qo" path="res://Resources/theme.tres" id="6_3yqyl"]
-[ext_resource type="Script" uid="uid://bpqnyeyynkkwb" path="res://Scripts/info.gd" id="6_wujgv"]
+[ext_resource type="Theme" uid="uid://cnabk1ati27qo" path="res://Resources/theme.tres" id="1_1f0kj"]
+[ext_resource type="Script" uid="uid://bpqnyeyynkkwb" path="res://Scripts/info.gd" id="2_afpow"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qi2p4"]
 size = Vector2(16, 16)
@@ -28,9 +28,9 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_3yqyl")
 
 [node name="Info" type="Label" parent="CanvasLayer/Panel"]
 layout_mode = 2
-theme = ExtResource("6_3yqyl")
+theme = ExtResource("1_1f0kj")
 text = "Info"
-script = ExtResource("6_wujgv")
+script = ExtResource("2_afpow")
 
 [connection signal="mouse_entered" from="." to="CanvasLayer/Panel" method="set_visible" binds= [true]]
 [connection signal="mouse_exited" from="." to="CanvasLayer/Panel" method="set_visible" binds= [false]]
