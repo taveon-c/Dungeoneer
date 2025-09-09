@@ -6,9 +6,6 @@ var turn : int = 0
 @onready var Map : TileMapLayer = $TileMapLayer
 @onready var astar_grid : AStarGrid2D = AStarGrid2D.new()
 
-@export var enemy_scenes : Array[PackedScene]
-@export var weapon_pickup_scene : PackedScene
-@export var weapons : Array[Weapon]
 @export var player : StaticBody2D
 @export var stair : Sprite2D
 @export var player_ui : CanvasLayer
@@ -73,8 +70,8 @@ func generate_level():
 		if i == stair_room:
 			stair.global_position = Map.map_to_local(room)
 		elif i in weapon_rooms:
-			var pickup = weapon_pickup_scene.instantiate()
-			pickup.weapon = weapons.pick_random()
+			var pickup = level_info.WEAPON_PICKUP_SCENE.instantiate()
+			pickup.weapon = level_info.WEAPONS.pick_random()
 			add_child(pickup)
 			pickup.global_position = Map.map_to_local(room)
 	
@@ -92,12 +89,13 @@ func generate_level():
 		var enemy_spawn = Map.map_to_local(Map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
 		while enemy_spawn in taken_spawns:
 			enemy_spawn = Map.map_to_local(Map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
-		var enemy = enemy_scenes.pick_random().instantiate()
+		var enemy = level_info.ENEMY_SCENES.pick_random().instantiate()
 		add_child(enemy)
 		enemy.global_position = enemy_spawn
 		enemy.connect("end_turn", _on_turn_end)
 
 func clear_level():
+	astar_grid.clear()
 	Map.clear()
 	var weapons = get_tree().get_nodes_in_group("weapon")
 	var enemies = get_tree().get_nodes_in_group("enemy")

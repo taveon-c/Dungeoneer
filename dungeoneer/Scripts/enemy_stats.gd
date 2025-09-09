@@ -1,26 +1,23 @@
 extends Resource
-class_name Stats
+class_name EnemyStats
 
-@export var max_health : int
-@export var armor : int = 1
-@export var max_energy : int
-@export var energy_regen : int = 1
-@export var inventory_slots : int = 0
+@export var max_health : int = 0
+@export var armor : int = 0
+@export var max_energy : int = 0
+@export var energy_regen : int = 0
 @export var weight : int = 0
-var health = 0
-var energy = 0
+@export var action : Dictionary[String, int]
+var health : int = 0
+var energy : int = 0
 
 signal stats_changed
 
-func _init() -> void:
-	health = max_health
-	energy = max_energy
-
 func print() -> String:
 	var string : String = ""
-	for property in self.get_property_list():
-		if not "script" in property.name and not "resource" in property.name and property.name == property.name.to_lower():
-			string = string + property.name + ": " + str(self.get(property.name)) + "\n"
+	string += "health: " + str(health) + "\n"
+	string += "armor: " + str(armor) + "\n"
+	string += "energy: " + str(energy) + "\n"
+	string += "weight: " + str(weight) + "\n"
 	return string
 
 func damage(attack_info : Dictionary):

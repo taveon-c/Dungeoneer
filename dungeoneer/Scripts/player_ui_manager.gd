@@ -13,6 +13,9 @@ var player : StaticBody2D
 @export var level_info : LevelInfo
 @export var current_state: State
 
+func _ready() -> void:
+	info
+
 func _physics_process(delta: float) -> void:
 	match current_state:
 		State.MOVE:

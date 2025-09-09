@@ -14,6 +14,6 @@ class_name LevelInfo
 @export var TILE_SIZE : int
 @export var MIN_NUM_WEAPONS : int
 @export var MAX_NUM_WEAPONS : int
-@export var ENEMY_SCENES : PackedScene
+@export var ENEMY_SCENES : Array[PackedScene]
 @export var WEAPON_PICKUP_SCENE : PackedScene
 @export var WEAPONS : Array[Weapon]

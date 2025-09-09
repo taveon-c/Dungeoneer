@@ -1,36 +1,25 @@
-extends Node2D
-@export var base_stats : Stats
-@export var weapon : Weapon
+extends StaticBody2D
+class_name Enemy
+
+@export var base_stats : EnemyStats
 @onready var tilemap : TileMapLayer = $"../TileMapLayer"
-var actions : Array[Callable] = [move, attack]
-var stats : Stats
+@onready var info : Label = $"CanvasLayer/Panel/Info"
+var actions : Array[Callable]
+var stats : EnemyStats
 signal end_turn
 
 func _ready() -> void:
+	stats = base_stats.duplicate()
 	stats.health = stats.max_health
 	stats.energy = stats.max_energy
 	stats.emit_signal("stats_changed")
 	stats.connect("stats_changed", on_stats_changed)
+	stats.connect("stats_changed", info.update_info)
+	info.update_info()
 
 func take_turn():
-	print("turn")
 	var action = actions.pick_random()
 	action.call()
-
-func attack():
-	var players = get_tree().get_nodes_in_group("player")
-	var player = players[0]
-	
-	if stats.energy >= weapon.cost and player.global_position.distance_to(self.global_position) < weapon.range * 16:
-		player.stats.damage(
-			{
-				"cut" : weapon.cut,
-				"blunt" : weapon.blunt
-			}
-		)
-		stats.spend_energy(weapon.cost)
-	else:
-		emit_end_turn()
 
 func emit_end_turn():
 	self.emit_signal("end_turn")
@@ -38,19 +27,3 @@ func emit_end_turn():
 func on_stats_changed():
 	if stats.health <= 0:
 		queue_free()
-
-func move():
-	var players = get_tree().get_nodes_in_group("player")
-	var player = players[0]
-	
-	if stats.energy >= stats.weight:
-		var self_id = tilemap.local_to_map(self.global_position)
-		var player_id = tilemap.local_to_map(player.global_position)
-		var path = tilemap.astar_grid.get_point_path(self_id, player_id)
-		if path.size() > 1:
-			self.global_position = path[1]
-			stats.spend_energy(stats.weight)
-		else:
-			emit_end_turn()
-	else:
-		emit_end_turn()
