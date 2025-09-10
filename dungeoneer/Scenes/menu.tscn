@@ -1,30 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://x4ppaupy4f6b"]
+[gd_scene load_steps=6 format=3 uid="uid://x4ppaupy4f6b"]
 
 [ext_resource type="Theme" uid="uid://cnabk1ati27qo" path="res://Resources/theme.tres" id="1_cayip"]
 [ext_resource type="Script" uid="uid://dbo5usr8qpx4p" path="res://Scripts/play.gd" id="2_158mb"]
 [ext_resource type="PackedScene" uid="uid://1032qlj1rdpy" path="res://Scenes/main.tscn" id="3_wwsa2"]
+[ext_resource type="Script" uid="uid://b3apjgemsind3" path="res://Scenes/quit.gd" id="4_158mb"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_jsrd8"]
 font_size = 60
 
 [node name="Menu" type="CanvasLayer"]
-
-[node name="Play" type="Button" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -36.0
-offset_top = -26.5
-offset_right = 36.0
-offset_bottom = 26.5
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("1_cayip")
-text = "Play"
-script = ExtResource("2_158mb")
-level = ExtResource("3_wwsa2")
 
 [node name="Label" type="Label" parent="."]
 anchors_preset = 5
@@ -37,4 +21,32 @@ grow_horizontal = 2
 text = "Dungeoneer"
 label_settings = SubResource("LabelSettings_jsrd8")
 
-[connection signal="pressed" from="Play" to="Play" method="_on_pressed"]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -36.0
+offset_top = -55.0
+offset_right = 36.0
+offset_bottom = 55.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_cayip")
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="Play" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Play"
+script = ExtResource("2_158mb")
+level = ExtResource("3_wwsa2")
+
+[node name="Quit" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+script = ExtResource("4_158mb")
+
+[connection signal="pressed" from="VBoxContainer/Play" to="VBoxContainer/Play" method="_on_pressed"]
+[connection signal="pressed" from="VBoxContainer/Quit" to="VBoxContainer/Quit" method="_on_pressed"]

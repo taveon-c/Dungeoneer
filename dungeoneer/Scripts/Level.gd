@@ -4,7 +4,8 @@ var turn : int = 0
 @onready var timer : Timer = $Timer
 @onready var Enemies = $Enemies
 @onready var Map : TileMapLayer = $TileMapLayer
-@onready var astar_grid : AStarGrid2D = AStarGrid2D.new()
+@onready var astar_layers : Array[AStarGrid2D] = [AStarGrid2D.new(), AStarGrid2D.new(), AStarGrid2D.new()]
+#0 = all tiles, 1 = wall tiles, 2 = ground tiles
 
 @export var player : StaticBody2D
 @export var stair : Sprite2D
@@ -19,9 +20,15 @@ func generate_level():
 	clear_level()
 	
 	var hall_dirs : Array[Vector2i] = [Vector2i(-1, 0), Vector2i(1, 0), Vector2i(0, -1), Vector2i(0, 1)]
+	for astar_grid in astar_layers:
+		astar_grid.region = Rect2i(Vector2i(0, 0), Vector2i(level_info.MAP_WIDTH, level_info.MAP_HEIGHT))
+		astar_grid.cell_size = Vector2(level_info.TILE_SIZE, level_info.TILE_SIZE)
+		astar_grid.offset = Vector2(level_info.TILE_SIZE / 2, level_info.TILE_SIZE / 2)
+		
 	
 	for x in level_info.MAP_WIDTH + 1:
 		for y in level_info.MAP_HEIGHT + 1:
+			astar_layers[2].set_point_solid(Vector2i(x, y))
 			Map.set_cell(Vector2i(x, y), 0, Vector2i(4, 3))
 	
 	var room_points : Array[Vector2i] = [Map.local_to_map(player.global_position)]
@@ -42,6 +49,8 @@ func generate_level():
 		for x in range(mini(point.x, new_point.x) - 1, maxi(point.x, new_point.x) + 2):
 			for y in range(mini(point.y, new_point.y) - 1, maxi(point.y, new_point.y) + 2):
 				if in_bounds(Vector2i(x, y)):
+					astar_layers[1].set_point_solid(Vector2i(x, y))
+					astar_layers[2].set_point_solid(Vector2i(x, y), false)
 					Map.set_cell(Vector2i(x, y), 0, Vector2i(0, 0))
 	
 	room_points.pop_front()
@@ -75,14 +84,6 @@ func generate_level():
 			add_child(pickup)
 			pickup.global_position = Map.map_to_local(room)
 	
-	astar_grid.region = Map.get_used_rect()
-	astar_grid.cell_size = Vector2(level_info.TILE_SIZE, level_info.TILE_SIZE)
-	astar_grid.offset = Vector2(level_info.TILE_SIZE / 2, level_info.TILE_SIZE / 2)
-	astar_grid.update()
-	var walls = Map.get_used_cells_by_id(0, Vector2i(4, 3))
-	for cell in walls:
-		astar_grid.set_point_solid(cell)
-	
 	var taken_spawns : Array[Vector2] = []
 	var num_enemy = randi_range(level_info.MIN_ENEMY, level_info.MAX_ENEMY)
 	for i in num_enemy:
@@ -95,7 +96,9 @@ func generate_level():
 		enemy.connect("end_turn", _on_turn_end)
 
 func clear_level():
-	astar_grid.clear()
+	for astar_grid in astar_layers:
+		astar_grid.clear()
+		
 	Map.clear()
 	var weapons = get_tree().get_nodes_in_group("weapon")
 	var enemies = get_tree().get_nodes_in_group("enemy")
