@@ -2,8 +2,7 @@ extends Node2D
 var turn : int = 0
 
 @onready var timer : Timer = $Timer
-@onready var Enemies = $Enemies
-@onready var Map : TileMapLayer = $TileMapLayer
+@onready var map : TileMapLayer = $TileMapLayer
 @onready var astar_layers : Array[AStarGrid2D] = [AStarGrid2D.new(), AStarGrid2D.new(), AStarGrid2D.new()]
 #0 = all tiles, 1 = wall tiles, 2 = ground tiles
 
@@ -13,7 +12,7 @@ var turn : int = 0
 @export var level_info : LevelInfo
 
 func _ready() -> void:
-	player.global_position = Map.map_to_local(Vector2i(10, 10))
+	player.global_position = map.map_to_local(Vector2i(10, 10))
 	generate_level()
 
 func generate_level():
@@ -24,14 +23,15 @@ func generate_level():
 		astar_grid.region = Rect2i(Vector2i(0, 0), Vector2i(level_info.MAP_WIDTH, level_info.MAP_HEIGHT))
 		astar_grid.cell_size = Vector2(level_info.TILE_SIZE, level_info.TILE_SIZE)
 		astar_grid.offset = Vector2(level_info.TILE_SIZE / 2, level_info.TILE_SIZE / 2)
+		astar_grid.update()
 		
 	
-	for x in level_info.MAP_WIDTH + 1:
-		for y in level_info.MAP_HEIGHT + 1:
+	for x in level_info.MAP_WIDTH:
+		for y in level_info.MAP_HEIGHT:
 			astar_layers[2].set_point_solid(Vector2i(x, y))
-			Map.set_cell(Vector2i(x, y), 0, Vector2i(4, 3))
+			map.set_cell(Vector2i(x, y), 0, Vector2i(4, 3))
 	
-	var room_points : Array[Vector2i] = [Map.local_to_map(player.global_position)]
+	var room_points : Array[Vector2i] = [map.local_to_map(player.global_position)]
 	var num_halls = randi_range(level_info.NUM_ROOMS_MAX, level_info.NUM_HALLS_MAX)
 	var num_rooms = randi_range(level_info.NUM_ROOMS_MIN, level_info.NUM_ROOMS_MAX)
 	
@@ -39,7 +39,7 @@ func generate_level():
 		var point = room_points.pick_random()
 		var dir = [Vector2i(0, -1), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(1, 0)].pick_random()
 		var new_point = point + dir * level_info.HALL_LENGTH
-		while not in_bounds(new_point) or Map.get_cell_atlas_coords(new_point) != Vector2i(4, 3):
+		while not in_bounds(new_point) or map.get_cell_atlas_coords(new_point) != Vector2i(4, 3):
 			point = room_points.pick_random()
 			dir = [Vector2i(0, -1), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(1, 0)].pick_random()
 			new_point = point + dir * level_info.HALL_LENGTH
@@ -51,7 +51,7 @@ func generate_level():
 				if in_bounds(Vector2i(x, y)):
 					astar_layers[1].set_point_solid(Vector2i(x, y))
 					astar_layers[2].set_point_solid(Vector2i(x, y), false)
-					Map.set_cell(Vector2i(x, y), 0, Vector2i(0, 0))
+					map.set_cell(Vector2i(x, y), 0, Vector2i(0, 0))
 	
 	room_points.pop_front()
 	var stair_room = randi_range(0, num_rooms - 1)
@@ -74,22 +74,22 @@ func generate_level():
 		for x in range(room.x - left, room.x + right):
 			for y in range(room.y - up, room.y + down):
 				if x > 0 and y > 0 and x < level_info.MAP_WIDTH and y < level_info.MAP_HEIGHT:
-					Map.set_cell(Vector2i(x, y), 0, Vector2i(0, 0))
+					map.set_cell(Vector2i(x, y), 0, Vector2i(0, 0))
 		
 		if i == stair_room:
-			stair.global_position = Map.map_to_local(room)
+			stair.global_position = map.map_to_local(room)
 		elif i in weapon_rooms:
 			var pickup = level_info.WEAPON_PICKUP_SCENE.instantiate()
 			pickup.weapon = level_info.WEAPONS.pick_random()
 			add_child(pickup)
-			pickup.global_position = Map.map_to_local(room)
+			pickup.global_position = map.map_to_local(room)
 	
 	var taken_spawns : Array[Vector2] = []
 	var num_enemy = randi_range(level_info.MIN_ENEMY, level_info.MAX_ENEMY)
 	for i in num_enemy:
-		var enemy_spawn = Map.map_to_local(Map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
+		var enemy_spawn = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
 		while enemy_spawn in taken_spawns:
-			enemy_spawn = Map.map_to_local(Map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
+			enemy_spawn = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
 		var enemy = level_info.ENEMY_SCENES.pick_random().instantiate()
 		add_child(enemy)
 		enemy.global_position = enemy_spawn
@@ -98,8 +98,9 @@ func generate_level():
 func clear_level():
 	for astar_grid in astar_layers:
 		astar_grid.clear()
+		astar_grid.update()
 		
-	Map.clear()
+	map.clear()
 	var weapons = get_tree().get_nodes_in_group("weapon")
 	var enemies = get_tree().get_nodes_in_group("enemy")
 	

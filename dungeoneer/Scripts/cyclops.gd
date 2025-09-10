@@ -26,8 +26,8 @@ func move():
 	var player = players[0]
 	
 	if stats.energy >= stats.weight:
-		var self_id = tilemap.local_to_map(self.global_position)
-		var player_id = tilemap.local_to_map(player.global_position)
+		var self_id = map.local_to_map(self.global_position)
+		var player_id = map.local_to_map(player.global_position)
 		var path = get_parent().astar_layers[2].get_point_path(self_id, player_id)
 		if path.size() > 1:
 			self.global_position = path[1]

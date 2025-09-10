@@ -2,7 +2,8 @@ extends StaticBody2D
 class_name Enemy
 
 @export var base_stats : EnemyStats
-@onready var tilemap : TileMapLayer = $"../TileMapLayer"
+@onready var map : TileMapLayer = $"../TileMapLayer"
+@onready var level : Node2D = $".."
 @onready var info : Label = $"CanvasLayer/Panel/Info"
 var actions : Array[Callable]
 var stats : EnemyStats
@@ -27,3 +28,28 @@ func emit_end_turn():
 func on_stats_changed():
 	if stats.health <= 0:
 		queue_free()
+
+func set_astar_obstacles(groups : Array[String]):
+	var enemies = get_tree().get_nodes_in_group("enemy")
+	var player = get_tree().get_nodes_in_group("player")[0]
+	var weapons = get_tree().get_nodes_in_group("weapon")
+	
+	for astar_grid in level.astar_layers:
+		for enemy in enemies:
+			if enemy != self:
+				astar_grid.set_point_solid(map.local_to_map(enemy.global_position), true)
+		astar_grid.set_point_solid(map.local_to_map(player.global_position), true)
+		for weapon in weapons:
+			astar_grid.set_point_solid(map.local_to_map(weapon.global_position), true)
+
+func clear_astar_obstacles(groups : Array[String]):
+	var enemies = get_tree().get_nodes_in_group("enemy")
+	var player = get_tree().get_nodes_in_group("player")[0]
+	var weapons = get_tree().get_nodes_in_group("weapon")
+	
+	for astar_grid in level.astar_layers:
+		for enemy in enemies:
+			astar_grid.set_point_solid(map.local_to_map(enemy.global_position), false)
+		astar_grid.set_point_solid(map.local_to_map(player.global_position), false)
+		for weapon in weapons:
+			astar_grid.set_point_solid(map.local_to_map(weapon.global_position), false)
