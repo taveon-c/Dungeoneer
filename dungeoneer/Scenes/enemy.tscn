@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://b14r0335a1bkp"]
+[gd_scene load_steps=7 format=3 uid="uid://b14r0335a1bkp"]
 
 [ext_resource type="Theme" uid="uid://cnabk1ati27qo" path="res://Resources/theme.tres" id="1_1f0kj"]
 [ext_resource type="Script" uid="uid://bpqnyeyynkkwb" path="res://Scripts/info.gd" id="2_afpow"]
@@ -11,6 +11,17 @@ bg_color = Color(0.203922, 0.203922, 0.203922, 0.784314)
 border_width_left = 4
 border_width_right = 4
 border_color = Color(0.239216, 0.239216, 0.239216, 0.784314)
+
+[sub_resource type="Gradient" id="Gradient_1f0kj"]
+offsets = PackedFloat32Array(0.415584, 0.461039)
+colors = PackedColorArray(1, 0, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_afpow"]
+gradient = SubResource("Gradient_1f0kj")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
 
 [node name="Enemy" type="StaticBody2D" groups=["enemy"]]
 input_pickable = true
@@ -39,6 +50,12 @@ layout_mode = 2
 theme = ExtResource("1_1f0kj")
 text = "Info"
 script = ExtResource("2_afpow")
+
+[node name="Indicator" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0, -14)
+scale = Vector2(0.5, 0.5)
+texture = SubResource("GradientTexture2D_afpow")
 
 [connection signal="mouse_entered" from="." to="CanvasLayer/Panel" method="set_visible" binds= [true]]
 [connection signal="mouse_exited" from="." to="CanvasLayer/Panel" method="set_visible" binds= [false]]

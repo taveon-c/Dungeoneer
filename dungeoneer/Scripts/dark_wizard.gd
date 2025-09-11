@@ -16,7 +16,7 @@ func attack():
 		)
 		stats.spend_energy(stats.action["cost"])
 	else:
-		emit_end_turn()
+		move()
 
 func move():
 	var players = get_tree().get_nodes_in_group("player")

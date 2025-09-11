@@ -5,6 +5,7 @@ class_name Enemy
 @onready var map : TileMapLayer = $"../TileMapLayer"
 @onready var level : Node2D = $".."
 @onready var info : Label = $"CanvasLayer/Panel/Info"
+@onready var indicator : Sprite2D = $"Indicator"
 var actions : Array[Callable]
 var stats : EnemyStats
 signal end_turn
@@ -16,6 +17,7 @@ func _ready() -> void:
 	stats.emit_signal("stats_changed")
 	stats.connect("stats_changed", on_stats_changed)
 	stats.connect("stats_changed", info.update_info)
+	connect("end_turn", indicator.set_visible.bind(false))
 	info.update_info()
 
 func take_turn():

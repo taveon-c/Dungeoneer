@@ -124,6 +124,7 @@ func _on_turn_end() -> void:
 		turn = 0
 	else:
 		enemies[turn - 1].stats.regen_energy()
+		enemies[turn - 1].indicator.set_visible(true)
 	timer.start()
 
 func _on_timer_timeout() -> void:
