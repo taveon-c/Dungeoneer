@@ -2,8 +2,8 @@ extends StaticBody2D
 class_name Enemy
 
 @export var base_stats : EnemyStats
-@onready var map : TileMapLayer = $"../TileMapLayer"
-@onready var level : Node2D = $".."
+@onready var map : TileMapLayer = $"../../Map"
+@onready var level : Node2D = $"../.."
 @onready var info : Label = $"CanvasLayer/Panel/Info"
 @onready var indicator : Sprite2D = $"Indicator"
 var actions : Array[Callable]

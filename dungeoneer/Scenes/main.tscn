@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://1032qlj1rdpy"]
+[gd_scene load_steps=10 format=3 uid="uid://1032qlj1rdpy"]
 
 [ext_resource type="Script" uid="uid://cfdw8yhlfbiuu" path="res://Scripts/Level.gd" id="1_6bp64"]
 [ext_resource type="Resource" uid="uid://csojy7m77jhjy" path="res://Resources/level_info.tres" id="2_344ge"]
 [ext_resource type="TileSet" uid="uid://bcqvhhga41wyn" path="res://Resources/map_tileset.tres" id="3_ynf5e"]
+[ext_resource type="TileSet" uid="uid://2y70m6uoicoa" path="res://Resources/visibility.tres" id="4_344ge"]
 [ext_resource type="Script" uid="uid://x67jaxm6n2ds" path="res://Scripts/hints.gd" id="4_hptm8"]
 [ext_resource type="PackedScene" uid="uid://c2yiqdldxyvog" path="res://Scenes/player_ui.tscn" id="5_d1ilt"]
 [ext_resource type="PackedScene" uid="uid://dicrps48cfjk8" path="res://Scenes/player.tscn" id="6_6iyac"]
@@ -19,13 +20,13 @@ stair = NodePath("Stair")
 player_ui = NodePath("PlayerUI")
 level_info = ExtResource("2_344ge")
 
-[node name="TileMapLayer" type="TileMapLayer" parent="."]
+[node name="Map" type="TileMapLayer" parent="."]
 tile_set = ExtResource("3_ynf5e")
 navigation_enabled = false
 
 [node name="Timer" type="Timer" parent="."]
 
-[node name="Enemies" type="Node" parent="."]
+[node name="Spawns" type="Node2D" parent="."]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0
@@ -34,12 +35,17 @@ anchor_mode = 0
 script = ExtResource("4_hptm8")
 
 [node name="PlayerUI" parent="." node_paths=PackedStringArray("map") instance=ExtResource("5_d1ilt")]
-map = NodePath("../TileMapLayer")
+map = NodePath("../Map")
 
 [node name="Player" parent="." instance=ExtResource("6_6iyac")]
 
 [node name="Stair" type="Sprite2D" parent="."]
 texture = SubResource("AtlasTexture_5vw27")
+
+[node name="Visiblity" type="TileMapLayer" parent="."]
+tile_set = ExtResource("4_344ge")
+occlusion_enabled = false
+y_sort_origin = 1
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="moved" from="Player" to="." method="_on_player_moved"]

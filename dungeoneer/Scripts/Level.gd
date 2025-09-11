@@ -2,7 +2,9 @@ extends Node2D
 var turn : int = 0
 
 @onready var timer : Timer = $Timer
-@onready var map : TileMapLayer = $TileMapLayer
+@onready var map : TileMapLayer = $Map
+@onready var visibility : TileMapLayer = $Visiblity
+@onready var spawns : Node2D = $Spawns
 @onready var astar_layers : Array[AStarGrid2D] = [AStarGrid2D.new(), AStarGrid2D.new(), AStarGrid2D.new()]
 #0 = all tiles, 1 = wall tiles, 2 = ground tiles
 
@@ -30,6 +32,7 @@ func generate_level():
 		for y in level_info.MAP_HEIGHT:
 			astar_layers[2].set_point_solid(Vector2i(x, y))
 			map.set_cell(Vector2i(x, y), 0, Vector2i(4, 3))
+			visibility.set_cell(Vector2i(x, y), 0, Vector2i(0, 0))
 	
 	var room_points : Array[Vector2i] = [map.local_to_map(player.global_position)]
 	var num_halls = randi_range(level_info.NUM_ROOMS_MAX, level_info.NUM_HALLS_MAX)
@@ -81,7 +84,7 @@ func generate_level():
 		elif i in weapon_rooms:
 			var pickup = level_info.WEAPON_PICKUP_SCENE.instantiate()
 			pickup.weapon = level_info.WEAPONS.pick_random()
-			add_child(pickup)
+			spawns.add_child(pickup)
 			pickup.global_position = map.map_to_local(room)
 	
 	var taken_spawns : Array[Vector2] = []
@@ -91,7 +94,7 @@ func generate_level():
 		while enemy_spawn in taken_spawns:
 			enemy_spawn = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
 		var enemy = level_info.ENEMY_SCENES.pick_random().instantiate()
-		add_child(enemy)
+		spawns.add_child(enemy)
 		enemy.global_position = enemy_spawn
 		enemy.connect("end_turn", _on_turn_end)
 
@@ -101,6 +104,7 @@ func clear_level():
 		astar_grid.update()
 		
 	map.clear()
+	visibility.clear()
 	var weapons = get_tree().get_nodes_in_group("weapon")
 	var enemies = get_tree().get_nodes_in_group("enemy")
 	
@@ -108,6 +112,21 @@ func clear_level():
 		weapon.queue_free()
 	for enemy in enemies:
 		enemy.queue_free()
+
+func set_visible_tiles():
+	var left = maxi(0, map.local_to_map(player.global_position).x - 10)
+	var right = mini(map.local_to_map(player.global_position).x + 10, level_info.MAP_WIDTH-1)
+	var up = maxi(0, map.local_to_map(player.global_position).y - 10)
+	var down = mini(map.local_to_map(player.global_position).y + 10, level_info.MAP_HEIGHT-1)
+	
+	for x in range(left, right + 1):
+		for y in range(up, down+1):
+			var tile_position = map.map_to_local(Vector2i(x, y))
+			var space_state = get_world_2d().direct_space_state
+			var query = PhysicsRayQueryParameters2D.create(player.global_position, tile_position)
+			var result = space_state.intersect_ray(query)
+			if not result:
+				visibility.erase_cell(Vector2i(x, y))
 	
 
 func in_bounds(point : Vector2i) -> bool:
@@ -138,5 +157,6 @@ func _on_timer_timeout() -> void:
 		enemies[turn - 1].take_turn()
 	
 func _on_player_moved():
+	set_visible_tiles()
 	if player.global_position == stair.global_position:
 		generate_level()
