@@ -25,6 +25,7 @@ tile_set = ExtResource("3_ynf5e")
 navigation_enabled = false
 
 [node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
 
 [node name="Spawns" type="Node2D" parent="."]
 
