@@ -41,7 +41,7 @@ func generate_level():
 		var point = room_points.pick_random()
 		var dir = [Vector2i(0, -1), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(1, 0)].pick_random()
 		var new_point = point + dir * level_info.HALL_LENGTH
-		while not in_bounds(new_point) or map.get_cell_source_id(new_point) != -1:
+		while in_bounds(new_point) and get_map_edge_distance(new_point) < level_info.ROOM_RADII_MAX + 2 or map.get_cell_source_id(new_point) != -1:
 			point = room_points.pick_random()
 			dir = [Vector2i(0, -1), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(1, 0)].pick_random()
 			new_point = point + dir * level_info.HALL_LENGTH
@@ -54,7 +54,7 @@ func generate_level():
 		#Walls
 		for x in range(min_x - 2, max_x + 3):
 			for y in range(min_y - 2, max_y + 3):
-				if in_bounds(Vector2i(x, y)) and map.get_cell_atlas_coords(Vector2i(x, y)) != Vector2i(0, 0):
+				if map.get_cell_atlas_coords(Vector2i(x, y)) != Vector2i(0, 0):
 					astar_layers[1].set_point_solid(Vector2i(x, y), false)
 					astar_layers[2].set_point_solid(Vector2i(x, y))
 					map.set_cell(Vector2i(x, y), 0, Vector2i(4, 3))
@@ -62,10 +62,9 @@ func generate_level():
 		#Ground
 		for x in range(min_x - 1, max_x + 2):
 			for y in range(min_y - 1, max_y + 2):
-				if in_bounds(Vector2i(x, y)):
-					astar_layers[1].set_point_solid(Vector2i(x, y))
-					astar_layers[2].set_point_solid(Vector2i(x, y), false)
-					map.set_cell(Vector2i(x, y), 0, Vector2i(0, 0))
+				astar_layers[1].set_point_solid(Vector2i(x, y))
+				astar_layers[2].set_point_solid(Vector2i(x, y), false)
+				map.set_cell(Vector2i(x, y), 0, Vector2i(0, 0))
 	
 	room_points.pop_front()
 	var stair_room = randi_range(0, num_rooms - 1)
@@ -138,19 +137,33 @@ func set_visible_tiles():
 	for id in tile_ids:
 		var tile_position = map.map_to_local(id)
 		var space_state = get_world_2d().direct_space_state
-		var query = PhysicsRayQueryParameters2D.create(player.global_position, tile_position)
+		var query = PhysicsRayQueryParameters2D.create(tile_position, player.global_position)
+		query.collision_mask = 0b1
 		var result = space_state.intersect_ray(query)
 		if not result:
-			visibility.erase_cell(id)
-		elif result["collider"].is_in_group("enemy"):
-			visibility.erase_cell(visibility.local_to_map(result["collider"].global_position))
+			if map.get_cell_atlas_coords(id):
+				visibility.erase_cell(id)
+				var neighbor_cells = map.get_surrounding_cells(id)
+				for cell in neighbor_cells:
+					if map.get_cell_atlas_coords(cell) == Vector2i(4, 3):
+						visibility.erase_cell(cell)
+			else:
+				visibility.erase_cell(id)
 	
 
-func in_bounds(point : Vector2i) -> bool:
-	if point.x > 0 and point.y > 0 and point.x < level_info.MAP_WIDTH and point.y < level_info.MAP_HEIGHT:
+func in_bounds(coords : Vector2i) -> bool:
+	if coords.x >= 0 and coords.y >= 0 and coords.x < level_info.MAP_WIDTH and coords.y < level_info.MAP_HEIGHT:
 		return true
 	else:
 		return false
+
+func get_map_edge_distance(coords : Vector2i):
+	var left = coords.x
+	var right = level_info.MAP_WIDTH - coords.x - 1
+	var up = coords.y
+	var down = level_info.MAP_HEIGHT - coords.y - 1
+	
+	return min(left, right, up, down)
 
 func _on_turn_end() -> void:
 	var enemies = get_tree().get_nodes_in_group("enemy")

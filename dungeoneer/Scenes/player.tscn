@@ -20,6 +20,7 @@ region = Rect2(112, 128, 16, 16)
 
 [node name="Player" type="StaticBody2D" node_paths=PackedStringArray("weapon_sprite") groups=["player"]]
 collision_layer = 2
+collision_mask = 0
 script = ExtResource("1_onrkg")
 stats = ExtResource("2_hqtel")
 weapon = ExtResource("3_hqtel")

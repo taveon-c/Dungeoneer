@@ -6,13 +6,13 @@
 script = ExtResource("1_ygk54")
 max_health = 120
 armor = 13
-max_energy = 60
-energy_regen = 5
-weight = 20
+max_energy = 40
+energy_regen = 19
+weight = 15
 action = Dictionary[String, int]({
 "": 0,
-"blunt": 42,
-"cost": 30,
+"blunt": 35,
+"cost": 21,
 "stun": 10
 })
 metadata/_custom_type_script = "uid://bliu5ep60cge0"
