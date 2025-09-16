@@ -26,7 +26,7 @@ func move():
 		set_astar_obstacles(["enemy", "player", "weapon"])
 		var self_id = map.local_to_map(self.global_position)
 		var player_id = map.local_to_map(player.global_position)
-		var path = get_parent().get_parent().astar_layers[2].get_point_path(self_id, player_id)
+		var path = get_parent().get_parent().astar_layers[2].get_point_path(self_id, player_id, true)
 		clear_astar_obstacles(["enemy", "player", "weapon"])
 		if path.size() > 1:
 			self.global_position = path[1]

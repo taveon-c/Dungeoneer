@@ -44,6 +44,7 @@ map = NodePath("../Map")
 texture = SubResource("AtlasTexture_5vw27")
 
 [node name="Visiblity" type="TileMapLayer" parent="."]
+visible = false
 tile_set = ExtResource("4_344ge")
 occlusion_enabled = false
 y_sort_origin = 1

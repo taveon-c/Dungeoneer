@@ -175,7 +175,6 @@ func _on_timer_timeout() -> void:
 		enemies[turn - 1].take_turn()
 	
 func _on_player_moved():
-	print("hello")
 	set_visible_tiles()
 	if player.global_position == stair.global_position:
 		generate_level()
