@@ -13,15 +13,12 @@ border_width_right = 4
 border_color = Color(0.239216, 0.239216, 0.239216, 0.784314)
 
 [sub_resource type="Gradient" id="Gradient_1f0kj"]
-offsets = PackedFloat32Array(0.415584, 0.461039)
-colors = PackedColorArray(1, 0, 0, 1, 0, 0, 0, 0)
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 0, 0, 1)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_afpow"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_afpow"]
 gradient = SubResource("Gradient_1f0kj")
-width = 32
-height = 32
-fill = 1
-fill_from = Vector2(0.5, 0.5)
+width = 16
 
 [node name="Enemy" type="StaticBody2D" groups=["enemy"]]
 collision_layer = 2
@@ -55,9 +52,9 @@ script = ExtResource("2_afpow")
 
 [node name="Indicator" type="Sprite2D" parent="."]
 visible = false
-position = Vector2(0, -14)
-scale = Vector2(0.5, 0.5)
-texture = SubResource("GradientTexture2D_afpow")
+position = Vector2(0, 6.5)
+scale = Vector2(1, 3)
+texture = SubResource("GradientTexture1D_afpow")
 
 [connection signal="mouse_entered" from="." to="CanvasLayer/Panel" method="set_visible" binds= [true]]
 [connection signal="mouse_exited" from="." to="CanvasLayer/Panel" method="set_visible" binds= [false]]

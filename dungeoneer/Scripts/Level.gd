@@ -36,16 +36,27 @@ func generate_level():
 	var room_points : Array[Vector2i] = [map.local_to_map(player.global_position)]
 	var num_halls = randi_range(level_info.NUM_ROOMS_MAX, level_info.NUM_HALLS_MAX)
 	var num_rooms = randi_range(level_info.NUM_ROOMS_MIN, level_info.NUM_ROOMS_MAX)
+	var directions = [Vector2i(0, -1), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(1, 0)]
 	
 	for i in num_halls:
-		var point = room_points.pick_random()
-		var dir = [Vector2i(0, -1), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(1, 0)].pick_random()
-		var new_point = point + dir * level_info.HALL_LENGTH
-		while in_bounds(new_point) and get_map_edge_distance(new_point) < level_info.ROOM_RADII_MAX + 2 or map.get_cell_source_id(new_point) != -1:
+		var possible_points = []
+		var point : Vector2i
+		var count : int = 0
+		
+		while possible_points.size() == 0:
+			count += 1
+			if count == 9:
+				generate_level()
+			possible_points = []
 			point = room_points.pick_random()
-			dir = [Vector2i(0, -1), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(1, 0)].pick_random()
-			new_point = point + dir * level_info.HALL_LENGTH
+			for direction in directions:
+				var new_point = point + direction * level_info.HALL_LENGTH
+				if in_bounds(new_point) and get_map_edge_distance(new_point) >= level_info.ROOM_RADII_MAX + 2 and map.get_cell_source_id(new_point) == -1:
+					possible_points.append(new_point)
+		
+		var new_point = possible_points.pick_random()
 		room_points.append(new_point)
+		
 		var max_y = maxi(point.y, new_point.y)
 		var min_y = mini(point.y, new_point.y)
 		var max_x = maxi(point.x, new_point.x)
@@ -116,6 +127,7 @@ func generate_level():
 		spawns.add_child(enemy)
 		enemy.global_position = enemy_spawn
 		enemy.connect("end_turn", _on_turn_end)
+	map.update_internals()
 
 func clear_level():
 	for astar_grid in astar_layers:
@@ -135,20 +147,22 @@ func clear_level():
 func set_visible_tiles():
 	var tile_ids = map.get_used_cells()
 	for id in tile_ids:
+		visibility.set_cell(id, 0, Vector2i(0, 0))
 		var tile_position = map.map_to_local(id)
-		var space_state = get_world_2d().direct_space_state
-		var query = PhysicsRayQueryParameters2D.create(tile_position, player.global_position)
-		query.collision_mask = 0b1
-		var result = space_state.intersect_ray(query)
-		if not result:
-			if map.get_cell_atlas_coords(id):
-				visibility.erase_cell(id)
-				var neighbor_cells = map.get_surrounding_cells(id)
-				for cell in neighbor_cells:
-					if map.get_cell_atlas_coords(cell) == Vector2i(4, 3):
-						visibility.erase_cell(cell)
-			else:
-				visibility.erase_cell(id)
+		if player.global_position.distance_to(tile_position) < 304:
+			var space_state = get_world_2d().direct_space_state
+			var query = PhysicsRayQueryParameters2D.create(tile_position, player.global_position)
+			query.collision_mask = 0b1
+			var result = space_state.intersect_ray(query)
+			if not result:
+				if map.get_cell_atlas_coords(id):
+					visibility.erase_cell(id)
+					var neighbor_cells = map.get_surrounding_cells(id)
+					for cell in neighbor_cells:
+						if map.get_cell_atlas_coords(cell) == Vector2i(4, 3):
+							visibility.erase_cell(cell)
+				else:
+					visibility.erase_cell(id)
 	
 
 func in_bounds(coords : Vector2i) -> bool:
@@ -172,8 +186,9 @@ func _on_turn_end() -> void:
 	if turn == enemies.size() + 1:
 		turn = 0
 	else:
-		enemies[turn - 1].stats.regen_energy()
+		enemies[turn - 1].info.regen_energy()
 		enemies[turn - 1].indicator.set_visible(true)
+	
 	timer.start()
 
 func _on_timer_timeout() -> void:
@@ -182,12 +197,12 @@ func _on_timer_timeout() -> void:
 	if turn == 0:
 		set_visible_tiles()
 		timer.stop()
-		player.stats.regen_energy()
+		player.info.regen_energy()
 		player_ui.visible = true
 	else:
 		enemies[turn - 1].take_turn()
 	
 func _on_player_moved():
-	set_visible_tiles()
 	if player.global_position == stair.global_position:
 		generate_level()
+	set_visible_tiles()

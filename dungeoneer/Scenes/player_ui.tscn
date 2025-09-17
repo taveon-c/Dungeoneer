@@ -1,11 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://c2yiqdldxyvog"]
+[gd_scene load_steps=8 format=3 uid="uid://c2yiqdldxyvog"]
 
 [ext_resource type="Theme" uid="uid://cnabk1ati27qo" path="res://Resources/theme.tres" id="1_654h1"]
 [ext_resource type="Script" uid="uid://dsrda6yo6elgu" path="res://Scripts/player_ui_manager.gd" id="1_tybkg"]
 [ext_resource type="Resource" uid="uid://csojy7m77jhjy" path="res://Resources/level_info.tres" id="2_gxl1c"]
 [ext_resource type="Script" uid="uid://bpqnyeyynkkwb" path="res://Scripts/info.gd" id="2_pc08v"]
-[ext_resource type="Resource" uid="uid://dnhbyycvgj0f2" path="res://Resources/player_stats.tres" id="3_tybkg"]
-[ext_resource type="Script" uid="uid://x67jaxm6n2ds" path="res://Scripts/hints.gd" id="5_a4em4"]
 [ext_resource type="Script" uid="uid://r477qkqo6tu5" path="res://Scripts/end_turn.gd" id="5_gxl1c"]
 [ext_resource type="Script" uid="uid://b2pgy2ilmuixb" path="res://Scenes/return_to_menu.gd" id="8_3nrpj"]
 
@@ -15,11 +13,9 @@ border_width_left = 4
 border_width_right = 4
 border_color = Color(0.160784, 0.160784, 0.160784, 0.784314)
 
-[node name="PlayerUI" type="CanvasLayer" node_paths=PackedStringArray("hints", "info")]
+[node name="PlayerUI" type="CanvasLayer"]
 follow_viewport_enabled = true
 script = ExtResource("1_tybkg")
-hints = NodePath("Hints")
-info = NodePath("Info Container/Info")
 level_info = ExtResource("2_gxl1c")
 
 [node name="Action Container" type="HBoxContainer" parent="."]
@@ -62,7 +58,6 @@ theme = ExtResource("1_654h1")
 text = "Info"
 horizontal_alignment = 2
 script = ExtResource("2_pc08v")
-stats = ExtResource("3_tybkg")
 
 [node name="End Turn" type="Button" parent="."]
 anchors_preset = 3
@@ -91,10 +86,6 @@ grow_horizontal = 0
 grow_vertical = 0
 theme = ExtResource("1_654h1")
 text = "Exit"
-
-[node name="Hints" type="Node2D" parent="."]
-script = ExtResource("5_a4em4")
-level_info = ExtResource("2_gxl1c")
 
 [node name="ReturnToMenu" type="Button" parent="."]
 offset_right = 8.0

@@ -2,10 +2,10 @@
 
 [ext_resource type="Texture2D" uid="uid://ci6t6h2af6w08" path="res://tilemap_packed.png" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://5ujaqgyflkv4" path="res://Scripts/Player.gd" id="1_onrkg"]
-[ext_resource type="Resource" uid="uid://dnhbyycvgj0f2" path="res://Resources/player_stats.tres" id="2_hqtel"]
 [ext_resource type="Resource" uid="uid://dnc670ye82s1o" path="res://Resources/dagger.tres" id="3_hqtel"]
 [ext_resource type="PackedScene" uid="uid://bh46bxqxhf0yw" path="res://Scenes/weapon_pickup.tscn" id="4_sweqy"]
 [ext_resource type="Resource" uid="uid://csojy7m77jhjy" path="res://Resources/level_info.tres" id="5_2hs0m"]
+[ext_resource type="Script" uid="uid://x67jaxm6n2ds" path="res://Scripts/hints.gd" id="7_3smsa"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_onrkg"]
 size = Vector2(16, 16)
@@ -18,13 +18,13 @@ region = Rect2(16, 112, 16, 16)
 atlas = ExtResource("1_4flbx")
 region = Rect2(112, 128, 16, 16)
 
-[node name="Player" type="StaticBody2D" node_paths=PackedStringArray("weapon_sprite") groups=["player"]]
+[node name="Player" type="StaticBody2D" node_paths=PackedStringArray("weapon_sprite", "hints") groups=["player"]]
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_onrkg")
-stats = ExtResource("2_hqtel")
 weapon = ExtResource("3_hqtel")
 weapon_sprite = NodePath("WeaponSprite")
+hints = NodePath("Hints")
 weapon_pickup_scene = ExtResource("4_sweqy")
 level_info = ExtResource("5_2hs0m")
 
@@ -39,3 +39,7 @@ texture = SubResource("AtlasTexture_i3pqv")
 texture_filter = 1
 position = Vector2(6, -3)
 texture = SubResource("AtlasTexture_hqtel")
+
+[node name="Hints" type="Node2D" parent="."]
+script = ExtResource("7_3smsa")
+level_info = ExtResource("5_2hs0m")

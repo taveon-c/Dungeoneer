@@ -9,15 +9,15 @@ func attack():
 	
 	var displacement = player.global_position - global_position
 	var direction = displacement.sign()
-	if stats.energy >= stats.action["cost"] and abs(displacement.x) <= 16 and abs(displacement.y) <= 16:
-		player.stats.spend_energy(stats.action["stun"])
-		player.stats.damage(
+	if info.energy >= info.action["cost"] and abs(displacement.x) <= 16 and abs(displacement.y) <= 16:
+		player.info.spend_energy(info.action["stun"])
+		player.info.damage(
 			{
 				"cut" : 0,
-				"blunt" : stats.action["blunt"]
+				"blunt" : info.action["blunt"]
 			}
 		)
-		stats.spend_energy(stats.action["cost"])
+		info.spend_energy(info.action["cost"])
 	else:
 		move()
 
@@ -25,7 +25,7 @@ func move():
 	var players = get_tree().get_nodes_in_group("player")
 	var player = players[0]
 	
-	if stats.energy >= stats.weight:
+	if info.energy >= info.weight:
 		set_astar_obstacles(["enemy", "player", "weapon"])
 		var self_id = map.local_to_map(self.global_position)
 		var player_id = map.local_to_map(player.global_position)
@@ -33,7 +33,7 @@ func move():
 		clear_astar_obstacles(["enemy", "player", "weapon"])
 		if path.size() > 1:
 			self.global_position = path[1]
-			stats.spend_energy(stats.weight)
+			info.spend_energy(info.weight)
 		else:
 			emit_end_turn()
 	else:

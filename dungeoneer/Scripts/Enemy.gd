@@ -1,22 +1,22 @@
 extends StaticBody2D
 class_name Enemy
 
-@export var base_stats : EnemyStats
+@export var base_info : EnemyInfo
 @onready var map : TileMapLayer = $"../../Map"
 @onready var level : Node2D = $"../.."
-@onready var info : Label = $"CanvasLayer/Panel/Info"
+@onready var info_label : Label = $"CanvasLayer/Panel/Info"
 @onready var indicator : Sprite2D = $"Indicator"
 var actions : Array[Callable]
-var stats : EnemyStats
+var info : EnemyInfo
 signal end_turn
 
 func _ready() -> void:
-	stats = base_stats.duplicate()
-	stats.health = stats.max_health
-	stats.energy = stats.max_energy
-	stats.emit_signal("stats_changed")
-	stats.connect("stats_changed", on_stats_changed)
-	stats.connect("stats_changed", info.update_info)
+	info = base_info.duplicate()
+	info.health = info.max_health
+	info.energy = info.max_energy
+	info.emit_signal("info_changed")
+	info.connect("info_changed", on_info_changed)
+	info.connect("info_changed", info.update_info)
 	connect("end_turn", indicator.set_visible.bind(false))
 	info.update_info()
 
@@ -27,8 +27,8 @@ func take_turn():
 func emit_end_turn():
 	self.emit_signal("end_turn")
 
-func on_stats_changed():
-	if stats.health <= 0:
+func on_info_changed():
+	if info.health <= 0:
 		queue_free()
 
 func set_astar_obstacles(groups : Array[String]):

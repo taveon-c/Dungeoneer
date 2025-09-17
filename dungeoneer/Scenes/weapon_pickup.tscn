@@ -14,4 +14,5 @@ script = ExtResource("1_tqm4g")
 shape = SubResource("RectangleShape2D_pxna8")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
 texture = SubResource("AtlasTexture_bp4yj")

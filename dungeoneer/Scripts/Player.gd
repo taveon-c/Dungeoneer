@@ -1,7 +1,8 @@
 extends Node2D
-@export var stats : Stats
+@export var info : Info
 @export var weapon : Weapon
 @export var weapon_sprite : Sprite2D
+@export var hints : Node2D
 @export var weapon_pickup_scene : PackedScene
 @export var level_info : LevelInfo
 var is_moving : bool
@@ -10,14 +11,14 @@ var is_action : bool
 signal moved
 
 func _ready() -> void:
-	stats.health = stats.max_health
-	stats.energy = stats.max_energy
-	stats.emit_signal("stats_changed")
+	info.health = info.max_health
+	info.energy = info.max_energy
+	info.emit_signal("info_changed")
 	update_weapon_sprite()
 
 func move(dir : Vector2) -> void:
 	self.global_position = self.global_position + dir * level_info.TILE_SIZE
-	stats.spend_energy(stats.weight)
+	info.spend_energy(info.weight)
 	emit_signal("moved")
 
 func attack(attack_info : Dictionary) -> void:
@@ -27,11 +28,11 @@ func attack(attack_info : Dictionary) -> void:
 		query.position = space
 		var result = state.intersect_point(query)
 		if result and result.front()["collider"].is_in_group("enemy"):
-			attack_info = result.front()["collider"].stats.damage(attack_info)
+			attack_info = result.front()["collider"].info.damage(attack_info)
 			if attack_info["cut"] <= 0:
-				stats.spend_energy(attack_info["cost"])
+				info.spend_energy(attack_info["cost"])
 				return 
-	stats.spend_energy(attack_info["cost"])
+	info.spend_energy(attack_info["cost"])
 
 func pickup(dir : Vector2):
 	var pickup_position = self.global_position + dir * level_info.TILE_SIZE

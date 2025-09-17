@@ -17,8 +17,7 @@ config/icon="res://icon.svg"
 
 [display]
 
-window/stretch/mode="viewport"
-window/stretch/aspect="expand"
+window/size/viewport_width=1154
 
 [global_group]
 
@@ -42,3 +41,4 @@ select={
 [rendering]
 
 renderer/rendering_method="mobile"
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)

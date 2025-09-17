@@ -1,5 +1,5 @@
 extends Resource
-class_name EnemyStats
+class_name EnemyInfo
 
 @export var max_health : int = 0
 @export var armor : int = 0

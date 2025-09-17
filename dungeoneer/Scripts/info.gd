@@ -1,12 +1,12 @@
 extends Label
-@export var stats : Stats = null
+@export var info : Info = null
 
 func _ready():
-	if stats != null:
-		stats.connect("stats_changed", update_info)
+	if info != null:
+		info.connect("info_changed", update_info)
 
 func update_info():
-	if stats == null:
-		self.text = owner.stats.print()
+	if info == null:
+		self.text = owner.info.print()
 	else:
-		self.text = stats.print()
+		self.text = info.print()
