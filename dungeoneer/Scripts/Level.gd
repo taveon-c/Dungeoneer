@@ -80,12 +80,12 @@ func generate_level():
 	room_points.pop_front()
 	var stair_room = randi_range(0, num_rooms - 1)
 	var num_weapons = randi_range(level_info.MIN_NUM_WEAPONS, level_info.MAX_NUM_WEAPONS)
-	var weapon_rooms = []
+	var item_rooms = []
 	for weapon in num_weapons:
 		var weapon_room = randi_range(0, num_rooms - 1)
-		while weapon_room == stair_room or weapon_room in weapon_rooms:
+		while weapon_room == stair_room or weapon_room in item_rooms:
 			weapon_room = randi_range(0, num_rooms - 1)
-		weapon_rooms.append(weapon_room)
+		item_rooms.append(weapon_room)
 	
 	for i in num_rooms:
 		var room = room_points.pick_random()
@@ -111,9 +111,9 @@ func generate_level():
 		
 		if i == stair_room:
 			stair.global_position = map.map_to_local(room)
-		elif i in weapon_rooms:
-			var pickup = level_info.WEAPON_PICKUP_SCENE.instantiate()
-			pickup.weapon = level_info.WEAPONS.pick_random()
+		elif i in item_rooms:
+			var pickup = level_info.PICKUP_SCENE.instantiate()
+			pickup.item = level_info.ITEMS.pick_random()
 			spawns.add_child(pickup)
 			pickup.global_position = map.map_to_local(room)
 	
@@ -136,11 +136,11 @@ func clear_level():
 		
 	map.clear()
 	visibility.clear()
-	var weapons = get_tree().get_nodes_in_group("weapon")
+	var items = get_tree().get_nodes_in_group("item")
 	var enemies = get_tree().get_nodes_in_group("enemy")
 	
-	for weapon in weapons:
-		weapon.queue_free()
+	for item in items:
+		item.queue_free()
 	for enemy in enemies:
 		enemy.queue_free()
 
@@ -149,7 +149,7 @@ func set_visible_tiles():
 	for id in tile_ids:
 		visibility.set_cell(id, 0, Vector2i(0, 0))
 		var tile_position = map.map_to_local(id)
-		if player.global_position.distance_to(tile_position) < 304:
+		if player.global_position.distance_to(tile_position) < 16 * level_info.TILE_SIZE:
 			var space_state = get_world_2d().direct_space_state
 			var query = PhysicsRayQueryParameters2D.create(tile_position, player.global_position)
 			query.collision_mask = 0b1

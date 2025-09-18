@@ -1,6 +1,7 @@
 extends Resource
 class_name EnemyInfo
 
+@export var name : String
 @export var max_health : int = 0
 @export var armor : int = 0
 @export var max_energy : int = 0
@@ -10,10 +11,11 @@ class_name EnemyInfo
 var health : int = 0
 var energy : int = 0
 
-signal stats_changed
+signal info_changed
 
 func print() -> String:
 	var string : String = ""
+	string += name + "\n"
 	string += "health: " + str(health) + "\n"
 	string += "armor: " + str(armor) + "\n"
 	string += "energy: " + str(energy) + "\n"

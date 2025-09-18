@@ -32,3 +32,12 @@ func action(mouse_position: Vector2, player : Node2D) -> Dictionary:
 		"cut" : cut,
 		"blunt" : blunt
 	}
+
+func print() -> String:
+	var string = ""
+	string +=  str(name) + "\n"
+	string += "Range: " + str(range) + "\n"
+	string += "Cut: " + str(cut) + "\n"
+	string += "Blunt: " + str(blunt) + "\n"
+	string += "Cost: " + str(cost) + "\n"
+	return string

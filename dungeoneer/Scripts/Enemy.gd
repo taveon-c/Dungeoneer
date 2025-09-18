@@ -16,9 +16,9 @@ func _ready() -> void:
 	info.energy = info.max_energy
 	info.emit_signal("info_changed")
 	info.connect("info_changed", on_info_changed)
-	info.connect("info_changed", info.update_info)
+	info.connect("info_changed", info_label.update_info)
 	connect("end_turn", indicator.set_visible.bind(false))
-	info.update_info()
+	info_label.update_info()
 
 func take_turn():
 	var action = actions.pick_random()

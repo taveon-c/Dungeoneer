@@ -19,9 +19,25 @@ func _init() -> void:
 
 func print() -> String:
 	var string : String = ""
-	for property in self.get_property_list():
-		if not "script" in property.name and not "resource" in property.name and property.name == property.name.to_lower():
-			string = string + property.name + ": " + str(self.get(property.name)) + "\n"
+	string += "Player" + "\n"
+	string += "Max Health: " + str(max_health) + "\n"
+	string += "Max Energy: " + str(max_energy) + "\n"
+	string += "Energy Regen: " + str(energy_regen) + "\n"
+	
+	var total_weight = weight
+	var total_armor = 0
+	for type in armor.keys():
+		total_weight += armor[type].weight
+		total_armor += armor[type].armor
+	string += "Weight: " + str(total_weight) + "\n"
+	string += "Armor: " + str(total_armor) + "\n"
+	
+	string += "Health: " + str(health) + "\n"
+	string += "Energy: " + str(energy) + "\n"
+	
+	string += "\n"
+	string += weapon.print()
+	
 	return string
 
 func damage(attack_info : Dictionary):
