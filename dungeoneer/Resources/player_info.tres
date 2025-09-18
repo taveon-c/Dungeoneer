@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Info" load_steps=3 format=3 uid="uid://dnhbyycvgj0f2"]
+
+[ext_resource type="Script" uid="uid://i6csjwu3e5kt" path="res://Scripts/armor.gd" id="1_qs2gw"]
+[ext_resource type="Script" uid="uid://dnxxjj5repxf0" path="res://Scripts/info.gd" id="2_kml1w"]
+
+[resource]
+script = ExtResource("2_kml1w")
+max_health = 100
+max_energy = 999
+energy_regen = 10
+inventory_slots = 0
+weight = 4
+armor = Dictionary[int, ExtResource("1_qs2gw")]({})
+metadata/_custom_type_script = "uid://dnxxjj5repxf0"

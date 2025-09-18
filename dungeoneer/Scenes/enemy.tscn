@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://b14r0335a1bkp"]
 
 [ext_resource type="Theme" uid="uid://cnabk1ati27qo" path="res://Resources/theme.tres" id="1_1f0kj"]
-[ext_resource type="Script" uid="uid://bpqnyeyynkkwb" path="res://Scripts/info.gd" id="2_afpow"]
+[ext_resource type="Script" uid="uid://bpqnyeyynkkwb" path="res://Scripts/info_label.gd" id="2_afpow"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qi2p4"]
 size = Vector2(16, 16)

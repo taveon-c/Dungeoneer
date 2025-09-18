@@ -3,7 +3,7 @@
 [ext_resource type="Theme" uid="uid://cnabk1ati27qo" path="res://Resources/theme.tres" id="1_cayip"]
 [ext_resource type="Script" uid="uid://dbo5usr8qpx4p" path="res://Scripts/play.gd" id="2_158mb"]
 [ext_resource type="PackedScene" uid="uid://1032qlj1rdpy" path="res://Scenes/main.tscn" id="3_wwsa2"]
-[ext_resource type="Script" uid="uid://b3apjgemsind3" path="res://Scenes/quit.gd" id="4_158mb"]
+[ext_resource type="Script" uid="uid://b3apjgemsind3" path="res://Scripts/quit.gd" id="4_158mb"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_jsrd8"]
 font_size = 60

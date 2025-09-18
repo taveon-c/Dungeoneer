@@ -3,9 +3,9 @@
 [ext_resource type="Theme" uid="uid://cnabk1ati27qo" path="res://Resources/theme.tres" id="1_654h1"]
 [ext_resource type="Script" uid="uid://dsrda6yo6elgu" path="res://Scripts/player_ui_manager.gd" id="1_tybkg"]
 [ext_resource type="Resource" uid="uid://csojy7m77jhjy" path="res://Resources/level_info.tres" id="2_gxl1c"]
-[ext_resource type="Script" uid="uid://bpqnyeyynkkwb" path="res://Scripts/info.gd" id="2_pc08v"]
+[ext_resource type="Script" uid="uid://bpqnyeyynkkwb" path="res://Scripts/info_label.gd" id="2_pc08v"]
 [ext_resource type="Script" uid="uid://r477qkqo6tu5" path="res://Scripts/end_turn.gd" id="5_gxl1c"]
-[ext_resource type="Script" uid="uid://b2pgy2ilmuixb" path="res://Scenes/return_to_menu.gd" id="8_3nrpj"]
+[ext_resource type="Script" uid="uid://b2pgy2ilmuixb" path="res://Scripts/return_to_menu.gd" id="8_3nrpj"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a4em4"]
 bg_color = Color(0.162066, 0.162066, 0.162065, 0.784314)

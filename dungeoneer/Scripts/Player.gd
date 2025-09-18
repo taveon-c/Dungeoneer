@@ -1,9 +1,10 @@
 extends Node2D
 @export var info : Info
-@export var weapon : Weapon
+@export var armor_sprites : Dictionary[Armor.Type, Sprite2D]
 @export var weapon_sprite : Sprite2D
 @export var hints : Node2D
 @export var weapon_pickup_scene : PackedScene
+@export var armor_pickup_scene : PackedScene
 @export var level_info : LevelInfo
 var is_moving : bool
 var is_action : bool
@@ -42,14 +43,29 @@ func pickup(dir : Vector2):
 	query.collide_with_areas = true
 	query.collide_with_bodies = false
 	var result = state.intersect_point(query)
-	if result and result.front()["collider"].is_in_group("weapon"):
-		var weapon_drop = weapon_pickup_scene.instantiate()
-		weapon_drop.weapon = weapon
-		owner.add_child(weapon_drop)
-		weapon_drop.global_position = result.front()["collider"].global_position
-		weapon = result.front()["collider"].weapon
-		result.front()["collider"].queue_free()
-		update_weapon_sprite()
+	if result:
+		var pickup = result.front()["collider"]
+		for group in pickup.get_groups():
+			match group:
+				"weapon":
+					var weapon_drop = weapon_pickup_scene.instantiate()
+					weapon_drop.weapon = info.weapon
+					owner.add_child(weapon_drop)
+					weapon_drop.global_position = pickup.global_position
+					info.weapon = pickup.weapon
+					pickup.queue_free()
+					update_weapon_sprite()
+				"armor":
+					var armor_drop = armor_pickup_scene.instantiate()
+					armor_drop.armor[pickup.armor.type] = info.armor[pickup.armor.type]
+					owner.add_child(armor_drop)
+					armor_drop.global_position = pickup.global_position
+					info.armor[pickup.armor.type] = pickup.armor
+					pickup.queue_free()
+					update_armor_sprite(pickup.armor.type)
 
 func update_weapon_sprite():
-	weapon_sprite.texture = weapon.texture
+	weapon_sprite.texture = info.weapon.texture
+
+func update_armor_sprite(type : Armor.Type):
+	armor_sprites[type].texture = info.armor[type].texture

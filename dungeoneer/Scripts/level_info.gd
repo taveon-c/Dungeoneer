@@ -16,4 +16,6 @@ class_name LevelInfo
 @export var MAX_NUM_WEAPONS : int
 @export var ENEMY_SCENES : Array[PackedScene]
 @export var WEAPON_PICKUP_SCENE : PackedScene
+@export var ARMOR_PICKUP_SCENE : PackedScene
 @export var WEAPONS : Array[Weapon]
+@export var ARMOR : Array[Armor]
