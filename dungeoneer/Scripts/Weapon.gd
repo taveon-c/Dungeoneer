@@ -16,7 +16,7 @@ func action(mouse_position: Vector2, player : Node2D) -> Dictionary:
 			var direction = Vector2(x, y)
 			if direction != Vector2.ZERO:
 				for step in range(1, range + 1):
-					hints.append(player.global_position + direction * tile_size * step - Vector2(tile_size/2, tile_size/2))
+					hints.append(player.global_position + direction * tile_size * step)
 	
 	var spaces : Array[Vector2] = []
 	var direction = player.global_position.direction_to(mouse_position).round()

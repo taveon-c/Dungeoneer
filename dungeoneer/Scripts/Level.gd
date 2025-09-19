@@ -14,7 +14,7 @@ var turn : int = 0
 @export var info : LevelInfo
 
 func _ready() -> void:
-	player.global_position = map.map_to_local(Vector2i(10, 10))
+	player.global_position = map.map_to_local(Vector2i(info.MAP_WIDTH / 2, info.MAP_HEIGHT / 2))
 	generate_level()
 	timer.start()
 
@@ -27,107 +27,17 @@ func generate_level():
 		astar_grid.cell_size = Vector2(info.TILE_SIZE, info.TILE_SIZE)
 		astar_grid.offset = Vector2(info.TILE_SIZE / 2, info.TILE_SIZE / 2)
 		astar_grid.update()
-		
 	
-	for x in info.MAP_WIDTH:
-		for y in info.MAP_HEIGHT:
-			visibility.set_cell(Vector2i(x, y), 0, Vector2i(0, 0))
-	
-	var room_points : Array[Vector2i] = [map.local_to_map(player.global_position)]
-	var num_halls = randi_range(info.NUM_ROOMS_MAX, info.NUM_HALLS_MAX)
 	var num_rooms = randi_range(info.NUM_ROOMS_MIN, info.NUM_ROOMS_MAX)
-	var directions = [Vector2i(0, -1), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(1, 0)]
+	var num_halls = randi_range(info.num_rooms, info.NUM_HALLS_MAX)
+	var room_dict = {}
+	var room_positions = []
 	
-	for i in num_halls:
-		var possible_points = []
-		var point : Vector2i
-		var count : int = 0
-		
-		while possible_points.size() == 0:
-			count += 1
-			if count == 9:
-				generate_level()
-			possible_points = []
-			point = room_points.pick_random()
-			for direction in directions:
-				var new_point = point + direction * info.HALL_LENGTH
-				if in_bounds(new_point) and get_map_edge_distance(new_point) >= info.ROOM_RADII_MAX + 2 and map.get_cell_source_id(new_point) == -1:
-					possible_points.append(new_point)
-		
-		var new_point = possible_points.pick_random()
-		room_points.append(new_point)
-		
-		var max_y = maxi(point.y, new_point.y)
-		var min_y = mini(point.y, new_point.y)
-		var max_x = maxi(point.x, new_point.x)
-		var min_x = mini(point.x, new_point.x)
-		
-		#Walls
-		for x in range(min_x - 2, max_x + 3):
-			for y in range(min_y - 2, max_y + 3):
-				if map.get_cell_atlas_coords(Vector2i(x, y)) != Vector2i(0, 0):
-					astar_layers[1].set_point_solid(Vector2i(x, y), false)
-					astar_layers[2].set_point_solid(Vector2i(x, y))
-					map.set_cell(Vector2i(x, y), 0, Vector2i(4, 3))
-		
-		#Ground
-		for x in range(min_x - 1, max_x + 2):
-			for y in range(min_y - 1, max_y + 2):
-				astar_layers[1].set_point_solid(Vector2i(x, y))
-				astar_layers[2].set_point_solid(Vector2i(x, y), false)
-				map.set_cell(Vector2i(x, y), 0, Vector2i(0, 0))
+	for room in range(num_rooms):
+		room_dict[room] = []
 	
-	room_points.pop_front()
-	var stair_room = randi_range(0, num_rooms - 1)
-	var num_weapons = randi_range(info.MIN_NUM_WEAPONS, info.MAX_NUM_WEAPONS)
-	var item_rooms = []
-	for weapon in num_weapons:
-		var weapon_room = randi_range(0, num_rooms - 1)
-		while weapon_room == stair_room or weapon_room in item_rooms:
-			weapon_room = randi_range(0, num_rooms - 1)
-		item_rooms.append(weapon_room)
-	
-	for i in num_rooms:
-		var room = room_points.pick_random()
-		room_points.erase(room)
-		var left = randi_range(info.ROOM_RADII_MIN, info.ROOM_RADII_MAX)
-		var right = randi_range(info.ROOM_RADII_MIN, info.ROOM_RADII_MAX)
-		var up = randi_range(info.ROOM_RADII_MIN, info.ROOM_RADII_MAX)
-		var down = randi_range(info.ROOM_RADII_MIN, info.ROOM_RADII_MAX)
-		
-		for x in range(room.x - left - 1, room.x + right + 2):
-			for y in range(room.y - up - 1, room.y + down + 2):
-				if in_bounds(Vector2i(x, y)) and map.get_cell_atlas_coords(Vector2i(x, y)) != Vector2i(0, 0):
-					astar_layers[1].set_point_solid(Vector2i(x, y), false)
-					astar_layers[2].set_point_solid(Vector2i(x, y))
-					map.set_cell(Vector2i(x, y), 0, Vector2i(4, 3))
-		
-		for x in range(room.x - left, room.x + right + 1):
-			for y in range(room.y - up, room.y + down + 1):
-				if in_bounds(Vector2i(x, y)):
-					astar_layers[1].set_point_solid(Vector2i(x, y))
-					astar_layers[2].set_point_solid(Vector2i(x, y), false)
-					map.set_cell(Vector2i(x, y), 0, Vector2i(0, 0))
-		
-		if i == stair_room:
-			stair.global_position = map.map_to_local(room)
-		elif i in item_rooms:
-			var pickup = info.PICKUP_SCENE.instantiate()
-			pickup.item = info.ITEMS.pick_random()
-			spawns.add_child(pickup)
-			pickup.global_position = map.map_to_local(room)
-	
-	var taken_spawns : Array[Vector2] = []
-	var num_enemy = randi_range(info.MIN_ENEMY, info.MAX_ENEMY)
-	for i in num_enemy:
-		var enemy_spawn = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
-		while enemy_spawn in taken_spawns:
-			enemy_spawn = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
-		var enemy = info.ENEMY_SCENES.pick_random().instantiate()
-		spawns.add_child(enemy)
-		enemy.global_position = enemy_spawn
-		enemy.connect("end_turn", _on_turn_end)
-	map.update_internals()
+	for hall in range(num_halls):
+		var index = randi_range(0, num_rooms)
 
 func clear_level():
 	for astar_grid in astar_layers:
@@ -143,6 +53,7 @@ func clear_level():
 		item.queue_free()
 	for enemy in enemies:
 		enemy.queue_free()
+	map.update_internals()
 
 func set_visible_tiles():
 	var tile_ids = map.get_used_cells()
@@ -177,7 +88,7 @@ func clear_astar_obstacles(layer: int, groups : Array):
 			astar_layers[layer].set_point_solid(map.local_to_map(node.global_position), false)
 
 func in_bounds(coords : Vector2i) -> bool:
-	if coords.x >= 0 and coords.y >= 0 and coords.x < info.MAP_WIDTH and coords.y < info.MAP_HEIGHT:
+	if coords.x > 0 and coords.y > 0 and coords.x < info.MAP_WIDTH and coords.y < info.MAP_HEIGHT:
 		return true
 	else:
 		return false

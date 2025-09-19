@@ -31,11 +31,10 @@ func attack(attack_info : Dictionary) -> void:
 				return 
 	info.spend_energy(attack_info["cost"])
 
-func pickup(dir : Vector2):
-	var pickup_position = self.global_position + dir * level_info.TILE_SIZE
+func pickup(pos : Vector2):
 	var state = get_world_2d().get_direct_space_state()
 	var query = PhysicsPointQueryParameters2D.new()
-	query.position = pickup_position
+	query.position = pos
 	query.collide_with_areas = true
 	query.collide_with_bodies = false
 	var result = state.intersect_point(query)

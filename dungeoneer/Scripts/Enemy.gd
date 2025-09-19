@@ -27,3 +27,21 @@ func emit_end_turn():
 func on_info_changed():
 	if info.health <= 0:
 		queue_free()
+
+func move(layer : int, obstacles : Array):
+	var players = get_tree().get_nodes_in_group("player")
+	var player = players[0]
+	
+	if info.energy >= info.weight:
+		level.set_astar_obstacles(obstacles, ["enemy", "item"])
+		var self_id = map.local_to_map(self.global_position)
+		var player_id = map.local_to_map(player.global_position)
+		var path = get_parent().get_parent().astar_layers[layer].get_point_path(self_id, player_id, true)
+		level.clear_astar_obstacles(obstacles, ["enemy", "item"])
+		if path.size() > 1:
+			self.global_position = path[1]
+			info.spend_energy(info.weight)
+		else:
+			emit_end_turn()
+	else:
+		emit_end_turn()

@@ -34,13 +34,16 @@ func _physics_process(delta: float) -> void:
 			level.set_astar_obstacles(2, ["enemy", "item"])
 			if player.info.energy >= player.info.weight:
 				var options = []
-				for option in options:
-					player.hints.generate_hint(Color.DEEP_SKY_BLUE, level.map.map_to_local(option))
+				for direction in [Vector2i(-1, -1), Vector2i(-1, 0), Vector2i(-1, 1), Vector2i(0, -1), Vector2i(0, 1), Vector2i(1, -1), Vector2i(1, 0), Vector2i(1, 1)]:
+					var neighbor = level.map.local_to_map(player.global_position) + direction
+					if level.astar_layers[2].is_in_boundsv(neighbor) and not level.astar_layers[2].is_point_solid(neighbor):
+						options.append(neighbor)
+						player.hints.generate_hint(Color.DEEP_SKY_BLUE, level.map.map_to_local(neighbor))
 				
 				var mouse_coords = level.map.local_to_map(player.get_global_mouse_position())
 				if mouse_coords in options:
 					var new_position = level.map.map_to_local(mouse_coords)
-					player.hints.generate_hint(Color.DEEP_SKY_BLUE, new_position - Vector2(level.info.TILE_SIZE/2, level.info.TILE_SIZE/2))
+					player.hints.generate_hint(Color.DEEP_SKY_BLUE, new_position)
 					if Input.is_action_just_pressed("select"):
 						player.move(new_position)
 			level.clear_astar_obstacles(2, ["enemy", "item"])
@@ -53,7 +56,7 @@ func _physics_process(delta: float) -> void:
 					player.hints.generate_hint(Color.RED, hint)
 				if mouse_position.distance_to(player.global_position) < (player.info.weapon.range + 1) * level.info.TILE_SIZE:
 					for space in action_info["spaces"]:
-						player.hints.generate_hint(Color.RED, space - Vector2(level.info.TILE_SIZE/2, level.info.TILE_SIZE/2))
+						player.hints.generate_hint(Color.RED, space)
 					if Input.is_action_just_pressed("select"):
 						player.attack(action_info)
 		State.PICKUP:
@@ -61,15 +64,18 @@ func _physics_process(delta: float) -> void:
 			level.set_astar_obstacles(2, ["enemy"])
 			if player.info.energy >= player.info.weight:
 				var options = []
-				for option in options:
-					player.hints.generate_hint(Color.WHITE, level.map.map_to_local(option))
+				for direction in [Vector2i(-1, -1), Vector2i(-1, 0), Vector2i(-1, 1), Vector2i(0, -1), Vector2i(0, 1), Vector2i(1, -1), Vector2i(1, 0), Vector2i(1, 1)]:
+					var neighbor = level.map.local_to_map(player.global_position) + direction
+					if level.astar_layers[2].is_in_boundsv(neighbor) and not level.astar_layers[2].is_point_solid(neighbor):
+						options.append(neighbor)
+						player.hints.generate_hint(Color.WHITE, level.map.map_to_local(neighbor))
 				
 				var mouse_coords = level.map.local_to_map(player.get_global_mouse_position())
 				if mouse_coords in options:
 					var new_position = level.map.map_to_local(mouse_coords)
-					player.hints.generate_hint(Color.WHITE, new_position - Vector2(level.info.TILE_SIZE/2, level.info.TILE_SIZE/2))
+					player.hints.generate_hint(Color.WHITE, new_position)
 					if Input.is_action_just_pressed("select"):
-						player.move(new_position)
+						player.pickup(new_position)
 			level.clear_astar_obstacles(2, ["enemy"])
 
 func set_state(state : State):
