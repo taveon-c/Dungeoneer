@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_cbojo")
-name = ""
+name = "Chestplate"
 armor_type = 2
 armor = 10
 weight = 3

@@ -11,7 +11,7 @@ var turn : int = 0
 @export var player : StaticBody2D
 @export var stair : Sprite2D
 @export var player_ui : CanvasLayer
-@export var level_info : LevelInfo
+@export var info : LevelInfo
 
 func _ready() -> void:
 	player.global_position = map.map_to_local(Vector2i(10, 10))
@@ -23,19 +23,19 @@ func generate_level():
 	
 	var hall_dirs : Array[Vector2i] = [Vector2i(-1, 0), Vector2i(1, 0), Vector2i(0, -1), Vector2i(0, 1)]
 	for astar_grid in astar_layers:
-		astar_grid.region = Rect2i(Vector2i(0, 0), Vector2i(level_info.MAP_WIDTH, level_info.MAP_HEIGHT))
-		astar_grid.cell_size = Vector2(level_info.TILE_SIZE, level_info.TILE_SIZE)
-		astar_grid.offset = Vector2(level_info.TILE_SIZE / 2, level_info.TILE_SIZE / 2)
+		astar_grid.region = Rect2i(Vector2i(0, 0), Vector2i(info.MAP_WIDTH, info.MAP_HEIGHT))
+		astar_grid.cell_size = Vector2(info.TILE_SIZE, info.TILE_SIZE)
+		astar_grid.offset = Vector2(info.TILE_SIZE / 2, info.TILE_SIZE / 2)
 		astar_grid.update()
 		
 	
-	for x in level_info.MAP_WIDTH:
-		for y in level_info.MAP_HEIGHT:
+	for x in info.MAP_WIDTH:
+		for y in info.MAP_HEIGHT:
 			visibility.set_cell(Vector2i(x, y), 0, Vector2i(0, 0))
 	
 	var room_points : Array[Vector2i] = [map.local_to_map(player.global_position)]
-	var num_halls = randi_range(level_info.NUM_ROOMS_MAX, level_info.NUM_HALLS_MAX)
-	var num_rooms = randi_range(level_info.NUM_ROOMS_MIN, level_info.NUM_ROOMS_MAX)
+	var num_halls = randi_range(info.NUM_ROOMS_MAX, info.NUM_HALLS_MAX)
+	var num_rooms = randi_range(info.NUM_ROOMS_MIN, info.NUM_ROOMS_MAX)
 	var directions = [Vector2i(0, -1), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(1, 0)]
 	
 	for i in num_halls:
@@ -50,8 +50,8 @@ func generate_level():
 			possible_points = []
 			point = room_points.pick_random()
 			for direction in directions:
-				var new_point = point + direction * level_info.HALL_LENGTH
-				if in_bounds(new_point) and get_map_edge_distance(new_point) >= level_info.ROOM_RADII_MAX + 2 and map.get_cell_source_id(new_point) == -1:
+				var new_point = point + direction * info.HALL_LENGTH
+				if in_bounds(new_point) and get_map_edge_distance(new_point) >= info.ROOM_RADII_MAX + 2 and map.get_cell_source_id(new_point) == -1:
 					possible_points.append(new_point)
 		
 		var new_point = possible_points.pick_random()
@@ -79,7 +79,7 @@ func generate_level():
 	
 	room_points.pop_front()
 	var stair_room = randi_range(0, num_rooms - 1)
-	var num_weapons = randi_range(level_info.MIN_NUM_WEAPONS, level_info.MAX_NUM_WEAPONS)
+	var num_weapons = randi_range(info.MIN_NUM_WEAPONS, info.MAX_NUM_WEAPONS)
 	var item_rooms = []
 	for weapon in num_weapons:
 		var weapon_room = randi_range(0, num_rooms - 1)
@@ -90,10 +90,10 @@ func generate_level():
 	for i in num_rooms:
 		var room = room_points.pick_random()
 		room_points.erase(room)
-		var left = randi_range(level_info.ROOM_RADII_MIN, level_info.ROOM_RADII_MAX)
-		var right = randi_range(level_info.ROOM_RADII_MIN, level_info.ROOM_RADII_MAX)
-		var up = randi_range(level_info.ROOM_RADII_MIN, level_info.ROOM_RADII_MAX)
-		var down = randi_range(level_info.ROOM_RADII_MIN, level_info.ROOM_RADII_MAX)
+		var left = randi_range(info.ROOM_RADII_MIN, info.ROOM_RADII_MAX)
+		var right = randi_range(info.ROOM_RADII_MIN, info.ROOM_RADII_MAX)
+		var up = randi_range(info.ROOM_RADII_MIN, info.ROOM_RADII_MAX)
+		var down = randi_range(info.ROOM_RADII_MIN, info.ROOM_RADII_MAX)
 		
 		for x in range(room.x - left - 1, room.x + right + 2):
 			for y in range(room.y - up - 1, room.y + down + 2):
@@ -112,18 +112,18 @@ func generate_level():
 		if i == stair_room:
 			stair.global_position = map.map_to_local(room)
 		elif i in item_rooms:
-			var pickup = level_info.PICKUP_SCENE.instantiate()
-			pickup.item = level_info.ITEMS.pick_random()
+			var pickup = info.PICKUP_SCENE.instantiate()
+			pickup.item = info.ITEMS.pick_random()
 			spawns.add_child(pickup)
 			pickup.global_position = map.map_to_local(room)
 	
 	var taken_spawns : Array[Vector2] = []
-	var num_enemy = randi_range(level_info.MIN_ENEMY, level_info.MAX_ENEMY)
+	var num_enemy = randi_range(info.MIN_ENEMY, info.MAX_ENEMY)
 	for i in num_enemy:
 		var enemy_spawn = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
 		while enemy_spawn in taken_spawns:
 			enemy_spawn = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
-		var enemy = level_info.ENEMY_SCENES.pick_random().instantiate()
+		var enemy = info.ENEMY_SCENES.pick_random().instantiate()
 		spawns.add_child(enemy)
 		enemy.global_position = enemy_spawn
 		enemy.connect("end_turn", _on_turn_end)
@@ -149,7 +149,7 @@ func set_visible_tiles():
 	for id in tile_ids:
 		visibility.set_cell(id, 0, Vector2i(0, 0))
 		var tile_position = map.map_to_local(id)
-		if player.global_position.distance_to(tile_position) < 16 * level_info.TILE_SIZE:
+		if player.global_position.distance_to(tile_position) < 16 * info.TILE_SIZE:
 			var space_state = get_world_2d().direct_space_state
 			var query = PhysicsRayQueryParameters2D.create(tile_position, player.global_position)
 			query.collision_mask = 0b1
@@ -163,19 +163,30 @@ func set_visible_tiles():
 							visibility.erase_cell(cell)
 				else:
 					visibility.erase_cell(id)
-	
+
+func set_astar_obstacles(layer: int, groups : Array):
+	for group in groups:
+		var group_nodes = get_tree().get_nodes_in_group(group)
+		for node in group_nodes:
+			astar_layers[layer].set_point_solid(map.local_to_map(node.global_position))
+
+func clear_astar_obstacles(layer: int, groups : Array):
+	for group in groups:
+		var group_nodes = get_tree().get_nodes_in_group(group)
+		for node in group_nodes:
+			astar_layers[layer].set_point_solid(map.local_to_map(node.global_position), false)
 
 func in_bounds(coords : Vector2i) -> bool:
-	if coords.x >= 0 and coords.y >= 0 and coords.x < level_info.MAP_WIDTH and coords.y < level_info.MAP_HEIGHT:
+	if coords.x >= 0 and coords.y >= 0 and coords.x < info.MAP_WIDTH and coords.y < info.MAP_HEIGHT:
 		return true
 	else:
 		return false
 
 func get_map_edge_distance(coords : Vector2i):
 	var left = coords.x
-	var right = level_info.MAP_WIDTH - coords.x - 1
+	var right = info.MAP_WIDTH - coords.x - 1
 	var up = coords.y
-	var down = level_info.MAP_HEIGHT - coords.y - 1
+	var down = info.MAP_HEIGHT - coords.y - 1
 	
 	return min(left, right, up, down)
 

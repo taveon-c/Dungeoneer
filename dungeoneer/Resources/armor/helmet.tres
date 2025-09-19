@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_3shfx")
-name = ""
+name = "Helmet"
 armor_type = 0
 armor = 5
 weight = 2

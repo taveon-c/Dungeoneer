@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_7wp8f")
+name = "Dark Wizard"
 max_health = 30
 armor = 0
 max_energy = 30

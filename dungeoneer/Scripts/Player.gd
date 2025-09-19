@@ -13,8 +13,8 @@ func _ready() -> void:
 	info.energy = info.max_energy
 	info.emit_signal("info_changed")
 
-func move(dir : Vector2) -> void:
-	self.global_position = self.global_position + dir * level_info.TILE_SIZE
+func move(pos : Vector2) -> void:
+	self.global_position = pos
 	info.spend_energy(info.weight)
 	emit_signal("moved")
 
@@ -41,18 +41,22 @@ func pickup(dir : Vector2):
 	var result = state.intersect_point(query)
 	if result:
 		var pickup = result.front()["collider"]
-		match pickup.item.get_class():
+		var item_class = pickup.item.get_script().get_global_name()
+		match item_class:
 			"Weapon":
 				var weapon_drop = pickup_scene.instantiate()
-				weapon_drop.weapon = info.weapon
+				weapon_drop.item = info.weapon
 				owner.add_child(weapon_drop)
 				weapon_drop.global_position = pickup.global_position
 				info.weapon = pickup.item
 				pickup.queue_free()
+				info.emit_signal("info_changed")
 			"Armor":
-				var armor_drop = pickup_scene.instantiate()
-				armor_drop.armor[pickup.item.type] = info.armor[pickup.item.type]
-				owner.add_child(armor_drop)
-				armor_drop.global_position = pickup.global_position
+				if info.armor[pickup.item.type]:
+					var armor_drop = pickup_scene.instantiate()
+					armor_drop.item[pickup.item.type] = info.armor[pickup.item.type]
+					owner.add_child(armor_drop)
+					armor_drop.global_position = pickup.global_position
 				info.armor[pickup.item.type] = pickup.item
 				pickup.queue_free()
+				info.emit_signal("info_changed")

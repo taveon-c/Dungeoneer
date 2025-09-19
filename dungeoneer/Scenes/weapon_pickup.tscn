@@ -7,7 +7,7 @@ size = Vector2(16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bp4yj"]
 
-[node name="Weapon" type="Area2D"]
+[node name="Weapon" type="Area2D" groups=["item"]]
 script = ExtResource("1_tqm4g")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

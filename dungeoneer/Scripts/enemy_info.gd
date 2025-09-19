@@ -26,14 +26,14 @@ func damage(attack_info : Dictionary):
 	attack_info["cut"] -= armor
 	var damage = maxi(attack_info["blunt"] + attack_info["cut"], 0)
 	health -= damage
-	emit_signal("stats_changed")
+	emit_signal("info_changed")
 	return attack_info
 
 func spend_energy(cost : int):
 	energy -= cost
-	emit_signal("stats_changed")
+	emit_signal("info_changed")
 
 func regen_energy():
 	energy += energy_regen
 	energy = mini(energy, max_energy)
-	emit_signal("stats_changed")
+	emit_signal("info_changed")

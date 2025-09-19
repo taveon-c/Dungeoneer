@@ -7,7 +7,7 @@ func generate_hint(color : Color, hint_position : Vector2):
 	rect.color = color
 	rect.color.a = 0.5
 	add_child(rect)
-	rect.global_position = hint_position
+	rect.global_position = hint_position - Vector2(level_info.TILE_SIZE/2, level_info.TILE_SIZE/2)
 
 func clear_hints():
 	for child in self.get_children():

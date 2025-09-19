@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_ygk54")
+name = "Cyclops"
 max_health = 120
 armor = 13
 max_energy = 40

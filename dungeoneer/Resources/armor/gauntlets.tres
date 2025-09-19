@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_nb4q3")
-name = ""
+name = "Gauntlets"
 armor_type = 3
 armor = 6
 weight = 1
