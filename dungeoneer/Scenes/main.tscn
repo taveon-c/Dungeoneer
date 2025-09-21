@@ -43,10 +43,10 @@ texture_filter = 1
 texture = SubResource("AtlasTexture_5vw27")
 
 [node name="Visiblity" type="TileMapLayer" parent="."]
-visible = false
+top_level = true
 tile_set = ExtResource("4_344ge")
 occlusion_enabled = false
 y_sort_origin = 1
 
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="Timer" to="." method="set_visible_tiles"]
 [connection signal="moved" from="Player" to="." method="_on_player_moved"]

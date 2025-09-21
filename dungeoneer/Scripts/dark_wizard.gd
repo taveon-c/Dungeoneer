@@ -1,19 +1,25 @@
 extends Enemy
 
-func _init() -> void:
-	actions = [attack]
+func choose_action():
+	var players = get_tree().get_nodes_in_group("player")
+	var player = players[0]
+	if info.energy >= info.action["cost"] and global_position.distance_to(player.global_position) <= info.action["range"] * level.info.TILE_SIZE:
+		take_action(attack, 1)
+	elif info.energy >= info.weight:
+		take_action(move.bind(2, ["enemy", "item"]), 0.3)
+	else:
+		emit_signal("end_turn")
 
 func attack():
 	var players = get_tree().get_nodes_in_group("player")
 	var player = players[0]
 	
-	if info.energy >= info.action["cost"] and player.global_position.distance_to(self.global_position) < info.action["range"] * 16:
-		player.info.damage(
+	player.info.damage(
 			{
 				"cut" : info.action["cut"],
 				"blunt" : info.action["blunt"]
 			}
 		)
-		info.spend_energy(info.action["cost"])
-	else:
-		move(2, ["player", "enemy", "item"])
+	info.spend_energy(info.action["cost"])
+	
+	choose_action()

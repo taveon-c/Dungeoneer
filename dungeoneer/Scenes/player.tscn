@@ -31,5 +31,6 @@ texture_filter = 1
 texture = SubResource("AtlasTexture_i3pqv")
 
 [node name="Hints" type="Node2D" parent="."]
+top_level = true
 script = ExtResource("7_3smsa")
 level_info = ExtResource("5_2hs0m")

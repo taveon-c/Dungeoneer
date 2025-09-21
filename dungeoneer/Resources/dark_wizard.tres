@@ -7,9 +7,9 @@ script = ExtResource("1_7wp8f")
 name = "Dark Wizard"
 max_health = 30
 armor = 0
-max_energy = 30
+max_energy = 25
 energy_regen = 8
-weight = 3
+weight = 7
 action = Dictionary[String, int]({
 "blunt": 7,
 "cost": 11,

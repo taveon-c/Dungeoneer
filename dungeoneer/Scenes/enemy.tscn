@@ -24,3 +24,6 @@ visible = false
 position = Vector2(0, 6.5)
 scale = Vector2(1, 3)
 texture = SubResource("GradientTexture1D_afpow")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true

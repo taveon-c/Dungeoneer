@@ -41,7 +41,7 @@ func print() -> String:
 	return string
 
 func damage(attack_info : Dictionary):
-	attack_info["cut"] -= armor
+	#attack_info["cut"] -= armor
 	var damage = maxi(attack_info["blunt"] + attack_info["cut"], 0)
 	health -= damage
 	emit_signal("info_changed")
