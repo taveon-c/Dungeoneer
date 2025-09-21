@@ -5,9 +5,9 @@
 [resource]
 script = ExtResource("1_ygk54")
 name = "Cyclops"
-max_health = 120
-armor = 13
-max_energy = 40
+max_health = 86
+armor = 9
+max_energy = 38
 energy_regen = 19
 weight = 15
 action = Dictionary[String, int]({

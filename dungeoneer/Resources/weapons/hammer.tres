@@ -7,6 +7,6 @@ script = ExtResource("1_ea6mb")
 name = "Hammer"
 range = 2
 cut = 0
-blunt = 35
+blunt = 37
 cost = 10
 metadata/_custom_type_script = "uid://cvkgjmf2t5rgo"
