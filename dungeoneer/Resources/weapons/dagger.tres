@@ -6,7 +6,8 @@
 script = ExtResource("1_6faxl")
 name = "Dagger"
 range = 1
-cut = 25
-blunt = 3
-cost = 5
+cut = 28
+blunt = 4
+cost = 16
+weight = 1
 metadata/_custom_type_script = "uid://cvkgjmf2t5rgo"

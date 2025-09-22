@@ -24,7 +24,7 @@ func print() -> String:
 	string += "Max Energy: " + str(max_energy) + "\n"
 	string += "Energy Regen: " + str(energy_regen) + "\n"
 	
-	var total_weight = weight
+	var total_weight = weight + weapon.weight
 	var total_armor = 0
 	for type in armor.keys():
 		total_weight += armor[type].weight
@@ -41,7 +41,9 @@ func print() -> String:
 	return string
 
 func damage(attack_info : Dictionary):
-	#attack_info["cut"] -= armor
+	for key in armor.keys():
+		if armor[key] != null:
+			attack_info["cut"] -= armor[key].armor
 	var damage = maxi(attack_info["blunt"] + attack_info["cut"], 0)
 	health -= damage
 	emit_signal("info_changed")

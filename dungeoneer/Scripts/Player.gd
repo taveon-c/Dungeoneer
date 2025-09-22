@@ -15,7 +15,11 @@ func _ready() -> void:
 
 func move(pos : Vector2) -> void:
 	self.global_position = pos
-	info.spend_energy(info.weight)
+	var total_weight = info.weight + info.weapon.weight
+	for key in info.armor.keys():
+		if info.armor[key] != null:
+			total_weight += info.armor[key].weight
+	info.spend_energy(total_weight)
 	emit_signal("moved")
 
 func attack(attack_info : Dictionary) -> void:
@@ -51,7 +55,7 @@ func pickup(pos : Vector2):
 				pickup.queue_free()
 				info.emit_signal("info_changed")
 			"Armor":
-				if info.armor[pickup.item.type]:
+				if pickup.item.type in info.armor.keys():
 					var armor_drop = pickup_scene.instantiate()
 					armor_drop.item[pickup.item.type] = info.armor[pickup.item.type]
 					owner.add_child(armor_drop)

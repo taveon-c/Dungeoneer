@@ -6,7 +6,8 @@
 script = ExtResource("1_ngbdt")
 name = "Sword"
 range = 2
-cut = 21
-blunt = 12
-cost = 8
+cut = 24
+blunt = 14
+cost = 20
+weight = 2
 metadata/_custom_type_script = "uid://cvkgjmf2t5rgo"

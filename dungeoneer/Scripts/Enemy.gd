@@ -32,13 +32,15 @@ func on_info_changed():
 		queue_free()
 
 func move(layer : int, obstacles : Array):
+	print("MOVE")
 	var players = get_tree().get_nodes_in_group("player")
 	var player = players[0]
 	
 	level.set_astar_obstacles(layer, obstacles)
 	var self_id = map.local_to_map(self.global_position)
 	var player_id = map.local_to_map(player.global_position)
-	var path = get_parent().astar_layers[layer].get_point_path(self_id, player_id, true)
+	var path : Array = get_parent().astar_layers[layer].get_point_path(self_id, player_id, true)
+	path.pop_back()
 	level.clear_astar_obstacles(layer, obstacles)
 	if path.size() > 1:
 		self.global_position = path[1]

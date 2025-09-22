@@ -13,6 +13,7 @@ func choose_action():
 		emit_signal("end_turn")
 
 func attack():
+	print("Attack")
 	var players = get_tree().get_nodes_in_group("player")
 	var player = players[0]
 	player.info.spend_energy(info.action["stun"])

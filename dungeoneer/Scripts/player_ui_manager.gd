@@ -13,19 +13,22 @@ var player : StaticBody2D
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and current_state == State.NONE:
-		var mouse_position = get_parent().get_global_mouse_position()
-		var items = get_tree().get_nodes_in_group("item")
-		var enemies = get_tree().get_nodes_in_group("enemy")
-		for item in items:
-			if item.global_position == level.map.map_to_local(level.map.local_to_map(mouse_position)):
-				select_info_label.display_info(item.item)
-				return
-		for enemy in enemies:
-			if enemy.global_position == level.map.map_to_local(level.map.local_to_map(mouse_position)):
-				select_info_label.display_info(enemy.info)
-				return
 		select_info_label.clear_info()
-		
+		var mouse_position = get_parent().get_global_mouse_position()
+		var mouse_cell = level.map.local_to_map(mouse_position)
+		var non_visible_cells = get_parent().visibility.get_used_cells()
+		if not mouse_cell in non_visible_cells:
+			var mouse_cell_position = level.map.map_to_local(mouse_cell)
+			var items = get_tree().get_nodes_in_group("item")
+			var enemies = get_tree().get_nodes_in_group("enemy")
+			for item in items:
+				if item.global_position == mouse_cell_position:
+					select_info_label.display_info(item.item)
+					return
+			for enemy in enemies:
+				if enemy.global_position == mouse_cell_position:
+					select_info_label.display_info(enemy.info)
+					return
 
 func _physics_process(delta: float) -> void:
 	match current_state:

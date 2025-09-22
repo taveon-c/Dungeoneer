@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("1_7kgqc")
-name = ""
-armor_type = 4
-armor = 5
-weight = 3
+name = "Greaves"
+type = 4
+armor = 6
+weight = 6
 metadata/_custom_type_script = "uid://i6csjwu3e5kt"

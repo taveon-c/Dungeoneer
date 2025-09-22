@@ -211,6 +211,9 @@ func _on_turn_end() -> void:
 		enemies[turn-1].disconnect("end_turn", _on_turn_end)
 	
 	turn = (turn + 1) % (enemies.size() + 1)
+	print(turn)
+	print(enemies.size())
+	print()
 	if turn == 0:
 		if player.info.health <= 0:
 			print("YOU DIED")

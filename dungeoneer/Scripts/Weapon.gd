@@ -5,7 +5,8 @@ class_name Weapon
 @export var range : int = 1
 @export var cut : int = 0
 @export var blunt : int = 1
-@export var cost : int = 0
+@export var cost : int = 1
+@export var weight : int = 1
 
 func action(mouse_position: Vector2, player : Node2D) -> Dictionary:
 	var hints : Array[Vector2] = []

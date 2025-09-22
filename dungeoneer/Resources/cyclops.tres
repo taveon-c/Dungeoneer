@@ -5,15 +5,15 @@
 [resource]
 script = ExtResource("1_ygk54")
 name = "Cyclops"
-max_health = 86
-armor = 9
-max_energy = 38
-energy_regen = 19
-weight = 15
+max_health = 110
+armor = 8
+max_energy = 118
+energy_regen = 44
+weight = 32
 action = Dictionary[String, int]({
 "": 0,
-"blunt": 35,
-"cost": 21,
-"stun": 10
+"blunt": 32,
+"cost": 42,
+"stun": 6
 })
 metadata/_custom_type_script = "uid://bliu5ep60cge0"

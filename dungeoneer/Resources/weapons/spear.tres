@@ -6,7 +6,8 @@
 script = ExtResource("1_nacrp")
 name = "Spear"
 range = 3
-cut = 30
-blunt = 15
-cost = 11
+cut = 36
+blunt = 14
+cost = 24
+weight = 6
 metadata/_custom_type_script = "uid://cvkgjmf2t5rgo"

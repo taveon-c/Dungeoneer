@@ -5,15 +5,15 @@
 [resource]
 script = ExtResource("1_7wp8f")
 name = "Dark Wizard"
-max_health = 32
+max_health = 58
 armor = 0
-max_energy = 25
-energy_regen = 8
-weight = 7
+max_energy = 40
+energy_regen = 16
+weight = 12
 action = Dictionary[String, int]({
-"blunt": 7,
-"cost": 11,
-"cut": 13,
+"blunt": 12,
+"cost": 26,
+"cut": 8,
 "range": 3
 })
 metadata/_custom_type_script = "uid://bliu5ep60cge0"

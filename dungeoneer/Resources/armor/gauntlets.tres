@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_nb4q3")
 name = "Gauntlets"
-armor_type = 3
+type = 3
 armor = 6
-weight = 1
+weight = 2
 metadata/_custom_type_script = "uid://i6csjwu3e5kt"

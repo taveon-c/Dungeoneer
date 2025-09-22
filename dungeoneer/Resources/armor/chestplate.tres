@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_cbojo")
 name = "Chestplate"
-armor_type = 2
+type = 2
 armor = 10
-weight = 3
+weight = 6
 metadata/_custom_type_script = "uid://i6csjwu3e5kt"
