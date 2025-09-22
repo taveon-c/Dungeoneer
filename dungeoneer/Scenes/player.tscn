@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://5ujaqgyflkv4" path="res://Scripts/player.gd" id="1_onrkg"]
 [ext_resource type="Resource" uid="uid://dnhbyycvgj0f2" path="res://Resources/player_info.tres" id="2_fkybt"]
 [ext_resource type="PackedScene" uid="uid://c7ra7c2l5jmdt" path="res://Scenes/pickup.tscn" id="3_x3wgy"]
-[ext_resource type="Resource" uid="uid://csojy7m77jhjy" path="res://Resources/level_info.tres" id="5_2hs0m"]
+[ext_resource type="Resource" uid="uid://coy7ehdtpmkxk" path="res://Resources/level_info.tres" id="4_x3wgy"]
 [ext_resource type="Script" uid="uid://x67jaxm6n2ds" path="res://Scripts/hints.gd" id="7_3smsa"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_onrkg"]
@@ -21,7 +21,7 @@ script = ExtResource("1_onrkg")
 info = ExtResource("2_fkybt")
 hints = NodePath("Hints")
 pickup_scene = ExtResource("3_x3wgy")
-level_info = ExtResource("5_2hs0m")
+level_info = ExtResource("4_x3wgy")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_onrkg")
@@ -33,4 +33,3 @@ texture = SubResource("AtlasTexture_i3pqv")
 [node name="Hints" type="Node2D" parent="."]
 top_level = true
 script = ExtResource("7_3smsa")
-level_info = ExtResource("5_2hs0m")

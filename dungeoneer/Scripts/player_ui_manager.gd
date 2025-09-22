@@ -10,8 +10,12 @@ var player : StaticBody2D
 @export var select_info_label : Label
 @export var level : Node2D
 @export var current_state: State
+var select_enemy : Enemy
 
 func _input(event: InputEvent) -> void:
+	if select_enemy:
+		select_enemy.hints.visible = false
+		select_enemy = null
 	if event is InputEventMouseMotion and current_state == State.NONE:
 		select_info_label.clear_info()
 		var mouse_position = get_parent().get_global_mouse_position()
@@ -28,6 +32,8 @@ func _input(event: InputEvent) -> void:
 			for enemy in enemies:
 				if enemy.global_position == mouse_cell_position:
 					select_info_label.display_info(enemy.info)
+					enemy.hints.visible = true
+					select_enemy = enemy
 					return
 
 func _physics_process(delta: float) -> void:

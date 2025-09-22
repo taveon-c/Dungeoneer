@@ -1,34 +1,34 @@
-[gd_resource type="Resource" script_class="LevelInfo" load_steps=13 format=3 uid="uid://csojy7m77jhjy"]
+[gd_resource type="Resource" script_class="LevelInfo" load_steps=13 format=3 uid="uid://coy7ehdtpmkxk"]
 
-[ext_resource type="PackedScene" uid="uid://xa5hb4fiuy0e" path="res://Scenes/dark_wizard.tscn" id="1_oyeht"]
+[ext_resource type="PackedScene" uid="uid://xa5hb4fiuy0e" path="res://Scenes/dark_wizard.tscn" id="1_ftscg"]
 [ext_resource type="Script" uid="uid://cblkvnppp1gof" path="res://Scripts/level_info.gd" id="1_vwihg"]
-[ext_resource type="PackedScene" uid="uid://i8pnlyvpihla" path="res://Scenes/cyclops.tscn" id="2_41udd"]
-[ext_resource type="PackedScene" uid="uid://c7ra7c2l5jmdt" path="res://Scenes/pickup.tscn" id="3_4adbb"]
-[ext_resource type="Resource" uid="uid://u0wjcdyj4bt5" path="res://Resources/weapons/hammer.tres" id="4_gcfks"]
-[ext_resource type="Resource" uid="uid://cmx65npaomycj" path="res://Resources/weapons/sword.tres" id="5_bp8li"]
-[ext_resource type="Resource" uid="uid://dgwurg5anidn5" path="res://Resources/weapons/spear.tres" id="5_ftscg"]
-[ext_resource type="Resource" uid="uid://8dnctnn4y0xa" path="res://Resources/armor/chestplate.tres" id="6_ftscg"]
-[ext_resource type="Resource" uid="uid://c5b6g75o7ho2e" path="res://Resources/armor/gauntlets.tres" id="7_sa20n"]
-[ext_resource type="Resource" uid="uid://dg0wj8g1telt7" path="res://Resources/armor/greaves.tres" id="8_cm360"]
-[ext_resource type="Resource" uid="uid://bl4frxie4n3j2" path="res://Resources/armor/helmet.tres" id="9_nui1b"]
-[ext_resource type="Resource" uid="uid://dq02yih7mppdu" path="res://Resources/armor/pauldrons.tres" id="10_dvfml"]
+[ext_resource type="PackedScene" uid="uid://i8pnlyvpihla" path="res://Scenes/cyclops.tscn" id="2_sa20n"]
+[ext_resource type="Resource" uid="uid://u0wjcdyj4bt5" path="res://Resources/weapons/hammer.tres" id="3_cm360"]
+[ext_resource type="Resource" uid="uid://dgwurg5anidn5" path="res://Resources/weapons/spear.tres" id="4_nui1b"]
+[ext_resource type="Resource" uid="uid://cmx65npaomycj" path="res://Resources/weapons/sword.tres" id="5_dvfml"]
+[ext_resource type="Resource" uid="uid://8dnctnn4y0xa" path="res://Resources/armor/chestplate.tres" id="6_hmgtn"]
+[ext_resource type="Resource" uid="uid://c5b6g75o7ho2e" path="res://Resources/armor/gauntlets.tres" id="7_da6mt"]
+[ext_resource type="Resource" uid="uid://dg0wj8g1telt7" path="res://Resources/armor/greaves.tres" id="8_3tmb6"]
+[ext_resource type="Resource" uid="uid://bl4frxie4n3j2" path="res://Resources/armor/helmet.tres" id="9_p6l0j"]
+[ext_resource type="Resource" uid="uid://dq02yih7mppdu" path="res://Resources/armor/pauldrons.tres" id="10_gchbu"]
+[ext_resource type="PackedScene" uid="uid://c7ra7c2l5jmdt" path="res://Scenes/pickup.tscn" id="11_1uj45"]
 
 [resource]
 script = ExtResource("1_vwihg")
-MAP_HEIGHT = 41
-MAP_WIDTH = 72
+MAP_HEIGHT = 80
+MAP_WIDTH = 80
 HALL_LENGTH = 10
 ROOM_LENGTH_MAX = 9
 ROOM_LENGTH_MIN = 5
 NUM_HALLS_MAX = 10
-NUM_ROOMS_MIN = 3
-NUM_ROOMS_MAX = 7
+NUM_ROOMS_MIN = 4
+NUM_ROOMS_MAX = 6
 MIN_ENEMY = 8
-MAX_ENEMY = 12
+MAX_ENEMY = 10
 TILE_SIZE = 16
 MIN_ITEMS = 1
 MAX_ITEMS = 3
-ENEMY_SCENES = Array[PackedScene]([ExtResource("1_oyeht"), ExtResource("2_41udd")])
-PICKUP_SCENE = ExtResource("3_4adbb")
-ITEMS = Array[Resource]([ExtResource("5_ftscg"), ExtResource("4_gcfks"), ExtResource("5_bp8li"), ExtResource("6_ftscg"), ExtResource("7_sa20n"), ExtResource("8_cm360"), ExtResource("9_nui1b"), ExtResource("10_dvfml")])
+ENEMY_SCENES = Array[PackedScene]([ExtResource("1_ftscg"), ExtResource("2_sa20n")])
+PICKUP_SCENE = ExtResource("11_1uj45")
+ITEMS = Array[Resource]([ExtResource("3_cm360"), ExtResource("4_nui1b"), ExtResource("5_dvfml"), ExtResource("6_hmgtn"), ExtResource("7_da6mt"), ExtResource("8_3tmb6"), ExtResource("9_p6l0j"), ExtResource("10_gchbu")])
 metadata/_custom_type_script = "uid://cblkvnppp1gof"

@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://1032qlj1rdpy"]
 
 [ext_resource type="Script" uid="uid://cfdw8yhlfbiuu" path="res://Scripts/level.gd" id="1_6bp64"]
-[ext_resource type="Resource" uid="uid://csojy7m77jhjy" path="res://Resources/level_info.tres" id="2_344ge"]
+[ext_resource type="Resource" uid="uid://coy7ehdtpmkxk" path="res://Resources/level_info.tres" id="2_6bp64"]
 [ext_resource type="TileSet" uid="uid://bcqvhhga41wyn" path="res://Resources/map_tileset.tres" id="3_ynf5e"]
 [ext_resource type="TileSet" uid="uid://2y70m6uoicoa" path="res://Resources/visibility.tres" id="4_344ge"]
 [ext_resource type="PackedScene" uid="uid://c2yiqdldxyvog" path="res://Scenes/player_ui.tscn" id="5_d1ilt"]
@@ -17,7 +17,7 @@ script = ExtResource("1_6bp64")
 player = NodePath("Player")
 stair = NodePath("Stair")
 player_ui = NodePath("PlayerUI")
-info = ExtResource("2_344ge")
+info = ExtResource("2_6bp64")
 
 [node name="Map" type="TileMapLayer" parent="."]
 texture_filter = 1

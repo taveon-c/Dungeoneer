@@ -8,6 +8,6 @@ name = "Dagger"
 range = 1
 cut = 28
 blunt = 4
-cost = 16
+cost = 15
 weight = 1
 metadata/_custom_type_script = "uid://cvkgjmf2t5rgo"

@@ -1,4 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://b14r0335a1bkp"]
+[gd_scene load_steps=5 format=3 uid="uid://b14r0335a1bkp"]
+
+[ext_resource type="Script" uid="uid://x67jaxm6n2ds" path="res://Scripts/hints.gd" id="1_1f0kj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qi2p4"]
 size = Vector2(16, 16)
@@ -27,3 +29,7 @@ texture = SubResource("GradientTexture1D_afpow")
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
+
+[node name="Hints" type="Node2D" parent="."]
+visible = false
+script = ExtResource("1_1f0kj")

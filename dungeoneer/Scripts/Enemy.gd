@@ -6,6 +6,7 @@ class_name Enemy
 @onready var level : Node2D = $"../"
 @onready var indicator : Sprite2D = $"Indicator"
 @onready var timer : Timer = $"Timer"
+@onready var hints : Node2D = $"Hints"
 var actions : Array[Callable]
 var info : EnemyInfo
 signal end_turn
@@ -17,6 +18,10 @@ func _ready() -> void:
 	info.emit_signal("info_changed")
 	info.connect("info_changed", on_info_changed)
 	connect("end_turn", indicator.set_visible.bind(false))
+	generate_hints()
+
+func generate_hints():
+	pass
 
 func choose_action():
 	pass
@@ -32,7 +37,6 @@ func on_info_changed():
 		queue_free()
 
 func move(layer : int, obstacles : Array):
-	print("MOVE")
 	var players = get_tree().get_nodes_in_group("player")
 	var player = players[0]
 	
@@ -45,5 +49,6 @@ func move(layer : int, obstacles : Array):
 	if path.size() > 1:
 		self.global_position = path[1]
 		info.spend_energy(info.weight)
-	
-	choose_action()
+		choose_action()
+	else:
+		emit_signal("end_turn")

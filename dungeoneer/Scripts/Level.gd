@@ -202,18 +202,17 @@ func get_map_edge_distance(coords : Vector2i):
 	return min(left, right, up, down)
 
 func _on_turn_end() -> void:
+	print()
 	var enemies = get_tree().get_nodes_in_group("enemy")
 	
 	if turn == 0:
 		player.info.regen_energy()
 	else:
+		enemies[turn-1].indicator.visible = false
 		enemies[turn-1].info.regen_energy()
 		enemies[turn-1].disconnect("end_turn", _on_turn_end)
 	
 	turn = (turn + 1) % (enemies.size() + 1)
-	print(turn)
-	print(enemies.size())
-	print()
 	if turn == 0:
 		if player.info.health <= 0:
 			print("YOU DIED")
@@ -221,6 +220,7 @@ func _on_turn_end() -> void:
 		else:
 			player_ui.visible = true
 	else:
+		enemies[turn-1].indicator.visible = true
 		enemies[turn-1].connect("end_turn", _on_turn_end)
 		enemies[turn-1].choose_action()
 	
