@@ -1,13 +1,14 @@
 [gd_resource type="Resource" script_class="Weapon" load_steps=2 format=3 uid="uid://u0wjcdyj4bt5"]
 
-[ext_resource type="Script" uid="uid://cvkgjmf2t5rgo" path="res://Scripts/weapon.gd" id="1_ea6mb"]
+[ext_resource type="Script" uid="uid://cvkgjmf2t5rgo" path="res://Scripts/weapon.gd" id="1_jla3p"]
 
 [resource]
-script = ExtResource("1_ea6mb")
+script = ExtResource("1_jla3p")
 name = "Hammer"
 range = 2
-cut = 0
-blunt = 38
-cost = 22
-weight = 3
+health_damage = 2
+armor_damage = 2
+cost = 20
+weight = 6
+type = 0
 metadata/_custom_type_script = "uid://cvkgjmf2t5rgo"

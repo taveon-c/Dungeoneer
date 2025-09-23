@@ -112,6 +112,7 @@ func generate_level():
 	for num in num_enemies:
 		var enemy = info.ENEMY_SCENES.pick_random().instantiate()
 		add_child(enemy)
+		enemy.player = player
 		enemy.global_position = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
 		while enemy.global_position in item_positions or enemy.global_position == player.global_position:
 			enemy.global_position = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())

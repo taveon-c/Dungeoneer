@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://b14r0335a1bkp" path="res://Scenes/enemy.tscn" id="1_bswxm"]
 [ext_resource type="Script" uid="uid://cpseyaahnmxh" path="res://Scripts/dark_wizard.gd" id="2_b22ek"]
-[ext_resource type="Resource" uid="uid://bm2ef702ptb86" path="res://Resources/dark_wizard.tres" id="3_bswxm"]
+[ext_resource type="Resource" uid="uid://dv6r22h368y0o" path="res://Resources/Entities/dark_wizard.tres" id="3_bswxm"]
 [ext_resource type="Texture2D" uid="uid://ci6t6h2af6w08" path="res://tilemap_packed.png" id="4_mskny"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qjiss"]

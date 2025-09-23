@@ -5,33 +5,44 @@ enum State {
 	ATTACK,
 	PICKUP
 }
-var player : StaticBody2D
+
+@export var player : Node2D
+@export var level : Node2D
 @export var player_info_label : Label
 @export var select_info_label : Label
-@export var level : Node2D
+@export var end_turn_button : Button
 @export var current_state: State
 var select_enemy : Enemy
+
+func _ready() -> void:
+	player.info.connect("info_changed", on_info_changed)
+	end_turn_button.connect("pressed", level._on_turn_end)
+	end_turn_button.connect("pressed", set_visible.bind(false))
 
 func _input(event: InputEvent) -> void:
 	if select_enemy:
 		select_enemy.hints.visible = false
 		select_enemy = null
 	if event is InputEventMouseMotion and current_state == State.NONE:
-		select_info_label.clear_info()
+		select_info_label.text = ""
 		var mouse_position = get_parent().get_global_mouse_position()
 		var mouse_cell = level.map.local_to_map(mouse_position)
 		var non_visible_cells = get_parent().visibility.get_used_cells()
 		if not mouse_cell in non_visible_cells:
 			var mouse_cell_position = level.map.map_to_local(mouse_cell)
-			var items = get_tree().get_nodes_in_group("item")
+			var pickups = get_tree().get_nodes_in_group("pickup")
 			var enemies = get_tree().get_nodes_in_group("enemy")
-			for item in items:
-				if item.global_position == mouse_cell_position:
-					select_info_label.display_info(item.item)
+			for pickup in pickups:
+				if pickup.global_position == mouse_cell_position:
+					match pickup.item.type:
+						0:
+							select_info_label.text = pickup.item.print()
+						1:
+							select_info_label.text = "armor"
 					return
 			for enemy in enemies:
 				if enemy.global_position == mouse_cell_position:
-					select_info_label.display_info(enemy.info)
+					select_info_label.text = enemy.info.print()
 					enemy.hints.visible = true
 					select_enemy = enemy
 					return
@@ -86,6 +97,12 @@ func _physics_process(delta: float) -> void:
 					if Input.is_action_just_pressed("select"):
 						player.pickup(new_position)
 			level.clear_astar_obstacles(2, ["enemy"])
+
+func on_info_changed():
+	player_info_label.text = player.info.print()
+
+func on_return_pressed() -> void:
+	get_tree().change_scene_to_file("res://Scenes/menu.tscn")
 
 func set_state(state : State):
 	player = get_tree().get_first_node_in_group("player")

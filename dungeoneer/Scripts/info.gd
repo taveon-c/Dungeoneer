@@ -1,13 +1,11 @@
 extends Resource
 class_name Info
 
-@export var max_health : int
-@export var max_energy : int
-@export var energy_regen : int = 1
-@export var inventory_slots : int = 0
-@export var weight : int = 0
-@export var weapon : Weapon
-@export var armor : Dictionary[Armor.Type, Armor]
+@export_range(0, 99) var max_health : int
+@export_range(0, 999) var max_energy : int
+@export_range(0, 99) var energy_regen : int = 1
+@export_range(0, 99) var weight : int = 0
+@export_range(0, 99) var armor : int
 var health = 0
 var energy = 0
 
@@ -17,35 +15,15 @@ func _init() -> void:
 	health = max_health
 	energy = max_energy
 
-func print() -> String:
-	var string : String = ""
-	string += "Player" + "\n"
-	string += "Max Health: " + str(max_health) + "\n"
-	string += "Max Energy: " + str(max_energy) + "\n"
-	string += "Energy Regen: " + str(energy_regen) + "\n"
-	
-	var total_weight = weight + weapon.weight
-	var total_armor = 0
-	for type in armor.keys():
-		total_weight += armor[type].weight
-		total_armor += armor[type].armor
-	string += "Weight: " + str(total_weight) + "\n"
-	string += "Armor: " + str(total_armor) + "\n"
-	
-	string += "Health: " + str(health) + "\n"
-	string += "Energy: " + str(energy) + "\n"
-	
-	string += "\n"
-	string += weapon.print()
-	
-	return string
-
 func damage(attack_info : Dictionary):
-	for key in armor.keys():
-		if armor[key] != null:
-			attack_info["cut"] -= armor[key].armor
-	var damage = maxi(attack_info["blunt"] + attack_info["cut"], 0)
-	health -= damage
+	if armor > 0:
+		print(attack_info["armor_damage"])
+		armor -= attack_info["armor_damage"]
+		armor = maxi(0, armor)
+	else:
+		print(attack_info["health_damage"])
+		health -= attack_info["health_damage"]
+		
 	emit_signal("info_changed")
 	return attack_info
 

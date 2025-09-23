@@ -1,13 +1,14 @@
 [gd_resource type="Resource" script_class="Weapon" load_steps=2 format=3 uid="uid://dgwurg5anidn5"]
 
-[ext_resource type="Script" uid="uid://cvkgjmf2t5rgo" path="res://Scripts/weapon.gd" id="1_nacrp"]
+[ext_resource type="Script" uid="uid://cvkgjmf2t5rgo" path="res://Scripts/weapon.gd" id="1_7aow6"]
 
 [resource]
-script = ExtResource("1_nacrp")
+script = ExtResource("1_7aow6")
 name = "Spear"
 range = 3
-cut = 36
-blunt = 14
-cost = 24
-weight = 6
+health_damage = 3
+armor_damage = 2
+cost = 22
+weight = 8
+type = 0
 metadata/_custom_type_script = "uid://cvkgjmf2t5rgo"

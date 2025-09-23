@@ -1,18 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://c2yiqdldxyvog"]
+[gd_scene load_steps=3 format=3 uid="uid://c2yiqdldxyvog"]
 
 [ext_resource type="Theme" uid="uid://cnabk1ati27qo" path="res://Resources/theme.tres" id="1_654h1"]
 [ext_resource type="Script" uid="uid://dsrda6yo6elgu" path="res://Scripts/player_ui_manager.gd" id="1_tybkg"]
-[ext_resource type="Script" uid="uid://bpqnyeyynkkwb" path="res://Scripts/info_label.gd" id="2_pc08v"]
-[ext_resource type="Script" uid="uid://bxmrdkr5i14w7" path="res://Scripts/select_info_label.gd" id="4_6jssq"]
-[ext_resource type="Script" uid="uid://r477qkqo6tu5" path="res://Scripts/end_turn.gd" id="5_gxl1c"]
-[ext_resource type="Resource" uid="uid://dnhbyycvgj0f2" path="res://Resources/player_info.tres" id="5_uflt7"]
-[ext_resource type="Script" uid="uid://b2pgy2ilmuixb" path="res://Scripts/return_to_menu.gd" id="8_3nrpj"]
 
-[node name="PlayerUI" type="CanvasLayer" node_paths=PackedStringArray("player_info_label", "select_info_label")]
+[node name="PlayerUI" type="CanvasLayer" node_paths=PackedStringArray("player_info_label", "select_info_label", "end_turn_button")]
 follow_viewport_enabled = true
 script = ExtResource("1_tybkg")
 player_info_label = NodePath("Info Container/PlayerContainer/PlayerInfo")
 select_info_label = NodePath("Info Container/SelectContainer/SelectInfo")
+end_turn_button = NodePath("End Turn")
 
 [node name="Action Container" type="HBoxContainer" parent="."]
 anchors_preset = 2
@@ -56,7 +52,6 @@ vertical = true
 
 [node name="SelectInfo" type="Label" parent="Info Container/SelectContainer"]
 layout_mode = 2
-script = ExtResource("4_6jssq")
 
 [node name="PlayerContainer" type="BoxContainer" parent="Info Container"]
 layout_mode = 2
@@ -65,8 +60,6 @@ vertical = true
 [node name="PlayerInfo" type="Label" parent="Info Container/PlayerContainer"]
 layout_mode = 2
 text = "info"
-script = ExtResource("2_pc08v")
-info = ExtResource("5_uflt7")
 
 [node name="End Turn" type="Button" parent="."]
 anchors_preset = 3
@@ -80,7 +73,6 @@ grow_horizontal = 0
 grow_vertical = 0
 theme = ExtResource("1_654h1")
 text = "End Turn"
-script = ExtResource("5_gxl1c")
 
 [node name="Exit" type="Button" parent="."]
 visible = false
@@ -96,12 +88,11 @@ grow_vertical = 0
 theme = ExtResource("1_654h1")
 text = "Exit"
 
-[node name="ReturnToMenu" type="Button" parent="."]
+[node name="Return" type="Button" parent="."]
 offset_right = 8.0
 offset_bottom = 8.0
 theme = ExtResource("1_654h1")
 text = "Return to Menu"
-script = ExtResource("8_3nrpj")
 
 [connection signal="pressed" from="Action Container/Move" to="." method="set_state" binds= [1]]
 [connection signal="pressed" from="Action Container/Move" to="Action Container" method="set_visible" binds= [false]]
@@ -119,4 +110,4 @@ script = ExtResource("8_3nrpj")
 [connection signal="pressed" from="Exit" to="Action Container" method="set_visible" binds= [true]]
 [connection signal="pressed" from="Exit" to="End Turn" method="set_visible" binds= [true]]
 [connection signal="pressed" from="Exit" to="Exit" method="set_visible" binds= [false]]
-[connection signal="pressed" from="ReturnToMenu" to="ReturnToMenu" method="_on_pressed"]
+[connection signal="pressed" from="Return" to="." method="on_return_pressed"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://1032qlj1rdpy"]
+[gd_scene load_steps=10 format=3 uid="uid://1032qlj1rdpy"]
 
 [ext_resource type="Script" uid="uid://cfdw8yhlfbiuu" path="res://Scripts/level.gd" id="1_6bp64"]
 [ext_resource type="Resource" uid="uid://coy7ehdtpmkxk" path="res://Resources/level_info.tres" id="2_6bp64"]
@@ -6,6 +6,7 @@
 [ext_resource type="TileSet" uid="uid://2y70m6uoicoa" path="res://Resources/visibility.tres" id="4_344ge"]
 [ext_resource type="PackedScene" uid="uid://c2yiqdldxyvog" path="res://Scenes/player_ui.tscn" id="5_d1ilt"]
 [ext_resource type="PackedScene" uid="uid://dicrps48cfjk8" path="res://Scenes/player.tscn" id="6_6iyac"]
+[ext_resource type="Resource" uid="uid://duly2c7okrvs4" path="res://Resources/Entities/player.tres" id="6_344ge"]
 [ext_resource type="Texture2D" uid="uid://ci6t6h2af6w08" path="res://tilemap_packed.png" id="7_fdnlq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5vw27"]
@@ -29,11 +30,13 @@ wait_time = 0.5
 
 [node name="Spawns" type="Node2D" parent="."]
 
-[node name="PlayerUI" parent="." node_paths=PackedStringArray("level") instance=ExtResource("5_d1ilt")]
+[node name="PlayerUI" parent="." node_paths=PackedStringArray("player", "level") instance=ExtResource("5_d1ilt")]
 follow_viewport_enabled = false
+player = NodePath("../Player")
 level = NodePath("..")
 
 [node name="Player" parent="." instance=ExtResource("6_6iyac")]
+info = ExtResource("6_344ge")
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(1.5, 1.5)

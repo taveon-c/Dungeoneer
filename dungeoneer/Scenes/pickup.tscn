@@ -10,11 +10,12 @@ size = Vector2(16, 16)
 atlas = ExtResource("2_cya6u")
 region = Rect2(80, 112, 16, 16)
 
-[node name="Pickup" type="Area2D" groups=["item"]]
+[node name="Pickup" type="Area2D" groups=["pickup"]]
 script = ExtResource("1_v7u4w")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_cnuki")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
 texture = SubResource("AtlasTexture_nya46")

@@ -23,7 +23,7 @@ window/size/viewport_width=1154
 
 enemy=""
 player=""
-item=""
+pickup=""
 
 [input]
 

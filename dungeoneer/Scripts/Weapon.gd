@@ -1,12 +1,12 @@
-extends Resource
+extends Item
 class_name Weapon
 
 @export var name : String
-@export var range : int = 1
-@export var cut : int = 0
-@export var blunt : int = 1
-@export var cost : int = 1
-@export var weight : int = 1
+@export_range(0, 99) var range : int
+@export_range(0, 99) var health_damage : int 
+@export_range(0, 99) var armor_damage : int
+@export_range(0, 99) var cost : int
+@export_range(0, 99) var weight : int
 
 func action(mouse_position: Vector2, player : Node2D) -> Dictionary:
 	var hints : Array[Vector2] = []
@@ -30,15 +30,15 @@ func action(mouse_position: Vector2, player : Node2D) -> Dictionary:
 		"spaces" : spaces,
 		"hints" : hints,
 		"cost" : cost,
-		"cut" : cut,
-		"blunt" : blunt
+		"health_damage" : health_damage,
+		"armor_damage" : armor_damage
 	}
 
 func print() -> String:
 	var string = ""
 	string +=  str(name) + "\n"
-	string += "Range: " + str(range) + "\n"
-	string += "Cut: " + str(cut) + "\n"
-	string += "Blunt: " + str(blunt) + "\n"
-	string += "Cost: " + str(cost) + "\n"
+	string += "range: " + str(range) + "\n"
+	string += "health damage: " + str(health_damage) + "\n"
+	string += "armor damage: " + str(armor_damage) + "\n"
+	string += "cost: " + str(cost) + "\n"
 	return string

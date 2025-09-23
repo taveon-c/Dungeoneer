@@ -7,7 +7,7 @@ class_name Enemy
 @onready var indicator : Sprite2D = $"Indicator"
 @onready var timer : Timer = $"Timer"
 @onready var hints : Node2D = $"Hints"
-var actions : Array[Callable]
+var player : Node2D
 var info : EnemyInfo
 signal end_turn
 
@@ -52,3 +52,14 @@ func move(layer : int, obstacles : Array):
 		choose_action()
 	else:
 		emit_signal("end_turn")
+
+func attack():
+	player.info.damage(
+			{
+				"health_damage" : info.action["health_damage"],
+				"armor_damage" : info.action["armor_damage"]
+			}
+		)
+	info.spend_energy(info.action["cost"])
+	
+	choose_action()
