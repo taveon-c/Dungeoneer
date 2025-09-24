@@ -5,7 +5,7 @@ func generate_hints():
 		for y in range(-info.action["range"], info.action["range"] + 1):
 			var cell_position = Vector2(x, y) * level.info.TILE_SIZE
 			if cell_position.length() <= info.action["range"] * level.info.TILE_SIZE:
-				hints.generate_hint(Color.RED, cell_position)
+				level.hints.generate_hint(Color.RED, global_position + cell_position)
 
 func choose_action():
 	var distance = global_position.distance_to(player.global_position)

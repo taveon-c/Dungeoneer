@@ -1,8 +1,8 @@
 extends Node2D
 @export var info : PlayerInfo
-@export var hints : Node2D
 @export var pickup_scene : PackedScene
 @export var level_info : LevelInfo
+var hints : Node2D
 var is_moving : bool
 var is_action : bool
 

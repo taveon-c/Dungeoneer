@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://1032qlj1rdpy"]
+[gd_scene load_steps=11 format=3 uid="uid://1032qlj1rdpy"]
 
 [ext_resource type="Script" uid="uid://cfdw8yhlfbiuu" path="res://Scripts/level.gd" id="1_6bp64"]
 [ext_resource type="Resource" uid="uid://coy7ehdtpmkxk" path="res://Resources/level_info.tres" id="2_6bp64"]
@@ -8,27 +8,29 @@
 [ext_resource type="PackedScene" uid="uid://dicrps48cfjk8" path="res://Scenes/player.tscn" id="6_6iyac"]
 [ext_resource type="Resource" uid="uid://duly2c7okrvs4" path="res://Resources/Entities/player.tres" id="6_344ge"]
 [ext_resource type="Texture2D" uid="uid://ci6t6h2af6w08" path="res://tilemap_packed.png" id="7_fdnlq"]
+[ext_resource type="Script" uid="uid://x67jaxm6n2ds" path="res://Scripts/hints.gd" id="8_ynf5e"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5vw27"]
 atlas = ExtResource("7_fdnlq")
 region = Rect2(144, 0, 16, 16)
 
-[node name="Level" type="Node2D" node_paths=PackedStringArray("player", "stair", "player_ui")]
+[node name="Level" type="Node2D" node_paths=PackedStringArray("player", "hints", "entities", "stair", "player_ui")]
 script = ExtResource("1_6bp64")
 player = NodePath("Player")
+hints = NodePath("Hints")
+entities = NodePath("Entities")
 stair = NodePath("Stair")
 player_ui = NodePath("PlayerUI")
 info = ExtResource("2_6bp64")
 
 [node name="Map" type="TileMapLayer" parent="."]
+visibility_layer = 4
 texture_filter = 1
 tile_set = ExtResource("3_ynf5e")
 navigation_enabled = false
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.5
-
-[node name="Spawns" type="Node2D" parent="."]
 
 [node name="PlayerUI" parent="." node_paths=PackedStringArray("player", "level") instance=ExtResource("5_d1ilt")]
 follow_viewport_enabled = false
@@ -45,11 +47,17 @@ zoom = Vector2(1.5, 1.5)
 texture_filter = 1
 texture = SubResource("AtlasTexture_5vw27")
 
+[node name="Hints" type="Node2D" parent="."]
+z_index = 3
+script = ExtResource("8_ynf5e")
+
+[node name="Entities" type="Node" parent="."]
+
 [node name="Visiblity" type="TileMapLayer" parent="."]
-top_level = true
+z_index = 1
 tile_set = ExtResource("4_344ge")
 occlusion_enabled = false
-y_sort_origin = 1
+y_sort_origin = 2
 
 [connection signal="timeout" from="Timer" to="." method="set_visible_tiles"]
 [connection signal="moved" from="Player" to="." method="_on_player_moved"]

@@ -17,11 +17,9 @@ func _init() -> void:
 
 func damage(attack_info : Dictionary):
 	if armor > 0:
-		print(attack_info["armor_damage"])
 		armor -= attack_info["armor_damage"]
 		armor = maxi(0, armor)
 	else:
-		print(attack_info["health_damage"])
 		health -= attack_info["health_damage"]
 		
 	emit_signal("info_changed")

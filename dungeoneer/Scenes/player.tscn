@@ -1,10 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://dicrps48cfjk8"]
+[gd_scene load_steps=7 format=3 uid="uid://dicrps48cfjk8"]
 
 [ext_resource type="Texture2D" uid="uid://ci6t6h2af6w08" path="res://tilemap_packed.png" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://5ujaqgyflkv4" path="res://Scripts/player.gd" id="1_onrkg"]
 [ext_resource type="PackedScene" uid="uid://c7ra7c2l5jmdt" path="res://Scenes/pickup.tscn" id="3_x3wgy"]
 [ext_resource type="Resource" uid="uid://coy7ehdtpmkxk" path="res://Resources/level_info.tres" id="4_x3wgy"]
-[ext_resource type="Script" uid="uid://x67jaxm6n2ds" path="res://Scripts/hints.gd" id="7_3smsa"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_onrkg"]
 size = Vector2(16, 16)
@@ -13,11 +12,10 @@ size = Vector2(16, 16)
 atlas = ExtResource("1_4flbx")
 region = Rect2(16, 112, 16, 16)
 
-[node name="Player" type="StaticBody2D" node_paths=PackedStringArray("hints") groups=["player"]]
-collision_layer = 2
+[node name="Player" type="StaticBody2D" groups=["player"]]
+collision_layer = 4
 collision_mask = 0
 script = ExtResource("1_onrkg")
-hints = NodePath("Hints")
 pickup_scene = ExtResource("3_x3wgy")
 level_info = ExtResource("4_x3wgy")
 
@@ -27,7 +25,3 @@ shape = SubResource("RectangleShape2D_onrkg")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
 texture = SubResource("AtlasTexture_i3pqv")
-
-[node name="Hints" type="Node2D" parent="."]
-top_level = true
-script = ExtResource("7_3smsa")

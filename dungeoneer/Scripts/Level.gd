@@ -4,11 +4,12 @@ var turn : int = 0
 @onready var timer : Timer = $Timer
 @onready var map : TileMapLayer = $Map
 @onready var visibility : TileMapLayer = $Visiblity
-@onready var spawns : Node2D = $Spawns
 @onready var astar_layers : Array[AStarGrid2D] = [AStarGrid2D.new(), AStarGrid2D.new(), AStarGrid2D.new()]
 #0 = all tiles, 1 = wall tiles, 2 = ground tiles
 
 @export var player : StaticBody2D
+@export var hints : Node2D
+@export var entities : Node
 @export var stair : Sprite2D
 @export var player_ui : CanvasLayer
 @export var info : LevelInfo
@@ -103,7 +104,7 @@ func generate_level():
 	for item in num_items:
 		var pickup = info.PICKUP_SCENE.instantiate()
 		pickup.item = info.ITEMS.pick_random()
-		add_child(pickup)
+		entities.add_child(pickup)
 		pickup.global_position = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
 		while pickup.global_position == stair.global_position or pickup.global_position == player.global_position:
 			pickup.global_position = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
@@ -111,8 +112,8 @@ func generate_level():
 	
 	for num in num_enemies:
 		var enemy = info.ENEMY_SCENES.pick_random().instantiate()
-		add_child(enemy)
 		enemy.player = player
+		entities.add_child(enemy)
 		enemy.global_position = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
 		while enemy.global_position in item_positions or enemy.global_position == player.global_position:
 			enemy.global_position = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
@@ -203,7 +204,6 @@ func get_map_edge_distance(coords : Vector2i):
 	return min(left, right, up, down)
 
 func _on_turn_end() -> void:
-	print()
 	var enemies = get_tree().get_nodes_in_group("enemy")
 	
 	if turn == 0:
@@ -214,7 +214,7 @@ func _on_turn_end() -> void:
 		enemies[turn-1].disconnect("end_turn", _on_turn_end)
 	
 	turn = (turn + 1) % (enemies.size() + 1)
-	if turn == 0:
+	if turn == 0 or enemies.size() == 0:
 		if player.info.health <= 0:
 			print("YOU DIED")
 			get_tree().change_scene_to_file("res://Scenes/menu.tscn")

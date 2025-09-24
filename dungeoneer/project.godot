@@ -35,6 +35,9 @@ select={
 
 [layer_names]
 
+2d_render/layer_1="hints"
+2d_render/layer_2="visibility"
+2d_render/layer_3="entities"
 2d_physics/layer_1="Walls"
 2d_physics/layer_2="Entities"
 

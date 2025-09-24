@@ -2,11 +2,10 @@ extends StaticBody2D
 class_name Enemy
 
 @export var base_info : EnemyInfo
-@onready var map : TileMapLayer = $"../Map"
-@onready var level : Node2D = $"../"
+@onready var map : TileMapLayer = $"../../Map"
+@onready var level : Node2D = $"../.."
 @onready var indicator : Sprite2D = $"Indicator"
 @onready var timer : Timer = $"Timer"
-@onready var hints : Node2D = $"Hints"
 var player : Node2D
 var info : EnemyInfo
 signal end_turn
@@ -43,8 +42,7 @@ func move(layer : int, obstacles : Array):
 	level.set_astar_obstacles(layer, obstacles)
 	var self_id = map.local_to_map(self.global_position)
 	var player_id = map.local_to_map(player.global_position)
-	var path : Array = get_parent().astar_layers[layer].get_point_path(self_id, player_id, true)
-	path.pop_back()
+	var path : Array = level.astar_layers[layer].get_point_path(self_id, player_id, true)
 	level.clear_astar_obstacles(layer, obstacles)
 	if path.size() > 1:
 		self.global_position = path[1]

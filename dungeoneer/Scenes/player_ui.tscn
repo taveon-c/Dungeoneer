@@ -106,6 +106,7 @@ text = "Return to Menu"
 [connection signal="pressed" from="Action Container/Pickup" to="Action Container" method="set_visible" binds= [false]]
 [connection signal="pressed" from="Action Container/Pickup" to="End Turn" method="set_visible" binds= [false]]
 [connection signal="pressed" from="Action Container/Pickup" to="Exit" method="set_visible" binds= [true]]
+[connection signal="pressed" from="End Turn" to="." method="on_end_pressed"]
 [connection signal="pressed" from="Exit" to="." method="set_state" binds= [0]]
 [connection signal="pressed" from="Exit" to="Action Container" method="set_visible" binds= [true]]
 [connection signal="pressed" from="Exit" to="End Turn" method="set_visible" binds= [true]]
