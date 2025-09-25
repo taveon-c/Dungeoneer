@@ -3,7 +3,6 @@ class_name Info
 
 @export_range(0, 99) var max_health : int
 @export_range(0, 999) var max_energy : int
-@export_range(0, 99) var energy_regen : int = 1
 @export_range(0, 99) var weight : int = 0
 @export_range(0, 99) var armor : int
 var health = 0
@@ -30,6 +29,5 @@ func spend_energy(cost : int):
 	emit_signal("info_changed")
 
 func regen_energy():
-	energy += energy_regen
-	energy = mini(energy, max_energy)
+	energy = max_energy
 	emit_signal("info_changed")

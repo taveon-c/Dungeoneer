@@ -7,14 +7,13 @@ script = ExtResource("1_q3vkq")
 name = "Cyclops"
 action = Dictionary[String, int]({
 "armor_damage": 2,
-"cost": 4,
+"cost": 8,
 "health_damage": 2,
-"range": 1,
-"stun": 1
+"range": 2,
+"stun": 2
 })
 max_health = 3
-max_energy = 10
-energy_regen = 2
-weight = 2
-armor = 1
+max_energy = 12
+weight = 4
+armor = 2
 metadata/_custom_type_script = "uid://bliu5ep60cge0"

@@ -11,19 +11,13 @@
 
 [resource]
 script = ExtResource("1_vwihg")
-MAP_HEIGHT = 80
-MAP_WIDTH = 80
+MAP_SIZES = Array[int]([50, 55, 60, 65, 70, 75, 80])
+ENEMY_NUMS = Array[int]([10, 15, 20, 25, 30, 35, 45])
+ITEM_NUMS = Array[int]([3, 3, 4, 6, 8, 10, 14])
 HALL_LENGTH = 10
-ROOM_LENGTH_MAX = 9
-ROOM_LENGTH_MIN = 5
-NUM_HALLS_MAX = 10
-NUM_ROOMS_MIN = 4
-NUM_ROOMS_MAX = 6
-MIN_ENEMY = 0
-MAX_ENEMY = 0
+ROOM_LENGTH_MAX = 7
+ROOM_LENGTH_MIN = 3
 TILE_SIZE = 16
-MIN_ITEMS = 1
-MAX_ITEMS = 3
 ENEMY_SCENES = Array[PackedScene]([ExtResource("1_ftscg"), ExtResource("2_sa20n")])
 PICKUP_SCENE = ExtResource("11_1uj45")
 ITEMS = Array[Resource]([ExtResource("3_bp8li"), ExtResource("4_oyeht"), ExtResource("5_41udd"), ExtResource("6_tuni1")])

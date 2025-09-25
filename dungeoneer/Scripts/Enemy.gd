@@ -4,7 +4,6 @@ class_name Enemy
 @export var base_info : EnemyInfo
 @onready var map : TileMapLayer = $"../../Map"
 @onready var level : Node2D = $"../.."
-@onready var indicator : Sprite2D = $"Indicator"
 @onready var timer : Timer = $"Timer"
 var player : Node2D
 var info : EnemyInfo
@@ -16,7 +15,6 @@ func _ready() -> void:
 	info.energy = info.max_energy
 	info.emit_signal("info_changed")
 	info.connect("info_changed", on_info_changed)
-	connect("end_turn", indicator.set_visible.bind(false))
 	generate_hints()
 
 func generate_hints():
@@ -28,8 +26,19 @@ func choose_action():
 func take_action(action : Callable, time_step : int):
 	if timer.timeout.has_connections():
 		timer.timeout.disconnect(timer.timeout.get_connections()[0]["callable"])
-	timer.timeout.connect(action)
-	timer.start(time_step)
+	if is_player_visible():
+		timer.timeout.connect(action)
+		timer.start(time_step)
+	else:
+		action.call()
+
+func is_player_visible():
+	var invisible_cells = level.visibility.get_used_cells()
+	var curr_cell = map.local_to_map(global_position)
+	if curr_cell in invisible_cells:
+		return false
+	else:
+		return true
 
 func on_info_changed():
 	if info.health <= 0:

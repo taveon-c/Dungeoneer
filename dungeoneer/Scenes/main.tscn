@@ -30,7 +30,7 @@ tile_set = ExtResource("3_ynf5e")
 navigation_enabled = false
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 0.5
+wait_time = 0.2
 
 [node name="PlayerUI" parent="." node_paths=PackedStringArray("player", "level") instance=ExtResource("5_d1ilt")]
 follow_viewport_enabled = false
