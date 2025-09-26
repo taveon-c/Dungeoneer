@@ -8,6 +8,8 @@ func generate_hints():
 				level.hints.generate_hint(Color.RED, global_position + cell_position)
 
 func choose_action():
+	if is_player_visible():
+		last_player_position = player.global_position
 	var distance = global_position.distance_to(player.global_position)
 	if info.energy >= info.action["cost"] and distance <= info.action["range"] * level.info.TILE_SIZE:
 		take_action(attack, 1)

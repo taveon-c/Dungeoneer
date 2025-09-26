@@ -61,6 +61,11 @@ func generate_level():
 					enemy.global_position = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
 					while enemy.global_position in item_positions or enemy.global_position == player.global_position:
 						enemy.global_position = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
+					
+					if enemy.is_player_visible():
+						enemy.last_player_position = player.global_position
+					else:
+						enemy.last_player_position = enemy.global_position
 				
 				timer.start()
 				return
@@ -227,6 +232,11 @@ func _on_turn_end() -> void:
 		enemies[turn-1].choose_action()
 	
 func _on_player_moved():
+	var enemies = get_tree().get_nodes_in_group("enemy")
+	for enemy in enemies:
+		if enemy.is_player_visible():
+			enemy.last_player_position = player.global_position
+	
 	if player.global_position == stair.global_position:
 		curr_level += 1
 		if curr_level == info.MAP_SIZES.size():

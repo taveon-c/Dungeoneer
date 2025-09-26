@@ -1,0 +1,14 @@
+[gd_scene load_steps=5 format=3 uid="uid://cryhdq2rme47f"]
+
+[ext_resource type="PackedScene" uid="uid://b14r0335a1bkp" path="res://Scenes/enemy.tscn" id="1_301y4"]
+[ext_resource type="Script" uid="uid://du77r1ie1mjuq" path="res://Scripts/wall_grog.gd" id="2_1ouxc"]
+[ext_resource type="Texture2D" uid="uid://bx6j2v2apej5w" path="res://Sprites/wall_grog.png" id="2_tex2y"]
+[ext_resource type="Resource" uid="uid://blshkx1cs1e6n" path="res://Resources/Entities/wall_grog.tres" id="3_jyesn"]
+
+[node name="wall_grog" instance=ExtResource("1_301y4")]
+script = ExtResource("2_1ouxc")
+base_info = ExtResource("3_jyesn")
+
+[node name="Sprite2D" type="Sprite2D" parent="." index="2"]
+texture_filter = 1
+texture = ExtResource("2_tex2y")

@@ -6,6 +6,8 @@ func generate_hints():
 			level.hints.generate_hint(Color.RED, global_position + Vector2(x, y) * level.info.TILE_SIZE)
 
 func choose_action():
+	if is_player_visible():
+		last_player_position = player.global_position
 	var displacement = abs(player.global_position - global_position)
 	if info.energy >= info.action["cost"] and displacement.x <= level.info.TILE_SIZE * info.action["range"] and displacement.y <= level.info.TILE_SIZE * info.action["range"]:
 		take_action(attack, 1.1)
