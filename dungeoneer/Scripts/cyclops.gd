@@ -10,6 +10,6 @@ func choose_action():
 	if info.energy >= info.action["cost"] and displacement.x <= level.info.TILE_SIZE * info.action["range"] and displacement.y <= level.info.TILE_SIZE * info.action["range"]:
 		take_action(attack, 1.1)
 	elif info.energy >= info.weight and (displacement.x > level.info.TILE_SIZE * info.action["range"] or displacement.y > level.info.TILE_SIZE * info.action["range"]):
-		take_action(move.bind(2, ["enemy", "item"]), 0.7)
+		take_action(move.bind(2, ["enemy", "pickup"]), 0.7)
 	else:
 		emit_signal("end_turn")

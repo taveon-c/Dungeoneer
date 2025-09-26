@@ -1,14 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://c7ra7c2l5jmdt"]
+[gd_scene load_steps=4 format=3 uid="uid://c7ra7c2l5jmdt"]
 
 [ext_resource type="Script" uid="uid://b2jlc5yggyf1m" path="res://Scripts/pickup.gd" id="1_v7u4w"]
-[ext_resource type="Texture2D" uid="uid://ci6t6h2af6w08" path="res://tilemap_packed.png" id="2_cya6u"]
+[ext_resource type="Texture2D" uid="uid://cpc7lybdvb4ll" path="res://Sprites/chest.png" id="2_cya6u"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cnuki"]
 size = Vector2(16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_nya46"]
-atlas = ExtResource("2_cya6u")
-region = Rect2(80, 112, 16, 16)
 
 [node name="Pickup" type="Area2D" groups=["pickup"]]
 script = ExtResource("1_v7u4w")
@@ -18,4 +14,4 @@ shape = SubResource("RectangleShape2D_cnuki")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
-texture = SubResource("AtlasTexture_nya46")
+texture = ExtResource("2_cya6u")

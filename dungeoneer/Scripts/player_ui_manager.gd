@@ -58,6 +58,7 @@ func _physics_process(delta: float) -> void:
 					if level.astar_layers[2].is_in_boundsv(neighbor) and not level.astar_layers[2].is_point_solid(neighbor):
 						options.append(neighbor)
 						level.hints.generate_hint(Color.DEEP_SKY_BLUE, level.map.map_to_local(neighbor))
+				level.clear_astar_obstacles(2, ["enemy", "item"])
 				
 				var mouse_coords = level.map.local_to_map(player.get_global_mouse_position())
 				if mouse_coords in options:
@@ -65,7 +66,6 @@ func _physics_process(delta: float) -> void:
 					level.hints.generate_hint(Color.DEEP_SKY_BLUE, new_position)
 					if Input.is_action_just_pressed("select"):
 						player.move(new_position)
-			level.clear_astar_obstacles(2, ["enemy", "item"])
 		State.ATTACK:
 			level.hints.clear_hints()
 			if player.info.weapon.cost <= player.info.energy:

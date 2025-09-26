@@ -4,6 +4,7 @@ class_name LevelInfo
 @export var MAP_SIZES : Array[int]
 @export var ENEMY_NUMS : Array[int]
 @export var ITEM_NUMS : Array[int]
+@export var STAIR_DISTANCES : Array[int]
 @export var HALL_LENGTH : int
 @export var ROOM_LENGTH_MAX : int
 @export var ROOM_LENGTH_MIN : int

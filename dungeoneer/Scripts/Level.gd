@@ -21,18 +21,74 @@ func _ready() -> void:
 	generate_level()
 
 func generate_level():
-	clear_level()
-	
 	var hall_dirs : Array[Vector2i] = [Vector2i(-1, 0), Vector2i(1, 0), Vector2i(0, -1), Vector2i(0, 1)]
-	for astar_grid in astar_layers:
-		astar_grid.region = Rect2i(Vector2i(0, 0), Vector2i(info.MAP_SIZES[curr_level], info.MAP_SIZES[curr_level]))
-		astar_grid.cell_size = Vector2(info.TILE_SIZE, info.TILE_SIZE)
-		astar_grid.offset = Vector2(info.TILE_SIZE / 2, info.TILE_SIZE / 2)
-		astar_grid.update()
 	
-	var hall_points = [map.local_to_map(player.global_position)]
+	while true:
+		clear_level()
+		for astar_grid in astar_layers:
+			astar_grid.region = Rect2i(Vector2i(0, 0), Vector2i(info.MAP_SIZES[curr_level], info.MAP_SIZES[curr_level]))
+			astar_grid.cell_size = Vector2(info.TILE_SIZE, info.TILE_SIZE)
+			astar_grid.offset = Vector2(info.TILE_SIZE / 2, info.TILE_SIZE / 2)
+			astar_grid.update()
+		var hall_points = generate_halls()
+		generate_rooms(hall_points)
+		map.update_internals()
+		
+		var tile_ids = map.get_used_cells()
+		for id in tile_ids:
+			visibility.set_cell(id, 0, Vector2i(0, 0))
+		
+		for i in range(8):
+			stair.global_position = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
+			var path = astar_layers[2].get_point_path(map.local_to_map(stair.global_position), map.local_to_map(player.global_position))
+			if path.size() > 25:
+				var num_items = info.ITEM_NUMS[curr_level]
+				var item_positions = []
+				for item in num_items:
+					var pickup = info.PICKUP_SCENE.instantiate()
+					pickup.item = info.ITEMS.pick_random()
+					entities.add_child(pickup)
+					pickup.global_position = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
+					while pickup.global_position == stair.global_position or pickup.global_position == player.global_position:
+						pickup.global_position = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
+					item_positions.append(pickup.global_position)
+				
+				var num_enemies = info.ENEMY_NUMS[curr_level]
+				for num in num_enemies:
+					var enemy = info.ENEMY_SCENES.pick_random().instantiate()
+					enemy.player = player
+					entities.add_child(enemy)
+					enemy.global_position = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
+					while enemy.global_position in item_positions or enemy.global_position == player.global_position:
+						enemy.global_position = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
+				
+				timer.start()
+				return
+
+func generate_rooms(hall_points : Array[Vector2i]):
+	for room in hall_points.size():
+		var point = hall_points.pop_front()
+		var width = randi_range(info.ROOM_LENGTH_MIN, info.ROOM_LENGTH_MAX)
+		var height = randi_range(info.ROOM_LENGTH_MIN, info.ROOM_LENGTH_MAX)
+		
+		for x in range(point.x - width/2 - 1, point.x + width/2 + 2):
+			for y in range(point.y - height/2 - 1, point.y + height/2 + 2):
+				if map.get_cell_atlas_coords(Vector2i(x, y)) != Vector2i(0, 0):
+					var coords = Vector2i(x, y)
+					map.set_cell(coords, 0, Vector2i(1, 0))
+					astar_layers[1].set_point_solid(coords, false)
+					astar_layers[2].set_point_solid(coords)
+		
+		for x in range(point.x - width/2, point.x + width/2 + 1):
+			for y in range(point.y - height/2, point.y + height/2 + 1):
+				var coords = Vector2i(x, y)
+				map.set_cell(coords, 0, Vector2i(0, 0))
+				astar_layers[1].set_point_solid(coords)
+				astar_layers[2].set_point_solid(coords, false)
+
+func generate_halls() -> Array[Vector2i]:
+	var hall_points : Array[Vector2i] = [map.local_to_map(player.global_position)]
 	var hall_connects = {hall_points[0] : []}
-	
 	var valid_points = get_next_valid_hall_points(hall_points.back(), hall_connects)
 	while valid_points.size() > 0:
 		var curr = hall_points.back()
@@ -46,7 +102,7 @@ func generate_level():
 			for y in range(up - 2, down + 3):
 				if map.get_cell_atlas_coords(Vector2i(x, y)) != Vector2i(0, 0):
 					var coords = Vector2i(x, y)
-					map.set_cell(coords, 0, Vector2i(4, 3))
+					map.set_cell(coords, 0, Vector2i(1, 0))
 					astar_layers[1].set_point_solid(coords, false)
 					astar_layers[2].set_point_solid(coords)
 		
@@ -65,59 +121,7 @@ func generate_level():
 			hall_connects[next] = [curr]
 			hall_points.append(next)
 			valid_points = get_next_valid_hall_points(next, hall_connects)
-	
-	for room in hall_points.size():
-		var point = hall_points.pop_front()
-		var width = randi_range(info.ROOM_LENGTH_MIN, info.ROOM_LENGTH_MAX)
-		var height = randi_range(info.ROOM_LENGTH_MIN, info.ROOM_LENGTH_MAX)
-		
-		for x in range(point.x - width/2 - 1, point.x + width/2 + 2):
-			for y in range(point.y - height/2 - 1, point.y + height/2 + 2):
-				if map.get_cell_atlas_coords(Vector2i(x, y)) != Vector2i(0, 0):
-					var coords = Vector2i(x, y)
-					map.set_cell(coords, 0, Vector2i(4, 3))
-					astar_layers[1].set_point_solid(coords, false)
-					astar_layers[2].set_point_solid(coords)
-		
-		for x in range(point.x - width/2, point.x + width/2 + 1):
-			for y in range(point.y - height/2, point.y + height/2 + 1):
-				var coords = Vector2i(x, y)
-				map.set_cell(coords, 0, Vector2i(0, 0))
-				astar_layers[1].set_point_solid(coords)
-				astar_layers[2].set_point_solid(coords, false)
-	
-	var tile_ids = map.get_used_cells()
-	for id in tile_ids:
-		visibility.set_cell(id, 0, Vector2i(0, 0))
-	
-	var num_enemies = info.ENEMY_NUMS[curr_level]
-	var num_items = info.ITEM_NUMS[curr_level]
-	
-	stair.global_position = map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random()
-	var path = astar_layers[2].get_id_path(map.local_to_map(player.global_position), map.local_to_map(stair.global_position))
-	while path.size() < 20:
-		stair.global_position = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
-		path = astar_layers[2].get_id_path(map.local_to_map(player.global_position), map.local_to_map(stair.global_position))
-	
-	var item_positions = []
-	for item in num_items:
-		var pickup = info.PICKUP_SCENE.instantiate()
-		pickup.item = info.ITEMS.pick_random()
-		entities.add_child(pickup)
-		pickup.global_position = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
-		while pickup.global_position == stair.global_position or pickup.global_position == player.global_position:
-			pickup.global_position = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
-		item_positions.append(pickup.global_position)
-	
-	for num in num_enemies:
-		var enemy = info.ENEMY_SCENES.pick_random().instantiate()
-		enemy.player = player
-		entities.add_child(enemy)
-		enemy.global_position = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
-		while enemy.global_position in item_positions or enemy.global_position == player.global_position:
-			enemy.global_position = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
-	
-	timer.start()
+	return hall_points
 
 func get_next_valid_hall_points(hall_point, hall_connects):
 	var valid_points = []
@@ -157,7 +161,7 @@ func clear_level():
 
 func set_visible_tiles():
 	var ground_cells = map.get_used_cells_by_id(0, Vector2i(0, 0))
-	var wall_cells = map.get_used_cells_by_id(0, Vector2i(4, 3))
+	var wall_cells = map.get_used_cells_by_id(0, Vector2i(1, 0))
 	for cell in wall_cells:
 		visibility.set_cell(cell, 0, Vector2i(0, 0))
 		
@@ -173,7 +177,7 @@ func set_visible_tiles():
 				visibility.erase_cell(cell)
 				var neighbor_cells = map.get_surrounding_cells(cell)
 				for neighbor in neighbor_cells:
-					if map.get_cell_atlas_coords(neighbor) == Vector2i(4, 3):
+					if map.get_cell_atlas_coords(neighbor) == Vector2i(1, 0):
 						visibility.erase_cell(neighbor)
 
 func set_astar_obstacles(layer: int, groups : Array):
@@ -228,6 +232,7 @@ func _on_player_moved():
 		if curr_level == info.MAP_SIZES.size():
 			print("YOU WIN")
 			get_tree().change_scene_to_file("res://Scenes/menu.tscn")
+			return
 		else:
 			player.info.max_energy += 2
 			player.info.max_health += 1

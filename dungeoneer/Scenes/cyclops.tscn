@@ -1,13 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://i8pnlyvpihla"]
+[gd_scene load_steps=5 format=3 uid="uid://i8pnlyvpihla"]
 
 [ext_resource type="PackedScene" uid="uid://b14r0335a1bkp" path="res://Scenes/enemy.tscn" id="1_1uw2x"]
 [ext_resource type="Script" uid="uid://dhqja473iyw2y" path="res://Scripts/cyclops.gd" id="2_6vwfg"]
 [ext_resource type="Resource" uid="uid://3l44v0qckxi3" path="res://Resources/Entities/cyclops.tres" id="3_1uw2x"]
-[ext_resource type="Texture2D" uid="uid://ci6t6h2af6w08" path="res://tilemap_packed.png" id="4_ljy2j"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_usuck"]
-atlas = ExtResource("4_ljy2j")
-region = Rect2(16, 144, 16, 16)
+[ext_resource type="Texture2D" uid="uid://b83hpvojqjn0l" path="res://Sprites/cyclops.png" id="4_1uw2x"]
 
 [node name="Cyclops" instance=ExtResource("1_1uw2x")]
 script = ExtResource("2_6vwfg")
@@ -15,4 +11,4 @@ base_info = ExtResource("3_1uw2x")
 
 [node name="Sprite2D" type="Sprite2D" parent="." index="2"]
 texture_filter = 1
-texture = SubResource("AtlasTexture_usuck")
+texture = ExtResource("4_1uw2x")

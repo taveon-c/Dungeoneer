@@ -1,13 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://xa5hb4fiuy0e"]
+[gd_scene load_steps=5 format=3 uid="uid://xa5hb4fiuy0e"]
 
 [ext_resource type="PackedScene" uid="uid://b14r0335a1bkp" path="res://Scenes/enemy.tscn" id="1_bswxm"]
 [ext_resource type="Script" uid="uid://cpseyaahnmxh" path="res://Scripts/dark_wizard.gd" id="2_b22ek"]
 [ext_resource type="Resource" uid="uid://dv6r22h368y0o" path="res://Resources/Entities/dark_wizard.tres" id="3_bswxm"]
-[ext_resource type="Texture2D" uid="uid://ci6t6h2af6w08" path="res://tilemap_packed.png" id="4_mskny"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qjiss"]
-atlas = ExtResource("4_mskny")
-region = Rect2(48, 144, 16, 16)
+[ext_resource type="Texture2D" uid="uid://dpym2qudi3ofj" path="res://Sprites/dark_wizard.png" id="4_bswxm"]
 
 [node name="Dark Wizard" instance=ExtResource("1_bswxm")]
 script = ExtResource("2_b22ek")
@@ -15,4 +11,4 @@ base_info = ExtResource("3_bswxm")
 
 [node name="Sprite2D" type="Sprite2D" parent="." index="2"]
 texture_filter = 1
-texture = SubResource("AtlasTexture_qjiss")
+texture = ExtResource("4_bswxm")

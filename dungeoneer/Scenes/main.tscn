@@ -1,18 +1,13 @@
-[gd_scene load_steps=11 format=3 uid="uid://1032qlj1rdpy"]
+[gd_scene load_steps=9 format=3 uid="uid://1032qlj1rdpy"]
 
 [ext_resource type="Script" uid="uid://cfdw8yhlfbiuu" path="res://Scripts/level.gd" id="1_6bp64"]
 [ext_resource type="Resource" uid="uid://coy7ehdtpmkxk" path="res://Resources/level_info.tres" id="2_6bp64"]
-[ext_resource type="TileSet" uid="uid://bcqvhhga41wyn" path="res://Resources/map_tileset.tres" id="3_ynf5e"]
+[ext_resource type="TileSet" uid="uid://ufki2ln33hjc" path="res://Resources/map.tres" id="3_ynf5e"]
 [ext_resource type="TileSet" uid="uid://2y70m6uoicoa" path="res://Resources/visibility.tres" id="4_344ge"]
 [ext_resource type="PackedScene" uid="uid://c2yiqdldxyvog" path="res://Scenes/player_ui.tscn" id="5_d1ilt"]
 [ext_resource type="PackedScene" uid="uid://dicrps48cfjk8" path="res://Scenes/player.tscn" id="6_6iyac"]
-[ext_resource type="Resource" uid="uid://duly2c7okrvs4" path="res://Resources/Entities/player.tres" id="6_344ge"]
-[ext_resource type="Texture2D" uid="uid://ci6t6h2af6w08" path="res://tilemap_packed.png" id="7_fdnlq"]
+[ext_resource type="Texture2D" uid="uid://omka4f3wr646" path="res://Sprites/stairs.png" id="7_ynf5e"]
 [ext_resource type="Script" uid="uid://x67jaxm6n2ds" path="res://Scripts/hints.gd" id="8_ynf5e"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5vw27"]
-atlas = ExtResource("7_fdnlq")
-region = Rect2(144, 0, 16, 16)
 
 [node name="Level" type="Node2D" node_paths=PackedStringArray("player", "hints", "entities", "stair", "player_ui")]
 script = ExtResource("1_6bp64")
@@ -38,14 +33,12 @@ player = NodePath("../Player")
 level = NodePath("..")
 
 [node name="Player" parent="." instance=ExtResource("6_6iyac")]
-info = ExtResource("6_344ge")
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
-zoom = Vector2(1.5, 1.5)
 
 [node name="Stair" type="Sprite2D" parent="."]
 texture_filter = 1
-texture = SubResource("AtlasTexture_5vw27")
+texture = ExtResource("7_ynf5e")
 
 [node name="Hints" type="Node2D" parent="."]
 z_index = 3
@@ -54,6 +47,7 @@ script = ExtResource("8_ynf5e")
 [node name="Entities" type="Node" parent="."]
 
 [node name="Visiblity" type="TileMapLayer" parent="."]
+visible = false
 z_index = 1
 tile_set = ExtResource("4_344ge")
 occlusion_enabled = false
