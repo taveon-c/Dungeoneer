@@ -45,15 +45,14 @@ func on_info_changed():
 	if info.health <= 0:
 		queue_free()
 
-func move(layer : int, obstacles : Array):
+func move(obstacles : Array, target_id : Vector2i):
 	var players = get_tree().get_nodes_in_group("player")
 	var player = players[0]
 	
-	level.set_astar_obstacles(layer, obstacles)
+	level.set_astar_obstacles(obstacles, self)
 	var self_id = map.local_to_map(self.global_position)
-	var target_id = map.local_to_map(last_player_position)
-	var path : Array = level.astar_layers[layer].get_point_path(self_id, target_id, true)
-	level.clear_astar_obstacles(layer, obstacles)
+	var path : Array = level.astar_grid.get_point_path(self_id, target_id)
+	level.clear_astar_obstacles(obstacles)
 	if path.size() > 1:
 		self.global_position = path[1]
 		info.spend_energy(info.weight)

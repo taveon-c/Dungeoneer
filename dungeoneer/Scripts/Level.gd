@@ -4,7 +4,7 @@ var turn : int = 0
 @onready var timer : Timer = $Timer
 @onready var map : TileMapLayer = $Map
 @onready var visibility : TileMapLayer = $Visiblity
-@onready var astar_layers : Array[AStarGrid2D] = [AStarGrid2D.new(), AStarGrid2D.new(), AStarGrid2D.new()]
+@onready var astar_grid : AStarGrid2D = AStarGrid2D.new()
 #0 = all tiles, 1 = wall tiles, 2 = ground tiles
 
 @export var player : StaticBody2D
@@ -25,11 +25,12 @@ func generate_level():
 	
 	while true:
 		clear_level()
-		for astar_grid in astar_layers:
-			astar_grid.region = Rect2i(Vector2i(0, 0), Vector2i(info.MAP_SIZES[curr_level], info.MAP_SIZES[curr_level]))
-			astar_grid.cell_size = Vector2(info.TILE_SIZE, info.TILE_SIZE)
-			astar_grid.offset = Vector2(info.TILE_SIZE / 2, info.TILE_SIZE / 2)
-			astar_grid.update()
+		var map_rect = Rect2i(Vector2i(0, 0), Vector2i(info.MAP_SIZES[curr_level], info.MAP_SIZES[curr_level]))
+		astar_grid.region = map_rect
+		astar_grid.cell_size = Vector2(info.TILE_SIZE, info.TILE_SIZE)
+		astar_grid.offset = Vector2(info.TILE_SIZE / 2, info.TILE_SIZE / 2)
+		astar_grid.update()
+		astar_grid.fill_solid_region(map_rect)
 		var hall_points = generate_halls()
 		generate_rooms(hall_points)
 		map.update_internals()
@@ -40,7 +41,7 @@ func generate_level():
 		
 		for i in range(8):
 			stair.global_position = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
-			var path = astar_layers[2].get_point_path(map.local_to_map(stair.global_position), map.local_to_map(player.global_position))
+			var path = astar_grid.get_point_path(map.local_to_map(stair.global_position), map.local_to_map(player.global_position))
 			if path.size() > 25:
 				var num_items = info.ITEM_NUMS[curr_level]
 				var item_positions = []
@@ -81,15 +82,12 @@ func generate_rooms(hall_points : Array[Vector2i]):
 				if map.get_cell_atlas_coords(Vector2i(x, y)) != Vector2i(0, 0):
 					var coords = Vector2i(x, y)
 					map.set_cell(coords, 0, Vector2i(1, 0))
-					astar_layers[1].set_point_solid(coords, false)
-					astar_layers[2].set_point_solid(coords)
 		
 		for x in range(point.x - width/2, point.x + width/2 + 1):
 			for y in range(point.y - height/2, point.y + height/2 + 1):
 				var coords = Vector2i(x, y)
 				map.set_cell(coords, 0, Vector2i(0, 0))
-				astar_layers[1].set_point_solid(coords)
-				astar_layers[2].set_point_solid(coords, false)
+				astar_grid.set_point_solid(coords, false)
 
 func generate_halls() -> Array[Vector2i]:
 	var hall_points : Array[Vector2i] = [map.local_to_map(player.global_position)]
@@ -108,15 +106,12 @@ func generate_halls() -> Array[Vector2i]:
 				if map.get_cell_atlas_coords(Vector2i(x, y)) != Vector2i(0, 0):
 					var coords = Vector2i(x, y)
 					map.set_cell(coords, 0, Vector2i(1, 0))
-					astar_layers[1].set_point_solid(coords, false)
-					astar_layers[2].set_point_solid(coords)
 		
 		for x in range(left - 1, right + 2):
 			for y in range(up - 1, down + 2):
 				var coords = Vector2i(x, y)
 				map.set_cell(coords, 0, Vector2i(0, 0))
-				astar_layers[1].set_point_solid(coords)
-				astar_layers[2].set_point_solid(coords, false)
+				astar_grid.set_point_solid(coords, false)
 		
 		hall_connects[curr].append(next)
 		if next in hall_connects.keys():
@@ -150,9 +145,8 @@ func get_next_valid_hall_points(hall_point, hall_connects):
 	return valid_points
 
 func clear_level():
-	for astar_grid in astar_layers:
-		astar_grid.clear()
-		astar_grid.update()
+	astar_grid.clear()
+	astar_grid.update()
 		
 	map.clear()
 	visibility.clear()
@@ -185,17 +179,18 @@ func set_visible_tiles():
 					if map.get_cell_atlas_coords(neighbor) == Vector2i(1, 0):
 						visibility.erase_cell(neighbor)
 
-func set_astar_obstacles(layer: int, groups : Array):
+func set_astar_obstacles(groups : Array, ignore : Node = null):
 	for group in groups:
 		var group_nodes = get_tree().get_nodes_in_group(group)
 		for node in group_nodes:
-			astar_layers[layer].set_point_solid(map.local_to_map(node.global_position))
+			if ignore != node:
+				astar_grid.set_point_solid(map.local_to_map(node.global_position))
 
-func clear_astar_obstacles(layer: int, groups : Array):
+func clear_astar_obstacles(groups : Array):
 	for group in groups:
 		var group_nodes = get_tree().get_nodes_in_group(group)
 		for node in group_nodes:
-			astar_layers[layer].set_point_solid(map.local_to_map(node.global_position), false)
+			astar_grid.set_point_solid(map.local_to_map(node.global_position), false)
 
 func in_bounds(coords : Vector2i) -> bool:
 	if coords.x > 0 and coords.y > 0 and coords.x < info.MAP_WIDTH and coords.y < info.MAP_HEIGHT:

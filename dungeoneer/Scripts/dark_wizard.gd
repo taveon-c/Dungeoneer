@@ -14,6 +14,6 @@ func choose_action():
 	if info.energy >= info.action["cost"] and distance <= info.action["range"] * level.info.TILE_SIZE:
 		take_action(attack, 1)
 	elif info.energy >= info.weight and distance > info.action["range"] * level.info.TILE_SIZE:
-		take_action(move.bind(2, ["enemy", "pickup"]), 0.3)
+		take_action(move.bind(["enemy", "pickup"], map.local_to_map(last_player_position)), 0.3)
 	else:
 		emit_signal("end_turn")

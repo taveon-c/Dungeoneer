@@ -50,15 +50,15 @@ func _physics_process(delta: float) -> void:
 	match current_state:
 		State.MOVE:
 			level.hints.clear_hints()
-			level.set_astar_obstacles(2, ["enemy", "item"])
+			level.set_astar_obstacles(["enemy", "item"])
 			if player.info.energy >= player.info.get_weight():
 				var options = []
 				for direction in [Vector2i(-1, -1), Vector2i(-1, 0), Vector2i(-1, 1), Vector2i(0, -1), Vector2i(0, 1), Vector2i(1, -1), Vector2i(1, 0), Vector2i(1, 1)]:
 					var neighbor = level.map.local_to_map(player.global_position) + direction
-					if level.astar_layers[2].is_in_boundsv(neighbor) and not level.astar_layers[2].is_point_solid(neighbor):
+					if level.astar_grid.is_in_boundsv(neighbor) and not level.astar_grid.is_point_solid(neighbor):
 						options.append(neighbor)
 						level.hints.generate_hint(Color.DEEP_SKY_BLUE, level.map.map_to_local(neighbor))
-				level.clear_astar_obstacles(2, ["enemy", "item"])
+				level.clear_astar_obstacles(["enemy", "item"])
 				
 				var mouse_coords = level.map.local_to_map(player.get_global_mouse_position())
 				if mouse_coords in options:
@@ -80,12 +80,12 @@ func _physics_process(delta: float) -> void:
 						player.attack(action_info)
 		State.PICKUP:
 			level.hints.clear_hints()
-			level.set_astar_obstacles(2, ["enemy"])
+			level.set_astar_obstacles(["enemy"])
 			if player.info.energy >= player.info.weight:
 				var options = []
 				for direction in [Vector2i(-1, -1), Vector2i(-1, 0), Vector2i(-1, 1), Vector2i(0, -1), Vector2i(0, 1), Vector2i(1, -1), Vector2i(1, 0), Vector2i(1, 1)]:
 					var neighbor = level.map.local_to_map(player.global_position) + direction
-					if level.astar_layers[2].is_in_boundsv(neighbor) and not level.astar_layers[2].is_point_solid(neighbor):
+					if level.astar_grid.is_in_boundsv(neighbor) and not level.astar_grid.is_point_solid(neighbor):
 						options.append(neighbor)
 						level.hints.generate_hint(Color.WHITE, level.map.map_to_local(neighbor))
 				
@@ -95,7 +95,7 @@ func _physics_process(delta: float) -> void:
 					level.hints.generate_hint(Color.WHITE, new_position)
 					if Input.is_action_just_pressed("select"):
 						player.pickup(new_position)
-			level.clear_astar_obstacles(2, ["enemy"])
+			level.clear_astar_obstacles(["enemy"])
 
 func on_info_changed():
 	player_info_label.text = player.info.print()
