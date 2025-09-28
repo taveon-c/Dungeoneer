@@ -55,7 +55,7 @@ func move(obstacles : Array, target_id : Vector2i):
 	level.clear_astar_obstacles(obstacles)
 	if path.size() > 1:
 		self.global_position = path[1]
-		info.spend_energy(info.weight)
+		info.spend_energy(1)
 		choose_action()
 	else:
 		emit_signal("end_turn")

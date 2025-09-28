@@ -4,7 +4,7 @@ class_name PlayerInfo
 @export var weapon : Weapon
 
 func get_weight() -> int:
-	return weight + weapon.weight + armor
+	return weapon.weight + armor
 
 func print() -> String:
 	var string : String = ""

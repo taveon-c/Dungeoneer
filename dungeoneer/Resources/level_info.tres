@@ -13,8 +13,8 @@
 [resource]
 script = ExtResource("1_vwihg")
 MAP_SIZES = Array[int]([50, 55, 60, 65, 70, 75, 80])
-ENEMY_NUMS = Array[int]([10, 10, 20, 20, 30, 30, 40])
-ITEM_NUMS = Array[int]([3, 3, 4, 6, 8, 10, 14])
+ENEMY_NUMS = Array[int]([5, 7, 10, 12, 20, 22, 40])
+ITEM_NUMS = Array[int]([2, 2, 3, 3, 4, 4, 5])
 STAIR_DISTANCES = Array[int]([20, 20, 25, 25, 30, 35, 40])
 HALL_LENGTH = 10
 ROOM_LENGTH_MAX = 7

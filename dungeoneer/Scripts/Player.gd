@@ -15,7 +15,7 @@ func _ready() -> void:
 
 func move(pos : Vector2) -> void:
 	self.global_position = pos
-	info.spend_energy(info.get_weight())
+	info.spend_energy(1)
 	emit_signal("moved")
 
 func attack(attack_info : Dictionary) -> void:

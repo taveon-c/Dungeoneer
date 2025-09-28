@@ -11,7 +11,7 @@ func choose_action():
 	var displacement = abs(player.global_position - global_position)
 	if info.energy >= info.action["cost"] and displacement.x <= level.info.TILE_SIZE * info.action["range"] and displacement.y <= level.info.TILE_SIZE * info.action["range"]:
 		take_action(attack, 1.1)
-	elif info.energy >= info.weight and (displacement.x > 1 or displacement.y > 1):
+	elif info.energy > 0 and (displacement.x > 1 or displacement.y > 1):
 		take_action(move.bind(["enemy", "pickup"], map.local_to_map(last_player_position)), 0.7)
 	else:
 		emit_signal("end_turn")

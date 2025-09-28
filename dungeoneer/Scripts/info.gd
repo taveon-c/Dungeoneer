@@ -3,7 +3,6 @@ class_name Info
 
 @export_range(0, 99) var max_health : int
 @export_range(0, 999) var max_energy : int
-@export_range(0, 99) var weight : int = 0
 @export_range(0, 99) var armor : int
 var health = 0
 var energy = 0

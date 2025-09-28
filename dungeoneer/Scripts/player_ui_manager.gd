@@ -51,7 +51,7 @@ func _physics_process(delta: float) -> void:
 		State.MOVE:
 			level.hints.clear_hints()
 			level.set_astar_obstacles(["enemy", "item"])
-			if player.info.energy >= player.info.get_weight():
+			if player.info.energy > 0:
 				var options = []
 				for direction in [Vector2i(-1, -1), Vector2i(-1, 0), Vector2i(-1, 1), Vector2i(0, -1), Vector2i(0, 1), Vector2i(1, -1), Vector2i(1, 0), Vector2i(1, 1)]:
 					var neighbor = level.map.local_to_map(player.global_position) + direction
@@ -81,20 +81,19 @@ func _physics_process(delta: float) -> void:
 		State.PICKUP:
 			level.hints.clear_hints()
 			level.set_astar_obstacles(["enemy"])
-			if player.info.energy >= player.info.weight:
-				var options = []
-				for direction in [Vector2i(-1, -1), Vector2i(-1, 0), Vector2i(-1, 1), Vector2i(0, -1), Vector2i(0, 1), Vector2i(1, -1), Vector2i(1, 0), Vector2i(1, 1)]:
-					var neighbor = level.map.local_to_map(player.global_position) + direction
-					if level.astar_grid.is_in_boundsv(neighbor) and not level.astar_grid.is_point_solid(neighbor):
-						options.append(neighbor)
-						level.hints.generate_hint(Color.WHITE, level.map.map_to_local(neighbor))
-				
-				var mouse_coords = level.map.local_to_map(player.get_global_mouse_position())
-				if mouse_coords in options:
-					var new_position = level.map.map_to_local(mouse_coords)
-					level.hints.generate_hint(Color.WHITE, new_position)
-					if Input.is_action_just_pressed("select"):
-						player.pickup(new_position)
+			var options = []
+			for direction in [Vector2i(-1, -1), Vector2i(-1, 0), Vector2i(-1, 1), Vector2i(0, -1), Vector2i(0, 1), Vector2i(1, -1), Vector2i(1, 0), Vector2i(1, 1)]:
+				var neighbor = level.map.local_to_map(player.global_position) + direction
+				if level.astar_grid.is_in_boundsv(neighbor) and not level.astar_grid.is_point_solid(neighbor):
+					options.append(neighbor)
+					level.hints.generate_hint(Color.WHITE, level.map.map_to_local(neighbor))
+			
+			var mouse_coords = level.map.local_to_map(player.get_global_mouse_position())
+			if mouse_coords in options:
+				var new_position = level.map.map_to_local(mouse_coords)
+				level.hints.generate_hint(Color.WHITE, new_position)
+				if Input.is_action_just_pressed("select"):
+					player.pickup(new_position)
 			level.clear_astar_obstacles(["enemy"])
 
 func on_info_changed():

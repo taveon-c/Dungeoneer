@@ -18,7 +18,7 @@ func choose_action():
 	var is_in_range = ((displacement.x == 0 and displacement.y <= info.action["range"] * level.info.TILE_SIZE) or (displacement.y == 0 and displacement.x <= info.action["range"] * level.info.TILE_SIZE))
 	if player_visible and info.energy >= info.action["cost"] and is_in_range:
 		take_action(attack, 1)
-	elif info.energy >= info.weight:
+	elif info.energy > 0:
 		var last_player_cell = level.map.local_to_map(last_player_position)
 		var potential_cells = []
 		for direction in [Vector2i(-1, 0), Vector2i(0, -1), Vector2i(1, 0), Vector2i(0, 1)]:

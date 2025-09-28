@@ -211,6 +211,7 @@ func _on_turn_end() -> void:
 	
 	if turn == 0:
 		player.info.regen_energy()
+		player.info.spend_energy(player.info.get_weight())
 	else:
 		enemies[turn-1].info.regen_energy()
 		enemies[turn-1].disconnect("end_turn", _on_turn_end)
@@ -239,7 +240,7 @@ func _on_player_moved():
 			get_tree().change_scene_to_file("res://Scenes/menu.tscn")
 			return
 		else:
-			player.info.max_energy += 2
+			player.info.max_energy += 1
 			player.info.max_health += 1
 			player.info.health = player.info.max_health
 			generate_level()

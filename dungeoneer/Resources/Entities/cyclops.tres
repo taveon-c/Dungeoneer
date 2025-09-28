@@ -8,12 +8,11 @@ name = "Cyclops"
 action = Dictionary[String, int]({
 "armor_damage": 2,
 "cost": 1,
-"health_damage": 1,
+"health_damage": 2,
 "range": 2,
 "stun": 2
 })
 max_health = 3
 max_energy = 3
-weight = 1
 armor = 2
 metadata/_custom_type_script = "uid://bliu5ep60cge0"

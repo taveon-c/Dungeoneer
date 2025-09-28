@@ -13,6 +13,10 @@ func print() -> String:
 	string += name + "\n"
 	string += "health: " + str(health) + "\n"
 	string += "armor: " + str(armor) + "\n"
-	string += "energy: " + str(energy) + "\n"
-	string += "weight: " + str(weight) + "\n"
+	string += "energy: " + str(energy) + "\n\n"
+	
+	string += "Action\n"
+	for stat in action.keys():
+		string += stat + ": " + str(action[stat]) + "\n"
+	
 	return string

@@ -13,6 +13,5 @@ action = Dictionary[String, int]({
 })
 max_health = 3
 max_energy = 5
-weight = 1
 armor = 0
 metadata/_custom_type_script = "uid://bliu5ep60cge0"

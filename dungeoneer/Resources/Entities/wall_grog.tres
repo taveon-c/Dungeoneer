@@ -6,13 +6,12 @@
 script = ExtResource("1_i200a")
 name = "Wall Grog"
 action = Dictionary[String, int]({
-"armor_damage": 1,
+"armor_damage": 2,
 "cost": 1,
 "health_damage": 1,
 "range": 7
 })
 max_health = 2
 max_energy = 2
-weight = 1
 armor = 3
 metadata/_custom_type_script = "uid://bliu5ep60cge0"
