@@ -174,10 +174,9 @@ func set_visible_tiles():
 			var result = space_state.intersect_ray(query)
 			if not result:
 				visibility.erase_cell(cell)
-				var neighbor_cells = map.get_surrounding_cells(cell)
-				for neighbor in neighbor_cells:
-					if map.get_cell_atlas_coords(neighbor) == Vector2i(1, 0):
-						visibility.erase_cell(neighbor)
+				for direction in [Vector2i(-1, -1), Vector2i(-1, 0), Vector2i(-1, 1), Vector2i(0, -1), Vector2i(0, 1), Vector2i(1, -1), Vector2i(1, 0), Vector2i(1, 1)]:
+					if map.get_cell_atlas_coords(cell + direction) != Vector2i(-1, -1):
+						visibility.erase_cell(cell+direction)
 
 func set_astar_obstacles(groups : Array, ignore : Node = null):
 	for group in groups:

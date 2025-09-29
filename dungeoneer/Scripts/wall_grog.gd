@@ -25,7 +25,8 @@ func choose_action():
 			var step = 1
 			while step <= info.action["range"] and level.map.get_cell_atlas_coords(last_player_cell + direction * step) == Vector2i(0, 0):
 				step += 1
-			potential_cells.append(last_player_cell + direction * (step-1))
+			if step > 1:
+				potential_cells.append(last_player_cell + direction * (step-1))
 		
 		level.set_astar_obstacles(["enemy", "pickup"], self)
 		var self_id = map.local_to_map(self.global_position)

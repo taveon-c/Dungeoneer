@@ -1,12 +1,12 @@
 [gd_resource type="Resource" script_class="Weapon" load_steps=2 format=3 uid="uid://u0wjcdyj4bt5"]
 
-[ext_resource type="Script" uid="uid://cvkgjmf2t5rgo" path="res://Scripts/weapon.gd" id="1_jla3p"]
+[ext_resource type="Script" uid="uid://cvkgjmf2t5rgo" path="res://Scripts/weapon.gd" id="1_ebp62"]
 
 [resource]
-script = ExtResource("1_jla3p")
-name = "Hammer"
+script = ExtResource("1_ebp62")
+name = "Warhammer"
 range = 2
-health_damage = 2
+health_damage = 3
 armor_damage = 3
 cost = 2
 weight = 2

@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("1_p7tll")
 weapon = ExtResource("2_kacxw")
-max_health = 3
-max_energy = 5
+max_health = 99
+max_energy = 999
 armor = 0
 metadata/_custom_type_script = "uid://dnxxjj5repxf0"

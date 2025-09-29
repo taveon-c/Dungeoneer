@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=2 format=3 uid="uid://ba6jxx0h1qd2g"]
+
+[ext_resource type="Script" uid="uid://cvkgjmf2t5rgo" path="res://Scripts/weapon.gd" id="1_qenuc"]
+
+[resource]
+script = ExtResource("1_qenuc")
+name = "Axe"
+range = 2
+health_damage = 2
+armor_damage = 2
+cost = 2
+weight = 1
+type = 0
+metadata/_custom_type_script = "uid://cvkgjmf2t5rgo"
