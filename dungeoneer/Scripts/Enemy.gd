@@ -51,7 +51,7 @@ func move(obstacles : Array, target_id : Vector2i):
 	
 	level.set_astar_obstacles(obstacles, self)
 	var self_id = map.local_to_map(self.global_position)
-	var path : Array = level.astar_grid.get_point_path(self_id, target_id)
+	var path : Array = level.astar_grid.get_point_path(self_id, target_id, true)
 	level.clear_astar_obstacles(obstacles)
 	if path.size() > 1:
 		self.global_position = path[1]

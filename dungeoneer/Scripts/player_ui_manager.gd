@@ -33,7 +33,7 @@ func _input(event: InputEvent) -> void:
 						0:
 							select_info_label.text = pickup.item.print()
 						1:
-							select_info_label.text = "armor"
+							select_info_label.text = "Armor\narmor: 2\nweight: 1"
 					return
 			for enemy in enemies:
 				if enemy.global_position == mouse_cell_position:

@@ -6,7 +6,7 @@
 script = ExtResource("1_rrwi4")
 name = "Dagger"
 range = 1
-health_damage = 1
+health_damage = 2
 armor_damage = 1
 cost = 1
 weight = 0

@@ -48,6 +48,6 @@ func pickup(pos : Vector2):
 				pickup.queue_free()
 				info.emit_signal("info_changed")
 			1:
-				info.armor += 1
+				info.armor += 2
 				pickup.queue_free()
 				info.emit_signal("info_changed")

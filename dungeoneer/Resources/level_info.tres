@@ -1,20 +1,21 @@
-[gd_resource type="Resource" script_class="LevelInfo" load_steps=10 format=3 uid="uid://coy7ehdtpmkxk"]
+[gd_resource type="Resource" script_class="LevelInfo" load_steps=11 format=3 uid="uid://coy7ehdtpmkxk"]
 
 [ext_resource type="PackedScene" uid="uid://xa5hb4fiuy0e" path="res://Scenes/dark_wizard.tscn" id="1_ftscg"]
 [ext_resource type="Script" uid="uid://cblkvnppp1gof" path="res://Scripts/level_info.gd" id="1_vwihg"]
 [ext_resource type="PackedScene" uid="uid://i8pnlyvpihla" path="res://Scenes/cyclops.tscn" id="2_sa20n"]
 [ext_resource type="Resource" uid="uid://u0wjcdyj4bt5" path="res://Resources/Weapons/warhammer.tres" id="3_bp8li"]
 [ext_resource type="PackedScene" uid="uid://cryhdq2rme47f" path="res://Scenes/wall_grog.tscn" id="3_oyeht"]
+[ext_resource type="Resource" uid="uid://ba6jxx0h1qd2g" path="res://Resources/Weapons/axe.tres" id="4_41udd"]
 [ext_resource type="Resource" uid="uid://dgwurg5anidn5" path="res://Resources/Weapons/spear.tres" id="4_oyeht"]
 [ext_resource type="Resource" uid="uid://cmx65npaomycj" path="res://Resources/Weapons/sword.tres" id="5_41udd"]
-[ext_resource type="Resource" uid="uid://dhpc8pf25k2e4" path="res://Resources/armor.tres" id="6_tuni1"]
+[ext_resource type="Resource" uid="uid://dnc670ye82s1o" path="res://Resources/Weapons/dagger.tres" id="5_tuni1"]
 [ext_resource type="PackedScene" uid="uid://c7ra7c2l5jmdt" path="res://Scenes/pickup.tscn" id="11_1uj45"]
 
 [resource]
 script = ExtResource("1_vwihg")
 MAP_SIZES = Array[int]([50, 55, 60, 65, 70, 75, 80])
 ENEMY_NUMS = Array[int]([5, 7, 10, 12, 20, 22, 40])
-ITEM_NUMS = Array[int]([2, 2, 3, 3, 4, 4, 5])
+ITEM_NUMS = Array[int]([2, 2, 2, 2, 1, 1, 1])
 STAIR_DISTANCES = Array[int]([20, 20, 25, 25, 30, 35, 40])
 HALL_LENGTH = 10
 ROOM_LENGTH_MAX = 7
@@ -22,5 +23,5 @@ ROOM_LENGTH_MIN = 3
 TILE_SIZE = 16
 ENEMY_SCENES = Array[PackedScene]([ExtResource("1_ftscg"), ExtResource("2_sa20n"), ExtResource("3_oyeht")])
 PICKUP_SCENE = ExtResource("11_1uj45")
-ITEMS = Array[Resource]([ExtResource("3_bp8li"), ExtResource("4_oyeht"), ExtResource("5_41udd"), ExtResource("6_tuni1")])
+ITEMS = Array[Resource]([ExtResource("4_41udd"), ExtResource("5_tuni1"), ExtResource("4_oyeht"), ExtResource("5_41udd"), ExtResource("3_bp8li")])
 metadata/_custom_type_script = "uid://cblkvnppp1gof"

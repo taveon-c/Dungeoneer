@@ -6,9 +6,9 @@
 script = ExtResource("1_qenuc")
 name = "Axe"
 range = 2
-health_damage = 2
-armor_damage = 2
+health_damage = 5
+armor_damage = 3
 cost = 2
-weight = 1
+weight = 2
 type = 0
 metadata/_custom_type_script = "uid://cvkgjmf2t5rgo"

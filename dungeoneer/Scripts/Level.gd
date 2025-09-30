@@ -42,7 +42,7 @@ func generate_level():
 		for i in range(8):
 			stair.global_position = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
 			var path = astar_grid.get_point_path(map.local_to_map(stair.global_position), map.local_to_map(player.global_position))
-			if path.size() > 25:
+			if path.size() > info.STAIR_DISTANCES[curr_level]:
 				var num_items = info.ITEM_NUMS[curr_level]
 				var item_positions = []
 				for item in num_items:
