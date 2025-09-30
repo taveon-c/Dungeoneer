@@ -41,27 +41,19 @@ func generate_level():
 		
 		for i in range(8):
 			stair.global_position = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
-			var path = astar_grid.get_point_path(map.local_to_map(stair.global_position), map.local_to_map(player.global_position))
-			if path.size() > info.STAIR_DISTANCES[curr_level]:
+			if get_steps_to_player(stair.global_position) > info.STAIR_DISTANCES[curr_level] + 2:
 				var num_items = info.ITEM_NUMS[curr_level]
 				var item_positions = []
 				for item in num_items:
 					var pickup = info.PICKUP_SCENE.instantiate()
 					pickup.item = info.ITEMS.pick_random()
-					entities.add_child(pickup)
-					pickup.global_position = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
-					while pickup.global_position == stair.global_position or pickup.global_position == player.global_position:
-						pickup.global_position = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
-					item_positions.append(pickup.global_position)
+					spawn_entity(["item", "player"], pickup)
 				
 				var num_enemies = info.ENEMY_NUMS[curr_level]
 				for num in num_enemies:
 					var enemy = info.ENEMY_SCENES.pick_random().instantiate()
 					enemy.player = player
-					entities.add_child(enemy)
-					enemy.global_position = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
-					while enemy.global_position in item_positions or enemy.global_position == player.global_position:
-						enemy.global_position = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
+					spawn_entity(["item", "enemy"], enemy)
 					
 					if enemy.is_player_visible():
 						enemy.last_player_position = player.global_position
@@ -70,6 +62,21 @@ func generate_level():
 				
 				timer.start()
 				return
+
+func spawn_entity(obstacle_groups : Array, scene : Node):
+	var obstacles = []
+	for group in obstacle_groups:
+		var nodes = get_tree().get_nodes_in_group(group)
+		for node in nodes:
+			obstacles.append(node.global_position)
+	entities.add_child(scene)
+	scene.global_position = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
+	while scene.global_position in obstacles or get_steps_to_player(scene.global_position) < 10:
+		scene.global_position = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
+
+func get_steps_to_player(from):
+	var path = astar_grid.get_point_path(map.local_to_map(from), map.local_to_map(player.global_position))
+	return path.size()
 
 func generate_rooms(hall_points : Array[Vector2i]):
 	for room in hall_points.size():
@@ -169,13 +176,13 @@ func set_visible_tiles():
 		var tile_position = map.map_to_local(cell)
 		if player.global_position.distance_to(tile_position) < 10 * info.TILE_SIZE:
 			var space_state = get_world_2d().direct_space_state
-			var query = PhysicsRayQueryParameters2D.create(player.global_position, tile_position)
+			var query = PhysicsRayQueryParameters2D.create(tile_position, player.global_position)
 			query.collision_mask = 0b1
 			var result = space_state.intersect_ray(query)
 			if not result:
 				visibility.erase_cell(cell)
 				for direction in [Vector2i(-1, -1), Vector2i(-1, 0), Vector2i(-1, 1), Vector2i(0, -1), Vector2i(0, 1), Vector2i(1, -1), Vector2i(1, 0), Vector2i(1, 1)]:
-					if map.get_cell_atlas_coords(cell + direction) != Vector2i(-1, -1):
+					if map.get_cell_atlas_coords(cell + direction) == Vector2i(1, 0):
 						visibility.erase_cell(cell+direction)
 
 func set_astar_obstacles(groups : Array, ignore : Node = null):
@@ -239,7 +246,7 @@ func _on_player_moved():
 			get_tree().change_scene_to_file("res://Scenes/menu.tscn")
 			return
 		else:
-			player.info.max_energy += 1
+			player.info.max_energy += 2
 			player.info.max_health += 1
 			player.info.health = player.info.max_health
 			generate_level()

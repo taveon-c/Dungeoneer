@@ -13,11 +13,10 @@ func choose_action():
 	var distance = global_position.distance_to(player.global_position)
 	if info.energy >= info.action["cost"] and distance <= info.action["range"] * level.info.TILE_SIZE:
 		take_action(attack, 1)
-	elif info.energy > 0 and distance > info.action["range"] * level.info.TILE_SIZE:
+	elif info.energy >= info.action["cost"] and distance > info.action["range"] * level.info.TILE_SIZE:
 		take_action(move.bind(["enemy", "pickup"], map.local_to_map(last_player_position)), 0.3)
 	elif info.energy > 0:
 		var direction = global_position.direction_to(last_player_position)
-		print(direction)
 		take_action(move.bind(["enemy", "pickup"], map.local_to_map(global_position - direction * info.action["range"] * level.info.TILE_SIZE)), 0.3)
 	else:
 		emit_signal("end_turn")
