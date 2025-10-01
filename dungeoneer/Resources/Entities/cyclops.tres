@@ -6,9 +6,9 @@
 script = ExtResource("1_q3vkq")
 name = "Cyclops"
 action = Dictionary[String, int]({
-"armor_damage": 6,
+"armor damage": 3,
 "cost": 2,
-"health_damage": 3,
+"health damage": 4,
 "range": 2,
 "stun": 2
 })

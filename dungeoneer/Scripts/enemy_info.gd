@@ -3,8 +3,8 @@ class_name EnemyInfo
 
 @export var name : String
 @export var action : Dictionary[String, int] = {
-	"health_damage" : 1,
-	"armor_damage" : 1,
+	"health damage" : 1,
+	"armor damage" : 1,
 	"cost" : 1
 }
 

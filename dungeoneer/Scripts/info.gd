@@ -15,10 +15,10 @@ func _init() -> void:
 
 func damage(attack_info : Dictionary):
 	if armor > 0:
-		armor -= attack_info["armor_damage"]
+		armor -= attack_info["armor damage"]
 		armor = maxi(0, armor)
 	else:
-		health -= attack_info["health_damage"]
+		health -= attack_info["health damage"]
 		
 	emit_signal("info_changed")
 	return attack_info

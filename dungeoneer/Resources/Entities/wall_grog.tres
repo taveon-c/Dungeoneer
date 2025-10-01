@@ -6,9 +6,9 @@
 script = ExtResource("1_i200a")
 name = "Wall Grog"
 action = Dictionary[String, int]({
-"armor_damage": 3,
+"armor damage": 2,
 "cost": 1,
-"health_damage": 5,
+"health damage": 5,
 "range": 7
 })
 max_health = 8

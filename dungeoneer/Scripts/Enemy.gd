@@ -63,8 +63,8 @@ func move(obstacles : Array, target_id : Vector2i):
 func attack():
 	player.info.damage(
 			{
-				"health_damage" : info.action["health_damage"],
-				"armor_damage" : info.action["armor_damage"]
+				"health damage" : info.action["health damage"],
+				"armor damage" : info.action["armor damage"]
 			}
 		)
 	info.spend_energy(info.action["cost"])

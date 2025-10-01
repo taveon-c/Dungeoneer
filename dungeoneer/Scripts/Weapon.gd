@@ -30,8 +30,8 @@ func action(mouse_position: Vector2, player : Node2D) -> Dictionary:
 		"spaces" : spaces,
 		"hints" : hints,
 		"cost" : cost,
-		"health_damage" : health_damage,
-		"armor_damage" : armor_damage
+		"health damage" : health_damage,
+		"armor damage" : armor_damage
 	}
 
 func print() -> String:
@@ -40,5 +40,6 @@ func print() -> String:
 	string += "range: " + str(range) + "\n"
 	string += "health damage: " + str(health_damage) + "\n"
 	string += "armor damage: " + str(armor_damage) + "\n"
+	string += "weight: " + str(weight) + "\n"
 	string += "cost: " + str(cost) + "\n"
 	return string

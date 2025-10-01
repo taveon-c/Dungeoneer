@@ -50,7 +50,7 @@ func _physics_process(delta: float) -> void:
 	match current_state:
 		State.MOVE:
 			level.hints.clear_hints()
-			level.set_astar_obstacles(["enemy", "item"])
+			level.set_astar_obstacles(["enemy", "pickup"])
 			if player.info.energy > 0:
 				var options = []
 				for direction in [Vector2i(-1, -1), Vector2i(-1, 0), Vector2i(-1, 1), Vector2i(0, -1), Vector2i(0, 1), Vector2i(1, -1), Vector2i(1, 0), Vector2i(1, 1)]:
@@ -58,7 +58,7 @@ func _physics_process(delta: float) -> void:
 					if level.astar_grid.is_in_boundsv(neighbor) and not level.astar_grid.is_point_solid(neighbor):
 						options.append(neighbor)
 						level.hints.generate_hint(Color.DEEP_SKY_BLUE, level.map.map_to_local(neighbor))
-				level.clear_astar_obstacles(["enemy", "item"])
+				level.clear_astar_obstacles(["enemy", "pickup"])
 				
 				var mouse_coords = level.map.local_to_map(player.get_global_mouse_position())
 				if mouse_coords in options:
