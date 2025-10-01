@@ -247,7 +247,6 @@ func _on_player_moved():
 			return
 		else:
 			player.info.max_energy += 2
-			player.info.max_health += 1
 			player.info.health = player.info.max_health
 			generate_level()
 	set_visible_tiles()

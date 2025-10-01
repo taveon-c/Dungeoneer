@@ -8,7 +8,7 @@ name = "Wall Grog"
 action = Dictionary[String, int]({
 "armor_damage": 3,
 "cost": 1,
-"health_damage": 6,
+"health_damage": 5,
 "range": 7
 })
 max_health = 8
