@@ -8,10 +8,21 @@ func generate_hints():
 func choose_action():
 	if is_player_visible():
 		last_player_position = player.global_position
-		var distance_to_player = global_position.distance_to(last_player_position)
+		var path_to_player = get_grid_path(["enemy", "pickup", "player"], map.local_to_map(last_player_position))
 		var displacement = abs(player.global_position - global_position)
-		if distance_to_player < info.energy * level.info.TILE_SIZE:
-			var target_position = global_position - global_position.direction_to(last_player_position) * level.info.TILE_SIZE * 2
+		if displacement.x <= level.info.TILE_SIZE and displacement.y <= level.info.TILE_SIZE and info.energy >= info.action["cost"]:
+			take_action(attack, 0.7)
+			player.info.max_health -= 1
+			player.info.health = mini(player.info.health, player.info.max_health)
+		elif path_to_player.size() < info.energy - 2:
+			take_action(move.bind(["enemy", "pickup", "player"], map.local_to_map(last_player_position)), 0.7)
+		elif info.energy >= info.action["cost"]:
+			var direction = global_position.direction_to(last_player_position)
+			var target_position = global_position - direction * level.info.TILE_SIZE * info.energy
 			take_action(move.bind(["enemy", "pickup", "player"], map.local_to_map(target_position)), 0.7)
+		else:
+			emit_signal("end_turn")
+	elif info.energy >= info.action["cost"]:
+		take_action(move.bind(["enemy", "pickup", "player"], map.local_to_map(last_player_position)), 0.7)
 	else:
 		emit_signal("end_turn")

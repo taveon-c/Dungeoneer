@@ -1,9 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://djdxdaane3gns"]
+[gd_scene load_steps=5 format=3 uid="uid://djdxdaane3gns"]
 
 [ext_resource type="PackedScene" uid="uid://b14r0335a1bkp" path="res://Scenes/enemy.tscn" id="1_e3r4w"]
+[ext_resource type="Script" uid="uid://dqnsoy1juau3" path="res://Scripts/ghost.gd" id="2_3btnm"]
 [ext_resource type="Texture2D" uid="uid://dxtkwmjn7wel6" path="res://Sprites/Ghost.png" id="2_108wt"]
+[ext_resource type="Resource" uid="uid://dfaqvy5otmor8" path="res://Resources/Entities/ghost.tres" id="3_taxxh"]
 
 [node name="Enemy" instance=ExtResource("1_e3r4w")]
+script = ExtResource("2_3btnm")
+base_info = ExtResource("3_taxxh")
 
 [node name="Sprite2D" type="Sprite2D" parent="." index="2"]
 texture_filter = 1
