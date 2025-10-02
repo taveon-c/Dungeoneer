@@ -45,6 +45,9 @@ func on_info_changed():
 	if info.health <= 0:
 		queue_free()
 
+func get_grid_path(obstacles : Array, target_id : Vector2i):
+	pass
+
 func move(obstacles : Array, target_id : Vector2i):
 	var players = get_tree().get_nodes_in_group("player")
 	var player = players[0]

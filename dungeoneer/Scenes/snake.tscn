@@ -1,0 +1,14 @@
+[gd_scene load_steps=5 format=3 uid="uid://bgk7ybe7rrnfv"]
+
+[ext_resource type="PackedScene" uid="uid://b14r0335a1bkp" path="res://Scenes/enemy.tscn" id="1_pox6b"]
+[ext_resource type="Script" uid="uid://bm0jievep3wlb" path="res://Scripts/snake.gd" id="2_lmvgn"]
+[ext_resource type="Texture2D" uid="uid://cg4egolqxgqkt" path="res://Sprites/snake.png" id="2_rku0m"]
+[ext_resource type="Resource" uid="uid://5ptbear7la46" path="res://Resources/Entities/snake.tres" id="3_lmvgn"]
+
+[node name="Enemy" instance=ExtResource("1_pox6b")]
+script = ExtResource("2_lmvgn")
+base_info = ExtResource("3_lmvgn")
+
+[node name="Sprite2D" type="Sprite2D" parent="." index="2"]
+texture_filter = 1
+texture = ExtResource("2_rku0m")

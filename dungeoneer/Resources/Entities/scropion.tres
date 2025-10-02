@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="EnemyInfo" load_steps=2 format=3 uid="uid://cpmtq8hy0a7sl"]
+
+[ext_resource type="Script" uid="uid://bliu5ep60cge0" path="res://Scripts/enemy_info.gd" id="1_bi8iu"]
+
+[resource]
+script = ExtResource("1_bi8iu")
+name = "Scropion"
+action = Dictionary[String, int]({
+"armor damage": 1,
+"cost": 2,
+"health damage": 1,
+"poison": 1,
+"range": 2
+})
+max_health = 3
+max_energy = 4
+armor = 4
+metadata/_custom_type_script = "uid://bliu5ep60cge0"
