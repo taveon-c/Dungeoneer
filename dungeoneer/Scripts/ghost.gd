@@ -8,11 +8,11 @@ func generate_hints():
 func choose_action():
 	if is_player_visible():
 		last_player_position = player.global_position
-		var path_to_player = get_grid_path(["enemy", "pickup", "player"], map.local_to_map(last_player_position))
+		var path_to_player = get_grid_path(["enemy", "pickup", "player"], map.local_to_map(last_player_position), true)
 		var displacement = abs(player.global_position - global_position)
 		if displacement.x <= level.info.TILE_SIZE and displacement.y <= level.info.TILE_SIZE and info.energy >= info.action["cost"]:
 			take_action(attack, 0.7)
-			player.info.max_health -= 1
+			player.info.max_health -= info.action["drain"]
 			player.info.health = mini(player.info.health, player.info.max_health)
 		elif path_to_player.size() < info.energy - 2:
 			take_action(move.bind(["enemy", "pickup", "player"], map.local_to_map(last_player_position)), 0.7)
