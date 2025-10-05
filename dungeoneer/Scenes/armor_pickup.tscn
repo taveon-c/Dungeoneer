@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://dr8aqbpac3b72"]
+
+[ext_resource type="Texture2D" uid="uid://hgarmny7yjlw" path="res://Sprites/armor.png" id="1_8ak5m"]
+[ext_resource type="Script" uid="uid://b2jlc5yggyf1m" path="res://Scripts/pickup.gd" id="1_yxknw"]
+[ext_resource type="Resource" uid="uid://dhpc8pf25k2e4" path="res://Resources/armor.tres" id="2_tudes"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_80m3u"]
+size = Vector2(16, 16)
+
+[node name="armor_pickup" type="Area2D" groups=["pickup"]]
+script = ExtResource("1_yxknw")
+item = ExtResource("2_tudes")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_80m3u")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_8ak5m")

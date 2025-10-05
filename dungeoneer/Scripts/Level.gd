@@ -42,18 +42,24 @@ func generate_level():
 		for i in range(8):
 			stair.global_position = map.map_to_local(map.get_used_cells_by_id(0, Vector2i(0, 0)).pick_random())
 			if get_steps_to_player(stair.global_position) > info.STAIR_DISTANCES[curr_level] + 2:
-				var num_items = info.ITEM_NUMS[curr_level]
+				var num_weapons = info.WEAPON_NUMS[curr_level]
+				var num_armor = info.ARMOR_NUMS[curr_level]
 				var item_positions = []
-				for item in num_items:
-					var pickup = info.PICKUP_SCENE.instantiate()
-					pickup.item = info.ITEMS.pick_random()
-					spawn_entity(["item", "player"], pickup)
+				for num in num_weapons:
+					var weapon_pickup = info.WEAPON_PICKUP_SCENE.instantiate()
+					var weapon = info.WEAPONS.pick_random().duplicate()
+					weapon_pickup.item = weapon
+					spawn_entity(["pickup", "player"], weapon_pickup)
+				
+				for armor in num_armor:
+					var armor_pickup = info.ARMOR_PICKUP_SCENE.instantiate()
+					spawn_entity(["pickup", "player"], armor_pickup)
 				
 				var num_enemies = info.ENEMY_NUMS[curr_level]
 				for num in num_enemies:
 					var enemy = info.ENEMY_SCENES.pick_random().instantiate()
 					enemy.player = player
-					spawn_entity(["item", "enemy"], enemy)
+					spawn_entity(["pickup", "enemy"], enemy)
 					
 					if enemy.is_player_visible():
 						enemy.last_player_position = player.global_position
@@ -199,7 +205,7 @@ func clear_astar_obstacles(groups : Array):
 			astar_grid.set_point_solid(map.local_to_map(node.global_position), false)
 
 func in_bounds(coords : Vector2i) -> bool:
-	if coords.x > 0 and coords.y > 0 and coords.x < info.MAP_WIDTH and coords.y < info.MAP_HEIGHT:
+	if coords.x > 0 and coords.y > 0 and coords.x < info.MAP_SIZES[curr_level] and coords.y < info.MAP_SIZES[curr_level]:
 		return true
 	else:
 		return false
@@ -225,8 +231,7 @@ func _on_turn_end() -> void:
 	turn = (turn + 1) % (enemies.size() + 1)
 	if turn == 0 or enemies.size() == 0:
 		if player.info.health <= 0:
-			print("YOU DIED")
-			get_tree().change_scene_to_file("res://Scenes/menu.tscn")
+			get_tree().change_scene_to_file("res://Scenes/death_screen.tscn")
 		else:
 			player_ui.visible = true
 	else:
@@ -242,8 +247,7 @@ func _on_player_moved():
 	if player.global_position == stair.global_position:
 		curr_level += 1
 		if curr_level == info.MAP_SIZES.size():
-			print("YOU WIN")
-			get_tree().change_scene_to_file("res://Scenes/menu.tscn")
+			get_tree().change_scene_to_file("res://Scenes/win_screen.tscn")
 			return
 		else:
 			player.info.max_energy += 2

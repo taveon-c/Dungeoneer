@@ -1,3 +1,3 @@
 extends Area2D
 
-var item : Item
+@export var item : Item

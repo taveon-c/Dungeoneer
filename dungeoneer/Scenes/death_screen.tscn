@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=3 uid="uid://iy4xpyd12nx3"]
+
+[ext_resource type="Script" uid="uid://c4r0c2iaq6qe5" path="res://Scripts/post_game.gd" id="1_8hps1"]
+
+[node name="main" type="Node2D"]
+script = ExtResource("1_8hps1")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -11.5
+offset_right = 40.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "you died..."
+
+[node name="Continue" type="Button" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -69.5
+offset_top = 16.0
+offset_right = 69.5
+offset_bottom = 47.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Click to Continue"
+
+[connection signal="pressed" from="CanvasLayer/Continue" to="." method="on_continue_pressed"]

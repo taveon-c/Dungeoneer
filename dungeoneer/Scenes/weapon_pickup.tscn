@@ -1,17 +1,17 @@
 [gd_scene load_steps=4 format=3 uid="uid://c7ra7c2l5jmdt"]
 
-[ext_resource type="Script" uid="uid://b2jlc5yggyf1m" path="res://Scripts/pickup.gd" id="1_v7u4w"]
-[ext_resource type="Texture2D" uid="uid://cpc7lybdvb4ll" path="res://Sprites/chest.png" id="2_cya6u"]
+[ext_resource type="Script" uid="uid://b2jlc5yggyf1m" path="res://Scripts/pickup.gd" id="1_50o1u"]
+[ext_resource type="Texture2D" uid="uid://cpc7lybdvb4ll" path="res://Sprites/chest.png" id="2_12psw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cnuki"]
 size = Vector2(16, 16)
 
-[node name="Pickup" type="Area2D" groups=["pickup"]]
-script = ExtResource("1_v7u4w")
+[node name="WeaponPickup" type="Area2D" groups=["pickup"]]
+script = ExtResource("1_50o1u")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_cnuki")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
-texture = ExtResource("2_cya6u")
+texture = ExtResource("2_12psw")

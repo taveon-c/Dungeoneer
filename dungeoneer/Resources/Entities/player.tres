@@ -1,12 +1,13 @@
 [gd_resource type="Resource" script_class="PlayerInfo" load_steps=3 format=3 uid="uid://duly2c7okrvs4"]
 
+[ext_resource type="Resource" uid="uid://c3qtwgqe1gjdo" path="res://Resources/Weapons/fists.tres" id="1_kacxw"]
 [ext_resource type="Script" uid="uid://dnxxjj5repxf0" path="res://Scripts/player_info.gd" id="1_p7tll"]
-[ext_resource type="Resource" uid="uid://dnc670ye82s1o" path="res://Resources/Weapons/dagger.tres" id="2_kacxw"]
 
 [resource]
 script = ExtResource("1_p7tll")
-weapon = ExtResource("2_kacxw")
-max_health = 99
+weapon = ExtResource("1_kacxw")
+fists = ExtResource("1_kacxw")
+max_health = 1
 max_energy = 999
 armor = 0
 metadata/_custom_type_script = "uid://dnxxjj5repxf0"

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=2 format=3 uid="uid://c3qtwgqe1gjdo"]
+
+[ext_resource type="Script" uid="uid://cvkgjmf2t5rgo" path="res://Scripts/weapon.gd" id="1_a1nme"]
+
+[resource]
+script = ExtResource("1_a1nme")
+name = "Fists"
+range = 1
+health_damage = 1
+armor_damage = 1
+cost = 1
+weight = 0
+durability = 0
+type = null
+metadata/_custom_type_script = "uid://cvkgjmf2t5rgo"

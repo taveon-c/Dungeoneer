@@ -33,6 +33,10 @@ text = "Attack"
 layout_mode = 2
 text = "Pickup"
 
+[node name="Drop" type="Button" parent="Action Container"]
+layout_mode = 2
+text = "Drop"
+
 [node name="Info Container" type="HBoxContainer" parent="."]
 layout_direction = 2
 anchors_preset = 1
@@ -94,21 +98,10 @@ offset_bottom = 8.0
 theme = ExtResource("1_654h1")
 text = "Return to Menu"
 
-[connection signal="pressed" from="Action Container/Move" to="." method="set_state" binds= [1]]
-[connection signal="pressed" from="Action Container/Move" to="Action Container" method="set_visible" binds= [false]]
-[connection signal="pressed" from="Action Container/Move" to="End Turn" method="set_visible" binds= [false]]
-[connection signal="pressed" from="Action Container/Move" to="Exit" method="set_visible" binds= [true]]
-[connection signal="pressed" from="Action Container/Attack" to="." method="set_state" binds= [2]]
-[connection signal="pressed" from="Action Container/Attack" to="Action Container" method="set_visible" binds= [false]]
-[connection signal="pressed" from="Action Container/Attack" to="End Turn" method="set_visible" binds= [false]]
-[connection signal="pressed" from="Action Container/Attack" to="Exit" method="set_visible" binds= [true]]
-[connection signal="pressed" from="Action Container/Pickup" to="." method="set_state" binds= [3]]
-[connection signal="pressed" from="Action Container/Pickup" to="Action Container" method="set_visible" binds= [false]]
-[connection signal="pressed" from="Action Container/Pickup" to="End Turn" method="set_visible" binds= [false]]
-[connection signal="pressed" from="Action Container/Pickup" to="Exit" method="set_visible" binds= [true]]
+[connection signal="pressed" from="Action Container/Move" to="." method="on_state_pressed" binds= [1]]
+[connection signal="pressed" from="Action Container/Attack" to="." method="on_state_pressed" binds= [2]]
+[connection signal="pressed" from="Action Container/Pickup" to="." method="on_state_pressed" binds= [3]]
+[connection signal="pressed" from="Action Container/Drop" to="." method="on_state_pressed" binds= [4]]
 [connection signal="pressed" from="End Turn" to="." method="on_end_pressed"]
-[connection signal="pressed" from="Exit" to="." method="set_state" binds= [0]]
-[connection signal="pressed" from="Exit" to="Action Container" method="set_visible" binds= [true]]
-[connection signal="pressed" from="Exit" to="End Turn" method="set_visible" binds= [true]]
-[connection signal="pressed" from="Exit" to="Exit" method="set_visible" binds= [false]]
+[connection signal="pressed" from="Exit" to="." method="on_exit_state_pressed"]
 [connection signal="pressed" from="Return" to="." method="on_return_pressed"]

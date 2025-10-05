@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://b14r0335a1bkp" path="res://Scenes/enemy.tscn" id="1_vyf6n"]
 [ext_resource type="Texture2D" uid="uid://bc7w2ydjv7a4e" path="res://Sprites/scropion.png" id="2_j2mdv"]
-[ext_resource type="Script" uid="uid://14apul25jhd4" path="res://Scenes/scropion.gd" id="2_ryndq"]
+[ext_resource type="Script" uid="uid://14apul25jhd4" path="res://Scripts/scropion.gd" id="2_ryndq"]
 [ext_resource type="Resource" uid="uid://cpmtq8hy0a7sl" path="res://Resources/Entities/scropion.tres" id="3_ryndq"]
 
 [node name="Enemy" instance=ExtResource("1_vyf6n")]

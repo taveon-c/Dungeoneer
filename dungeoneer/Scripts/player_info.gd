@@ -2,9 +2,17 @@ extends Info
 class_name PlayerInfo
 
 @export var weapon : Weapon
+@export var fists : Weapon
 
 func get_weight() -> int:
 	return weapon.weight + armor / 2
+
+func tick_durability():
+	if weapon.name != "Fists":
+		weapon.durability -= 1
+		if weapon.durability < 1:
+			weapon = fists
+	emit_signal("info_changed")
 
 func print() -> String:
 	var string : String = ""
