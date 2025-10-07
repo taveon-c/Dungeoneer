@@ -1,12 +1,34 @@
 extends Node2D
-func generate_hint(color : Color, hint_position : Vector2):
-	var rect : ColorRect = ColorRect.new()
-	rect.size = Vector2(16, 16)
-	rect.color = color
-	rect.color.a = 0.5
-	add_child(rect)
-	rect.global_position = hint_position - Vector2(8, 8)
+@export var hint_texture : Texture2D
+@export var option_texture : Texture2D
+@export var select_texture : Texture2D
 
-func clear_hints():
-	for child in self.get_children():
-		child.queue_free()
+var color
+var select_color
+var mouse_position
+var hints = []
+var options = []
+
+func _draw() -> void:
+	if mouse_position:
+		draw_texture(select_texture, mouse_position - Vector2(8, 8), select_color)
+	for pos in hints:
+		draw_texture(hint_texture, pos - Vector2(8, 8), color)
+	for pos in options:
+		draw_texture(option_texture, pos - Vector2(8, 8), color)
+
+func set_markers(color, options = [], hints = []):
+	self.options = options
+	self.hints = hints
+	self.color = color
+	queue_redraw()
+
+func set_select(mouse_position, select_color):
+	self.mouse_position = mouse_position
+	self.select_color = select_color
+	queue_redraw()
+
+func clear():
+	hints = []
+	options = []
+	queue_redraw()

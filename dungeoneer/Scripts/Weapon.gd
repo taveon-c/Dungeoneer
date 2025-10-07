@@ -9,8 +9,8 @@ class_name Weapon
 @export_range(0, 99) var weight : int
 @export_range(0, 99) var durability : int
 
-func generate_hints(level : Node2D):
-	level.hints.clear_hints()
+func get_hints(level : Node2D):
+	var hints = []
 	var player_pos = level.player.global_position
 	var player_cell = level.map.local_to_map(player_pos)
 	var enemies = level.get_tree().get_nodes_in_group("enemy")
@@ -22,16 +22,14 @@ func generate_hints(level : Node2D):
 					var cell = player_cell + Vector2i(direction * step)
 					var cell_pos = level.map.map_to_local(cell)
 					if level.map.get_cell_atlas_coords(cell) == Vector2i(0, 0):
-						level.hints.generate_hint(Color.RED, cell_pos)
 						var is_enemy = false
 						for enemy in enemies:
 							if enemy.global_position == cell_pos:
 								is_enemy = true
 								break
-						if is_enemy:
-							break
-					else:
-						break
+						if not is_enemy:
+							hints.append(cell_pos)
+	return hints
 
 func get_options(level):
 	var options = []
@@ -52,7 +50,7 @@ func get_options(level):
 								is_enemy = true
 								break
 						if is_enemy:
-							options.append(cell)
+							options.append(cell_pos)
 							break
 					else:
 						break

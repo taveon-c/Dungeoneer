@@ -41,11 +41,11 @@ func pickup(pos : Vector2):
 					info.weapon = new_weapon
 				else:
 					info.weapon = pickup.item
-					pickup.queue_free()
+					pickup.free()
 				info.emit_signal("info_changed")
 			1:
 				info.armor += 2
-				pickup.queue_free()
+				pickup.free()
 				info.emit_signal("info_changed")
 
 func drop(pos : Vector2):

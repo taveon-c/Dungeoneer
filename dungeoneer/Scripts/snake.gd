@@ -1,10 +1,7 @@
 extends Enemy
 
 func generate_hints():
-	for direction in [Vector2(-1, -1), Vector2(-1, 0), Vector2(-1, 1), Vector2(0, -1), Vector2(0, 1), Vector2(1, -1), Vector2(1, 0), Vector2(1, 1)]:
-		for l in range(1, info.action["range"] + 1):
-			var cell_position = global_position + direction * l * level.info.TILE_SIZE
-			level.hints.generate_hint(Color.RED, cell_position)
+	pass
 
 func choose_action():
 	if is_player_visible():

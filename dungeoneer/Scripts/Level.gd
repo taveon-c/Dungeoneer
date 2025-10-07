@@ -8,7 +8,7 @@ var turn : int = 0
 #0 = all tiles, 1 = wall tiles, 2 = ground tiles
 
 @export var player : StaticBody2D
-@export var hints : Node2D
+@export var markers : Node2D
 @export var entities : Node
 @export var stair : Sprite2D
 @export var player_ui : CanvasLayer

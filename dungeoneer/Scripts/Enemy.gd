@@ -16,7 +16,6 @@ func _ready() -> void:
 	info.energy = info.max_energy
 	info.emit_signal("info_changed")
 	info.connect("info_changed", on_info_changed)
-	generate_hints()
 
 func generate_hints():
 	pass
