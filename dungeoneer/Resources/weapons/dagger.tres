@@ -10,5 +10,6 @@ health_damage = 2
 armor_damage = 1
 cost = 1
 weight = 0
+durability = 10
 type = 0
 metadata/_custom_type_script = "uid://cvkgjmf2t5rgo"

@@ -1,14 +1,20 @@
 extends Enemy
 
-func generate_hints():
+func generate_markers(level):
+	var hints = []
+	var options = []
 	for direction in [Vector2(-1, 0), Vector2(0, -1), Vector2(1, 0), Vector2(0, 1)]:
 		for step in range(1, info.action["range"] + 1):
-			var cell_coords = level.map.local_to_map(global_position) + Vector2i(direction) * step
-			var cell_atlas_coords = level.map.get_cell_atlas_coords(cell_coords)
-			if cell_atlas_coords == Vector2i(0, 0):
-				level.hints.generate_hint(Color.RED, level.map.map_to_local(cell_coords))
+			var cell_pos = global_position + direction * step * level.info.TILE_SIZE
+			var cell_coords = level.map.local_to_map(cell_pos)
+			if level.map.get_cell_atlas_coords(cell_coords) == Vector2i(0, 0) and level.visibility.get_cell_atlas_coords(cell_coords) == Vector2i(-1, -1):
+				if cell_pos == level.player.global_position:
+					options.append(cell_pos)
+				else:
+					hints.append(cell_pos)
 			else:
 				break
+	level.markers.set_markers(Color.RED, options, hints)
 
 func choose_action():
 	var player_visible = is_player_visible()

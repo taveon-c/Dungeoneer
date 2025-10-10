@@ -17,7 +17,7 @@ func _ready() -> void:
 	info.emit_signal("info_changed")
 	info.connect("info_changed", on_info_changed)
 
-func generate_hints():
+func generate_markers(level):
 	pass
 
 func choose_action():

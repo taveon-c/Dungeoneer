@@ -1,7 +1,20 @@
 extends Enemy
 
-func generate_hints():
-	pass
+func generate_markers(level):
+	var hints = []
+	var options = []
+	for direction in [Vector2(-1, -1), Vector2(-1, 0), Vector2(-1, 1), Vector2(0, -1), Vector2(0, 1), Vector2(1, -1), Vector2(1, 0), Vector2(1, 1)]:
+		for l in range(1, info.action["range"] + 1):
+			var cell_position = global_position + direction * l * level.info.TILE_SIZE
+			var cell = level.map.local_to_map(cell_position)
+			if level.map.get_cell_atlas_coords(cell) == Vector2i(0, 0):
+				if level.player.global_position == cell_position:
+					options.append(cell_position)
+				else:
+					hints.append(cell_position)
+			else:
+				break
+	level.markers.set_markers(Color.RED, options, hints)
 
 func choose_action():
 	if is_player_visible():

@@ -28,7 +28,12 @@ func set_select(mouse_position, select_color):
 	self.select_color = select_color
 	queue_redraw()
 
+func clear_select():
+	mouse_position = null
+	queue_redraw()
+
 func clear():
 	hints = []
 	options = []
+	mouse_position = null
 	queue_redraw()
