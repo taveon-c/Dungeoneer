@@ -38,7 +38,7 @@ func choose_action():
 			take_action(move.bind(["enemy", "pickup", "player"], map.local_to_map(closest_position)), 0.7)
 		else:
 			emit_signal("end_turn")
-	elif info.energy >= info.action["cost"]:
+	elif info.energy > 0:
 		take_action(move.bind(["enemy", "pickup", "player"], map.local_to_map(last_player_position)), 0.7)
 	else:
 		emit_signal("end_turn")

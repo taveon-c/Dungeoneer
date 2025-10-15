@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="LevelInfo" load_steps=15 format=3 uid="uid://coy7ehdtpmkxk"]
+[gd_resource type="Resource" script_class="LevelInfo" load_steps=16 format=3 uid="uid://coy7ehdtpmkxk"]
 
 [ext_resource type="PackedScene" uid="uid://xa5hb4fiuy0e" path="res://Scenes/dark_wizard.tscn" id="1_ftscg"]
 [ext_resource type="PackedScene" uid="uid://dr8aqbpac3b72" path="res://Scenes/armor_pickup.tscn" id="1_sa20n"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://djdxdaane3gns" path="res://Scenes/ghost.tscn" id="5_ftscg"]
 [ext_resource type="Resource" uid="uid://dnc670ye82s1o" path="res://Resources/Weapons/dagger.tres" id="5_tuni1"]
 [ext_resource type="PackedScene" uid="uid://ce6y06eoiiret" path="res://Scenes/scropion.tscn" id="7_cm360"]
+[ext_resource type="PackedScene" uid="uid://c5656vtfh6sgc" path="res://Scenes/bug.tscn" id="8_nui1b"]
 [ext_resource type="PackedScene" uid="uid://c7ra7c2l5jmdt" path="res://Scenes/weapon_pickup.tscn" id="12_cm360"]
 
 [resource]
@@ -26,7 +27,7 @@ HALL_LENGTH = 10
 ROOM_LENGTH_MAX = 7
 ROOM_LENGTH_MIN = 3
 TILE_SIZE = 16
-ENEMY_SCENES = Array[PackedScene]([ExtResource("1_ftscg"), ExtResource("2_sa20n"), ExtResource("3_oyeht"), ExtResource("4_tuni1"), ExtResource("5_ftscg"), ExtResource("7_cm360")])
+ENEMY_SCENES = Array[PackedScene]([ExtResource("1_ftscg"), ExtResource("2_sa20n"), ExtResource("3_oyeht"), ExtResource("4_tuni1"), ExtResource("5_ftscg"), ExtResource("7_cm360"), ExtResource("8_nui1b")])
 WEAPON_PICKUP_SCENE = ExtResource("12_cm360")
 ARMOR_PICKUP_SCENE = ExtResource("1_sa20n")
 WEAPONS = Array[Resource]([ExtResource("4_41udd"), ExtResource("5_tuni1"), ExtResource("4_oyeht"), ExtResource("5_41udd"), ExtResource("3_bp8li")])
