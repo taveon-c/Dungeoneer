@@ -19,15 +19,16 @@ func generate_markers(level):
 func choose_action():
 	if is_player_visible():
 		last_player_position = player.global_position
-		var closest_path = []
+		var closest_path : Array
 		var closest_position : Vector2
 		var attack_positions : Array[Vector2]
 		for direction in [Vector2(-1, -1), Vector2(-1, 0), Vector2(-1, 1), Vector2(0, -1), Vector2(0, 1), Vector2(1, -1), Vector2(1, 0), Vector2(1, 1)]:
 			for l in range(1, info.action["range"]+1):
+				print(direction * l * level.info.TILE_SIZE)
 				var target_position = player.global_position + direction * l * level.info.TILE_SIZE
 				attack_positions.append(target_position)
 				var path = get_grid_path(["enemy", "pickup"], level.map.local_to_map(target_position), false)
-				if path.size() < closest_path.size() or closest_path.size() == 0:
+				if path.size() < closest_path.size() or closest_path == null:
 					closest_path = path
 					closest_position = target_position
 		if global_position in attack_positions and info.action["cost"] <= info.energy:
