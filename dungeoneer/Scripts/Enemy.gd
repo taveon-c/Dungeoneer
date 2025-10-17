@@ -32,6 +32,19 @@ func take_action(action : Callable, time_step : int):
 	else:
 		action.call()
 
+func is_cell_open(cell : Vector2i) -> bool:
+	var cell_pos = level.map.map_to_local(cell)
+	for enemy in get_tree().get_nodes_in_group("enemy"):
+		if not enemy == self and enemy.global_position == cell_pos:
+			return false
+	for pickup in get_tree().get_nodes_in_group("pickup"):
+		if pickup.global_position == cell_pos:
+			return false
+	if level.map.get_cell_atlas_coords(cell) == Vector2i(0, 0):
+		return true
+	else:
+		return false
+
 func is_player_visible():
 	var invisible_cells = level.visibility.get_used_cells()
 	var curr_cell = map.local_to_map(global_position)

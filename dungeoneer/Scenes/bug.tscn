@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://c5656vtfh6sgc"]
 
 [ext_resource type="PackedScene" uid="uid://b14r0335a1bkp" path="res://Scenes/enemy.tscn" id="1_ivymh"]
-[ext_resource type="Script" uid="uid://bhagtc4t72kmm" path="res://Scenes/bug.gd" id="2_6lv5s"]
+[ext_resource type="Script" uid="uid://bhagtc4t72kmm" path="res://Scripts/bug.gd" id="2_6lv5s"]
 [ext_resource type="Texture2D" uid="uid://cfxxfhiva3dh4" path="res://Sprites/Bug.png" id="2_bhewd"]
 [ext_resource type="Resource" uid="uid://ygpippml15op" path="res://Resources/Entities/bug.tres" id="3_6lv5s"]
 

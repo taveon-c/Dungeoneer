@@ -16,14 +16,26 @@ func generate_markers(level):
 						hints.append(cell_position)
 	level.markers.set_markers(Color.RED, options, hints)
 
+func get_target_cells():
+	var player_cell = level.map.local_to_map(player.global_position)
+	var target_cells = []
+	for x in range(-info.action["range"], info.action["range"]+1):
+		for y in range(-info.action["range"], info.action["range"]+1):
+			var cell = player_cell + Vector2i(x, y)
+			if is_cell_open(cell):
+				target_cells.append(cell)
+	return target_cells
+
 func choose_action():
 	if is_player_visible():
-		last_player_position = player.global_position
-	var displacement = abs(player.global_position - global_position)
-	if info.energy >= info.action["cost"] and displacement.x <= level.info.TILE_SIZE * info.action["range"] and displacement.y <= level.info.TILE_SIZE * info.action["range"]:
-		take_action(attack, 1.1)
-		player.info.energy -= info.action["stun"]
-	elif info.energy > 0 and (displacement.x > 1 or displacement.y > 1):
-		take_action(move.bind(["enemy", "pickup"], map.local_to_map(last_player_position)), 0.7)
+		var player_cell = level.map.local_to_map(player.global_position)
+		var current_cell = level.map.local_to_map(global_position)
+		var target_cells = get_target_cells()
+		if current_cell in target_cells and info.energy >= info.action["cost"]:
+			take_action(attack, 1.5)
+		elif (target_cells.size() == 0 or not current_cell in target_cells) and info.energy > 0:
+			take_action(move.bind(["enemy", "pickup"], player_cell), 0.8)
+		else:
+			emit_signal("end_turn")
 	else:
 		emit_signal("end_turn")

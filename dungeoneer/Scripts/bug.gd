@@ -3,26 +3,29 @@ extends Enemy
 func generate_markers(level):
 	var hints = []
 	var options = []
-	for x in range(-info.action["range"], info.action["range"] + 1):
-		for y in range(-info.action["range"], info.action["range"] + 1):
-			var cell_local_pos = Vector2(x, y) * level.info.TILE_SIZE
-			var cell_pos = cell_local_pos + global_position
-			var cell = Vector2i(x, y) + level.map.local_to_map(global_position)
-			if cell_local_pos.length() <= info.action["range"] * level.info.TILE_SIZE and cell_local_pos != Vector2(0, 0) and level.map.get_cell_atlas_coords(cell) == Vector2i(0, 0):
-				if level.player.global_position == cell_pos:
-					options.append(cell_pos)
+	for direction in [Vector2(-1, -1), Vector2(-1, 0), Vector2(-1, 1), Vector2(0, -1), Vector2(0, 1), Vector2(1, -1), Vector2(1, 0), Vector2(1, 1)]:
+		for l in range(1, info.action["range"] + 1):
+			var cell_position = global_position + direction * l * level.info.TILE_SIZE
+			var cell = level.map.local_to_map(cell_position)
+			if level.map.get_cell_atlas_coords(cell) == Vector2i(0, 0):
+				if level.player.global_position == cell_position:
+					options.append(cell_position)
 				else:
-					hints.append(cell_pos)
+					hints.append(cell_position)
+			else:
+				break
 	level.markers.set_markers(Color.RED, options, hints)
 
 func get_target_cells():
 	var player_cell = level.map.local_to_map(player.global_position)
 	var target_cells = []
-	for x in range(-info.action["range"], info.action["range"] + 1):
-		for y in range(-info.action["range"], info.action["range"] + 1):
-			var cell = player_cell + Vector2i(x, y)
+	for direction in [Vector2i(-1, -1), Vector2i(-1, 0), Vector2i(-1, 1), Vector2i(0, -1), Vector2i(0, 1), Vector2i(1, -1), Vector2i(1, 0), Vector2i(1, 1)]:
+		for l in range(1, info.action["range"] + 1):
+			var cell = player_cell + direction * l
 			if is_cell_open(cell):
 				target_cells.append(cell)
+			else:
+				break
 	return target_cells
 
 func choose_action():
@@ -42,7 +45,7 @@ func choose_action():
 				for cell in target_cells:
 					var displacement = abs(cell - current_cell)
 					var player_distance = level.map.map_to_local(cell).distance_to(player.global_position)
-					if displacement.x <= 1 and displacement.y <= 1 and player_distance > current_player_distance:
+					if displacement.x <= 1 and displacement.y <= 1 and player_distance < current_player_distance:
 						target_cell = cell
 						current_player_distance = player_distance
 				if target_cell:
@@ -57,10 +60,10 @@ func choose_action():
 			for cell in target_cells:
 				var path = level.astar_grid.get_id_path(current_cell, cell)
 				var path_length = path.size()
-				if path_length < closest_path_length:
+				if path_length > closest_path_length:
 					closest_cell = cell
 					closest_path_length = path_length
-			take_action(move.bind(["enemy", "item"], closest_cell), 0.3)
+			take_action(move.bind(["enemy", "pickup"], closest_cell), 0.3)
 		else:
 			emit_signal("end_turn")
 	elif info.energy > 0:

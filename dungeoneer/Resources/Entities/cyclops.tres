@@ -13,6 +13,6 @@ action = Dictionary[String, int]({
 "stun": 2
 })
 max_health = 10
-max_energy = 4
+max_energy = 5
 armor = 4
 metadata/_custom_type_script = "uid://bliu5ep60cge0"
