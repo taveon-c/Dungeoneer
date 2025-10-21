@@ -65,7 +65,7 @@ func choose_action():
 						if player_path_size > current_player_path_size:
 							target_cell = cell
 							current_player_path_size = player_path_size
-			level.clear_astar_obstacles()
+			level.clear_astar_obstacles(["enemy", "pickup"])
 			if target_cell:
 				take_action(move.bind(["enemy", "item"], target_cell), 0.3)
 			else:

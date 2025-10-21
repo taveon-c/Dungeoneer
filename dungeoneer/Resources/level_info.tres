@@ -1,13 +1,18 @@
-[gd_resource type="Resource" script_class="LevelInfo" load_steps=10 format=3 uid="uid://coy7ehdtpmkxk"]
+[gd_resource type="Resource" script_class="LevelInfo" load_steps=15 format=3 uid="uid://coy7ehdtpmkxk"]
 
 [ext_resource type="PackedScene" uid="uid://dr8aqbpac3b72" path="res://Scenes/armor_pickup.tscn" id="1_sa20n"]
 [ext_resource type="Script" uid="uid://cblkvnppp1gof" path="res://Scripts/level_info.gd" id="1_vwihg"]
 [ext_resource type="PackedScene" uid="uid://djdxdaane3gns" path="res://Scenes/ghost.tscn" id="2_oyeht"]
 [ext_resource type="Resource" uid="uid://u0wjcdyj4bt5" path="res://Resources/Weapons/warhammer.tres" id="3_bp8li"]
+[ext_resource type="PackedScene" uid="uid://c5656vtfh6sgc" path="res://Scenes/bug.tscn" id="3_nui1b"]
 [ext_resource type="Resource" uid="uid://ba6jxx0h1qd2g" path="res://Resources/Weapons/axe.tres" id="4_41udd"]
+[ext_resource type="PackedScene" uid="uid://i8pnlyvpihla" path="res://Scenes/cyclops.tscn" id="4_dvfml"]
 [ext_resource type="Resource" uid="uid://dgwurg5anidn5" path="res://Resources/Weapons/spear.tres" id="4_oyeht"]
 [ext_resource type="Resource" uid="uid://cmx65npaomycj" path="res://Resources/Weapons/sword.tres" id="5_41udd"]
+[ext_resource type="PackedScene" uid="uid://xa5hb4fiuy0e" path="res://Scenes/dark_wizard.tscn" id="5_hmgtn"]
 [ext_resource type="Resource" uid="uid://dnc670ye82s1o" path="res://Resources/Weapons/dagger.tres" id="5_tuni1"]
+[ext_resource type="PackedScene" uid="uid://bgk7ybe7rrnfv" path="res://Scenes/snake.tscn" id="7_3tmb6"]
+[ext_resource type="PackedScene" uid="uid://cryhdq2rme47f" path="res://Scenes/wall_grog.tscn" id="8_p6l0j"]
 [ext_resource type="PackedScene" uid="uid://c7ra7c2l5jmdt" path="res://Scenes/weapon_pickup.tscn" id="12_cm360"]
 
 [resource]
@@ -21,7 +26,7 @@ HALL_LENGTH = 10
 ROOM_LENGTH_MAX = 7
 ROOM_LENGTH_MIN = 3
 TILE_SIZE = 16
-ENEMY_SCENES = Array[PackedScene]([ExtResource("2_oyeht")])
+ENEMY_SCENES = Array[PackedScene]([ExtResource("2_oyeht"), ExtResource("3_nui1b"), ExtResource("4_dvfml"), ExtResource("5_hmgtn"), ExtResource("7_3tmb6"), ExtResource("8_p6l0j")])
 WEAPON_PICKUP_SCENE = ExtResource("12_cm360")
 ARMOR_PICKUP_SCENE = ExtResource("1_sa20n")
 WEAPONS = Array[Resource]([ExtResource("4_41udd"), ExtResource("5_tuni1"), ExtResource("4_oyeht"), ExtResource("5_41udd"), ExtResource("3_bp8li")])

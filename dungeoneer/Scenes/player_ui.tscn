@@ -1,41 +1,32 @@
-[gd_scene load_steps=3 format=3 uid="uid://c2yiqdldxyvog"]
+[gd_scene load_steps=6 format=3 uid="uid://c2yiqdldxyvog"]
 
 [ext_resource type="Theme" uid="uid://cnabk1ati27qo" path="res://Resources/theme.tres" id="1_654h1"]
 [ext_resource type="Script" uid="uid://dsrda6yo6elgu" path="res://Scripts/player_ui_manager.gd" id="1_tybkg"]
 
-[node name="PlayerUI" type="CanvasLayer" node_paths=PackedStringArray("player_info_label", "select_info_label", "end_turn_button")]
+[sub_resource type="LabelSettings" id="LabelSettings_dxtgh"]
+font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_qipxh"]
+font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_46yqn"]
+font_size = 24
+
+[node name="PlayerUI" type="CanvasLayer" node_paths=PackedStringArray("player_info_label", "select_info_label")]
 follow_viewport_enabled = true
 script = ExtResource("1_tybkg")
 player_info_label = NodePath("Info Container/PlayerContainer/PlayerInfo")
 select_info_label = NodePath("Info Container/SelectContainer/SelectInfo")
-end_turn_button = NodePath("End Turn")
 
-[node name="Action Container" type="HBoxContainer" parent="."]
+[node name="StateGuide" type="Label" parent="."]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -40.0
-offset_right = 40.0
+offset_top = -34.0
+offset_right = 445.0
 grow_vertical = 0
-theme = ExtResource("1_654h1")
-
-[node name="Move" type="Button" parent="Action Container"]
-layout_mode = 2
-theme = ExtResource("1_654h1")
-text = "Move"
-
-[node name="Attack" type="Button" parent="Action Container"]
-layout_mode = 2
-theme = ExtResource("1_654h1")
-text = "Attack"
-
-[node name="Pickup" type="Button" parent="Action Container"]
-layout_mode = 2
-text = "Pickup"
-
-[node name="Drop" type="Button" parent="Action Container"]
-layout_mode = 2
-text = "Drop"
+text = "Move - 1  Attack - 2  Pickup - 3  Drop - 4"
+label_settings = SubResource("LabelSettings_dxtgh")
 
 [node name="Info Container" type="HBoxContainer" parent="."]
 layout_direction = 2
@@ -65,43 +56,37 @@ vertical = true
 layout_mode = 2
 text = "info"
 
-[node name="End Turn" type="Button" parent="."]
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -78.0
-offset_top = -31.0
-grow_horizontal = 0
-grow_vertical = 0
-theme = ExtResource("1_654h1")
-text = "End Turn"
-
-[node name="Exit" type="Button" parent="."]
-visible = false
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -37.0
-offset_top = -31.0
-grow_horizontal = 0
-grow_vertical = 0
-theme = ExtResource("1_654h1")
-text = "Exit"
-
 [node name="Return" type="Button" parent="."]
 offset_right = 8.0
 offset_bottom = 8.0
 theme = ExtResource("1_654h1")
 text = "Return to Menu"
 
-[connection signal="pressed" from="Action Container/Move" to="." method="on_state_pressed" binds= [1]]
-[connection signal="pressed" from="Action Container/Attack" to="." method="on_state_pressed" binds= [2]]
-[connection signal="pressed" from="Action Container/Pickup" to="." method="on_state_pressed" binds= [3]]
-[connection signal="pressed" from="Action Container/Drop" to="." method="on_state_pressed" binds= [4]]
-[connection signal="pressed" from="End Turn" to="." method="on_end_pressed"]
-[connection signal="pressed" from="Exit" to="." method="on_exit_state_pressed"]
+[node name="EndTurnGuide" type="Label" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -139.0
+offset_top = -34.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "End Turn - e"
+label_settings = SubResource("LabelSettings_qipxh")
+
+[node name="ExitGuide" type="Label" parent="."]
+visible = false
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -143.0
+offset_top = -34.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Exit State - e"
+label_settings = SubResource("LabelSettings_46yqn")
+
 [connection signal="pressed" from="Return" to="." method="on_return_pressed"]
