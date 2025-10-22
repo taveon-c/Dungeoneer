@@ -1,5 +1,5 @@
-extends StaticBody2D
 class_name Enemy
+extends StaticBody2D
 
 @export var base_info : EnemyInfo
 @onready var map : TileMapLayer = $"../../Map"

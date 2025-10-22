@@ -233,6 +233,7 @@ func _on_turn_end() -> void:
 		if player.info.health <= 0:
 			get_tree().change_scene_to_file("res://Scenes/death_screen.tscn")
 		else:
+			player_ui.current_state = 1
 			player_ui.visible = true
 	else:
 		enemies[turn-1].connect("end_turn", _on_turn_end)

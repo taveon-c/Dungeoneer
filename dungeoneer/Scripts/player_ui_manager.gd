@@ -1,6 +1,7 @@
 extends CanvasLayer
 enum State {
-	NONE,
+	IDLE,
+	SCAN,
 	MOVE,
 	ATTACK,
 	PICKUP,
@@ -17,7 +18,7 @@ func _ready() -> void:
 	player.info.connect("info_changed", on_info_changed)
 
 func _input(event: InputEvent) -> void:
-	if event.is_pressed():
+	if event.is_pressed() and current_state != State.IDLE:
 		if InputMap.event_is_action(event, "enter"):
 			match current_state:
 				State.MOVE:
@@ -52,7 +53,7 @@ func _input(event: InputEvent) -> void:
 				KEY_4:
 					on_state_pressed(State.DROP)
 				KEY_E:
-					if current_state == 0:
+					if current_state == State.SCAN:
 						on_end_pressed()
 					else:
 						on_exit_state_pressed()
@@ -138,6 +139,7 @@ func on_info_changed():
 	player_info_label.text = player.info.print()
 
 func on_end_pressed():
+	current_state = State.IDLE
 	var enemies = get_tree().get_nodes_in_group("enemy")
 	if enemies.size() == 0:
 		player.info.regen_energy()
@@ -166,7 +168,7 @@ func get_select_position():
 
 func update_markers():
 	match current_state:
-		State.NONE:
+		State.SCAN:
 			var selection_position = get_mouse_cell_position()
 			select_info_label.text = ""
 			var mouse_cell = level.map.local_to_map(selection_position)
@@ -239,4 +241,4 @@ func on_exit_state_pressed():
 	level.markers.clear()
 	$ExitGuide.visible = false
 	$EndTurnGuide.visible = true
-	current_state = State.NONE
+	current_state = State.SCAN

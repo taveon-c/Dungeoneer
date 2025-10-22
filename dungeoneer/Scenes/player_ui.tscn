@@ -17,6 +17,7 @@ follow_viewport_enabled = true
 script = ExtResource("1_tybkg")
 player_info_label = NodePath("Info Container/PlayerContainer/PlayerInfo")
 select_info_label = NodePath("Info Container/SelectContainer/SelectInfo")
+current_state = 1
 
 [node name="StateGuide" type="Label" parent="."]
 anchors_preset = 2
